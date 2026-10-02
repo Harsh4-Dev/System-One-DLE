@@ -11,10 +11,12 @@ import time
 import numpy as np
 from sklearn.calibration import CalibratedClassifierCV
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.feature_selection import SelectKBest, chi2
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.neural_network import MLPClassifier
+from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 from sklearn.svm import LinearSVC
 
@@ -25,11 +27,14 @@ TFIDF_MODELS = {
     "sk_logreg": lambda: LogisticRegression(C=10.0, max_iter=2000),
     "sk_linear_svm": lambda: CalibratedClassifierCV(LinearSVC(C=0.5), cv=3, method="sigmoid"),
     "sk_random_forest": lambda: RandomForestClassifier(n_estimators=200, n_jobs=-1, min_samples_leaf=1, random_state=0),
-    "sk_mlp": lambda: MLPClassifier(hidden_layer_sizes=(256,), early_stopping=True, max_iter=30,
-                                    random_state=0, batch_size=256),
+    # MLP on all 200k TF-IDF columns is impractically slow (dense 200k x 256 weight updates);
+    # it gets the 20k most informative columns (chi-squared), selected on its own training rows.
+    "sk_mlp": lambda: make_pipeline(SelectKBest(chi2, k=20000),
+                                    MLPClassifier(hidden_layer_sizes=(256,), early_stopping=True, max_iter=15,
+                                                  n_iter_no_change=3, random_state=0, batch_size=256)),
 }
 # Random forest / sklearn-MLP are slow on 100k+ sparse rows; cap their training rows (reported).
-ROW_CAP = {"sk_random_forest": 30000, "sk_mlp": 60000}
+ROW_CAP = {"sk_random_forest": 30000, "sk_mlp": 40000}
 
 
 def _latency(fn, texts, n=50):
