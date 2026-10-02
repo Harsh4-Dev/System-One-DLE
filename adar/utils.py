@@ -46,6 +46,7 @@ def atomic_write_bytes(path, data):
     fd, tmp = tempfile.mkstemp(dir=os.path.dirname(path) or ".", suffix=".tmp")
     with os.fdopen(fd, "wb") as f:
         f.write(data)
+    os.chmod(tmp, 0o644)  # mkstemp creates 0600 files; outputs are meant to be shared
     os.replace(tmp, path)
 
 
@@ -75,6 +76,7 @@ def save_npz(path, **arrays):
     fd, tmp = tempfile.mkstemp(dir=os.path.dirname(path) or ".", suffix=".npz")
     os.close(fd)
     np.savez(tmp, **arrays)
+    os.chmod(tmp, 0o644)
     os.replace(tmp, path)
 
 
@@ -84,6 +86,7 @@ def torch_save(obj, path):
     fd, tmp = tempfile.mkstemp(dir=os.path.dirname(path) or ".", suffix=".pt")
     os.close(fd)
     torch.save(obj, tmp)
+    os.chmod(tmp, 0o644)
     os.replace(tmp, path)
 
 

@@ -230,7 +230,7 @@ def plots(rows, adar_rows, rj, y_test, out_dir, title):
             continue
         bins = M.reliability_bins(r["_probs"], y_test)
         ax.plot([b[1] for b in bins], [b[2] for b in bins], marker="o", c=c,
-                label=f"{r['model'][:34]} (ECE {r['ece']:.3f})")
+                label=f"{r['model'][:48]} (ECE {r['ece']:.3f})")
     ax.set_xlabel("confidence")
     ax.set_ylabel("accuracy")
     ax.set_title(f"Reliability after temperature scaling — {title}")
@@ -267,7 +267,7 @@ def plots(rows, adar_rows, rj, y_test, out_dir, title):
         if r is None:
             continue
         rc = M.risk_coverage(r["_probs"], y_test)
-        ax.plot([x[0] for x in rc], [x[1] for x in rc], c=c, label=f"{r['model'][:34]} (AURC {r['aurc']:.4f})")
+        ax.plot([x[0] for x in rc], [x[1] for x in rc], c=c, label=f"{r['model'][:48]} (AURC {r['aurc']:.4f})")
     ax.set_xlabel("coverage (fraction of inputs answered)")
     ax.set_ylabel("accuracy on answered inputs")
     ax.set_title(f"Selective prediction — {title}")

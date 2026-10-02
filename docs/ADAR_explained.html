@@ -1,0 +1,436 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ADAR Explained</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: one reading column (~68ch) with figures allowed to widen to 960px; sections follow the story problem -> fix -> result. */
+:root {
+  --bg: #f6f7f9;
+  --surface: #ffffff;
+  --fg: #151820;
+  --muted: #586071;
+  --rule: #dce0e7;
+  --accent: #1f62c4;
+  --accent-soft: #e4edfa;
+  --neutral-mark: #8a93a3;
+  --warn-bg: #fff6e0;
+  --warn-fg: #6b4a00;
+  --font-display: "Manrope", "Segoe UI", system-ui, sans-serif;
+  --font-body: "Source Serif 4", Georgia, "Times New Roman", serif;
+  --font-data: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #11141a; --surface: #181c24; --fg: #e8ebf1; --muted: #a0a8b8; --rule: #2b313d;
+    --accent: #6aa5f5; --accent-soft: #1c2a40; --neutral-mark: #7c8597; --warn-bg: #2e2612; --warn-fg: #f1d48c;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #11141a; --surface: #181c24; --fg: #e8ebf1; --muted: #a0a8b8; --rule: #2b313d;
+  --accent: #6aa5f5; --accent-soft: #1c2a40; --neutral-mark: #7c8597; --warn-bg: #2e2612; --warn-fg: #f1d48c;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--fg); font-family: var(--font-body); font-size: 18px; line-height: 1.6; }
+.page { max-width: 960px; margin: 0 auto; padding-inline: 20px; padding-block: 48px 80px; }
+.col { max-width: 68ch; }
+h1, h2, h3 { font-family: var(--font-display); line-height: 1.2; text-wrap: balance; margin: 0; }
+h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; letter-spacing: -0.02em; }
+h2 { font-size: 1.6rem; font-weight: 800; margin-top: 64px; padding-top: 24px; border-top: 1px solid var(--rule); }
+h3 { font-size: 1.15rem; font-weight: 700; margin-top: 32px; }
+p { margin: 12px 0; }
+.eyebrow { font-family: var(--font-display); font-weight: 700; font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); }
+.lede { font-size: 1.25rem; color: var(--fg); margin-top: 16px; }
+.muted { color: var(--muted); }
+.num { font-family: var(--font-data); font-variant-numeric: tabular-nums; }
+a { color: var(--accent); }
+code { font-family: var(--font-data); font-size: 0.85em; background: var(--accent-soft); padding: 1px 5px; border-radius: 4px; }
+
+.problems { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 20px; }
+@media (max-width: 640px) { .problems { grid-template-columns: 1fr; } }
+.problem { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 18px 20px; min-width: 0; }
+.problem h3 { margin-top: 0; font-size: 1.02rem; }
+.problem .big { font-family: var(--font-data); font-size: 1.7rem; font-weight: 600; color: var(--accent); display: block; margin: 8px 0 2px; }
+.problem p { font-size: 0.95rem; margin: 6px 0 0; }
+
+.flow { margin-top: 24px; background: var(--surface); border: 1px solid var(--rule); border-radius: 12px; padding: 24px; overflow-x: auto; }
+.flow-row { display: flex; align-items: stretch; gap: 10px; flex-wrap: wrap; }
+.node { font-family: var(--font-display); font-size: 0.92rem; font-weight: 600; border: 1.5px solid var(--rule); border-radius: 8px; padding: 10px 14px; background: var(--bg); min-width: 0; }
+.node small { display: block; font-weight: 500; color: var(--muted); font-size: 0.78rem; margin-top: 2px; }
+.node.hot { border-color: var(--accent); background: var(--accent-soft); }
+.arrow { align-self: center; color: var(--muted); font-family: var(--font-data); }
+.branch { margin: 14px 0 14px 12px; padding-left: 16px; border-left: 2px dashed var(--rule); font-family: var(--font-display); font-size: 0.88rem; color: var(--muted); }
+.branch b { color: var(--fg); }
+
+.tokens { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0 8px; }
+.tok { font-family: var(--font-data); font-size: 0.8rem; padding: 6px 10px; border-radius: 6px; border: 1.5px solid var(--rule); background: var(--surface); }
+.tok.s { border-color: var(--accent); }
+.tok.o { border-style: dashed; }
+.outs { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-top: 16px; }
+.out { background: var(--surface); border: 1px solid var(--rule); border-radius: 8px; padding: 12px 14px; min-width: 0; }
+.out b { font-family: var(--font-data); color: var(--accent); }
+.out p { font-size: 0.92rem; margin: 4px 0 0; }
+
+.note { background: var(--warn-bg); color: var(--warn-fg); border-radius: 8px; padding: 14px 18px; font-size: 0.95rem; margin: 20px 0; }
+.note strong { font-family: var(--font-display); }
+
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin: 24px 0; }
+.stat { border-top: 3px solid var(--accent); padding-top: 10px; min-width: 0; }
+.stat .v { font-family: var(--font-data); font-size: 2rem; font-weight: 600; font-variant-numeric: tabular-nums; }
+.stat .l { font-family: var(--font-display); font-size: 0.88rem; color: var(--muted); }
+
+figure { margin: 28px 0; background: var(--surface); border: 1px solid var(--rule); border-radius: 12px; padding: 20px; position: relative; }
+figcaption { font-family: var(--font-display); font-size: 0.82rem; color: var(--muted); margin-top: 10px; }
+.fig-title { font-family: var(--font-display); font-weight: 700; font-size: 1rem; margin-bottom: 4px; }
+.legend { display: flex; flex-wrap: wrap; gap: 16px; font-family: var(--font-display); font-size: 0.8rem; color: var(--muted); margin: 6px 0 4px; }
+.legend span::before { content: ""; display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; vertical-align: -1px; background: var(--c); }
+.legend .line::before { width: 16px; height: 2px; border-radius: 1px; vertical-align: 3px; }
+.chart-wrap { overflow-x: auto; }
+.chart-wrap svg { min-width: 560px; display: block; }
+svg text { font-family: var(--font-display); }
+.tip { position: absolute; pointer-events: none; background: var(--fg); color: var(--bg); font-family: var(--font-display); font-size: 0.78rem; padding: 6px 9px; border-radius: 6px; white-space: nowrap; transform: translate(-50%, calc(-100% - 10px)); }
+
+.table-wrap { overflow-x: auto; margin: 16px 0; border: 1px solid var(--rule); border-radius: 10px; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; font-size: 0.9rem; }
+th, td { padding: 9px 12px; text-align: left; border-bottom: 1px solid var(--rule); }
+th { font-family: var(--font-display); font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); font-weight: 700; }
+td.n, th.n { text-align: right; font-family: var(--font-data); font-variant-numeric: tabular-nums; }
+tr.ours td { background: var(--accent-soft); font-weight: 600; }
+tr:last-child td { border-bottom: 0; }
+details { margin: 12px 0; }
+summary { font-family: var(--font-display); font-weight: 600; cursor: pointer; color: var(--accent); }
+summary:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+ul.clean { padding-left: 20px; }
+ul.clean li { margin: 6px 0; }
+.docs { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-top: 16px; }
+.doc { border: 1px solid var(--rule); border-radius: 8px; padding: 12px 14px; background: var(--surface); min-width: 0; }
+.doc code { background: none; padding: 0; color: var(--accent); overflow-wrap: anywhere; }
+.doc p { font-size: 0.9rem; margin: 4px 0 0; }
+@media (max-width: 520px) { body { font-size: 17px; } .flow { padding: 16px; } }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+
+
+<div class="page">
+  <header class="col">
+    <div class="eyebrow">Deep Learning project · System-One models</div>
+    <h1>ADAR: Adaptive Deep Architecture Routing</h1>
+    <p class="lede">A small trained decision head that sits on top of the open System-One model <b>Laya</b> and the classic architectures from our syllabus. For every input it answers three questions: <em>what is the answer, which architecture should I trust here, and how sure am I?</em></p>
+    <p class="muted">This page tells the story in plain language: the problem, the fix, and what improved. Setup, leaderboard and publishing steps are in the repository's <code>docs/</code> folder.</p>
+  </header>
+
+  <!-- 1. PROBLEM -->
+  <section>
+    <h2>1 · The problem</h2>
+    <div class="col"><p>Four things go wrong when you train one deep-learning model and ship it.</p></div>
+    <div class="problems">
+      <div class="problem">
+        <h3>Models say "I'm sure" when they are not</h3>
+        <span class="big">21–23%</span>
+        <p>of the wrong answers from TextCNN, LSTM and GRU on our AG News test came with more than 90% confidence.</p>
+      </div>
+      <div class="problem">
+        <h3>Picking one architecture throws accuracy away</h3>
+        <span class="big">89.5% → 92.7%</span>
+        <p>Best single expert, versus how often at least one of the four experts is right. They are good on different inputs.</p>
+      </div>
+      <div class="problem">
+        <h3>Strong models are expensive</h3>
+        <span class="big">0.4 ms vs 20+ ms</span>
+        <p>A TextCNN versus a transformer encoder per input on a laptop CPU. Laya-large is slower still.</p>
+      </div>
+      <div class="problem">
+        <h3>Even System-One models drift</h3>
+        <span class="big">ECE 0.213</span>
+        <p>Laya's fine-tuned checkpoint on the public typed-decisions leaderboard: its probabilities are often off by about 20 points.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. FIX -->
+  <section>
+    <h2>2 · The fix: ADAR</h2>
+    <div class="col"><p>Cheap syllabus models answer first. Only when they are unsure does the input go to Laya and the ADAR head, which combines everything into one calibrated decision.</p></div>
+
+    <div class="flow" role="img" aria-label="Flow: input goes to four cheap experts, a router checks if they are sure; if yes answer now, otherwise Laya encoder plus ADAR head produce the answer with confidences.">
+      <div class="flow-row">
+        <div class="node">Input text</div>
+        <div class="arrow">→</div>
+        <div class="node">TextCNN · RNN · LSTM · GRU<small>syllabus experts, ~5 ms together</small></div>
+        <div class="arrow">→</div>
+        <div class="node">Router<small>"are the experts sure?"</small></div>
+      </div>
+      <div class="branch"><b>Yes</b> (about 9 in 10 inputs): answer immediately from the experts.</div>
+      <div class="branch"><b>No</b> (about 1 in 10): escalate ↓</div>
+      <div class="flow-row">
+        <div class="node">Laya encoder<small>frozen System-One model</small></div>
+        <div class="arrow">→</div>
+        <div class="node hot">ADAR head<small>~2M trained parameters</small></div>
+        <div class="arrow">→</div>
+        <div class="node">Answer<small>+ P(answer right) + P(each expert right)</small></div>
+      </div>
+    </div>
+
+    <h3>The ADAR head, in simple words</h3>
+    <div class="col">
+      <p>Think of a meeting with one chairperson. Every input becomes a short row of tokens:</p>
+    </div>
+    <div class="tokens" aria-label="Token sequence">
+      <span class="tok s">STATE · Laya reads the text</span>
+      <span class="tok o">OPTION "world"</span><span class="tok o">OPTION "sports"</span><span class="tok o">OPTION "business"</span><span class="tok o">OPTION "sci/tech"</span>
+      <span class="tok">EXPERT TextCNN</span><span class="tok">EXPERT RNN</span><span class="tok">EXPERT LSTM</span><span class="tok">EXPERT GRU</span>
+    </div>
+    <div class="col">
+      <p>Each option token is built from a written description of the label (for example <em>"sports news: games, matches, teams…"</em>) plus every expert's vote for it. Each expert token says how sure that expert is. A small 2-layer transformer lets the tokens look at each other (attention), then the head gives three typed outputs:</p>
+    </div>
+    <div class="outs">
+      <div class="out"><b>choice</b><p>A probability for every option: the answer.</p></div>
+      <div class="out"><b>noul × 4</b><p>"Is this expert right on <em>this</em> input?" This sets a per-input routing weight for each expert's vote.</p></div>
+      <div class="out"><b>act</b><p>"Is my own answer right?" Used to abstain or escalate.</p></div>
+    </div>
+
+    <h3>Teaching it to be honest</h3>
+    <ul class="clean col">
+      <li><b>Proper scoring rules</b> (log score + Brier score) reward the head only for reporting its true belief, like a weather forecaster whose "70% rain" should mean rain on 7 days out of 10. Laya's own RLCD training rewards the same thing.</li>
+      <li><b>Temperature scaling</b> on validation data fine-tunes the confidence after training.</li>
+      <li><b>Out-of-fold opinions.</b> Each expert is trained three times on different thirds of the data, so the head only ever sees an expert's opinion on text that expert never trained on.</li>
+    </ul>
+
+    <h3>Spending the expensive model only where it helps</h3>
+    <div class="col">
+      <p>The router reads only the cheap experts' signals (how sure they are, whether they agree) and predicts whether they are right. The <b>threshold router</b> escalates below a cut-off chosen on validation data. The <b>REINFORCE router</b> learns the same decision by policy gradient, from reward = 1 if the final answer is right, minus a cost for each escalation.</p>
+    </div>
+  </section>
+
+  <!-- 3. RESULTS -->
+  <section>
+    <h2>3 · The improvement</h2>
+    <div class="note col"><strong>Where these numbers come from.</strong> Laya's weights could not be downloaded where the code was built, so this check used <b>DistilBERT as a stand-in encoder</b>, with 30,000 AG News training rows and the full 7,600-row test set. The Kaggle notebook produces the same tables with the real Laya encoder; those are the numbers to report. Every model is temperature-scaled on validation data, and a claim counts only when its 95% bootstrap confidence interval excludes zero.</div>
+
+    <div class="stats">
+      <div class="stat"><div class="v">91.7%</div><div class="l">ADAR accuracy, +0.8 points over the best scikit-learn model (CI +0.3 to +1.3)</div></div>
+      <div class="stat"><div class="v">−15%</div><div class="l">log-loss (NLL) versus the best baseline: more honest probabilities</div></div>
+      <div class="stat"><div class="v">9%</div><div class="l">of inputs needed the expensive path in the cascade, which still beat every baseline</div></div>
+    </div>
+
+    <figure id="fig-acc">
+      <div class="fig-title">Test accuracy by model (AG News, 7,600 articles)</div>
+      <div class="legend"><span style="--c: var(--neutral-mark)">baseline</span><span style="--c: var(--accent)">ADAR (ours)</span></div>
+      <div class="chart-wrap"><svg id="acc" width="100%" height="460" role="img" aria-label="Dot plot of test accuracy per model"></svg></div>
+      <figcaption>Axis starts at 85% so the differences are visible. Hover a dot for exact values.</figcaption>
+    </figure>
+
+    <figure id="fig-cost">
+      <div class="fig-title">Accuracy for the cost: CPU time per input (log scale)</div>
+      <div class="legend"><span style="--c: var(--neutral-mark)">baseline</span><span style="--c: var(--accent)">ADAR, always using Laya</span><span class="line" style="--c: var(--accent)">ADAR cascade, sweeping the escalation threshold</span></div>
+      <div class="chart-wrap"><svg id="cost" width="100%" height="380" role="img" aria-label="Scatter of accuracy versus CPU latency with the ADAR cascade curve"></svg></div>
+      <figcaption>Up and to the left is better. From about 7 ms per input, the cascade curve sits above every baseline.</figcaption>
+    </figure>
+
+    <details>
+      <summary>Show the full table</summary>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Model</th><th class="n">Accuracy</th><th class="n">NLL ↓</th><th class="n">Brier ↓</th><th class="n">ECE ↓</th><th class="n">CPU ms</th></tr></thead>
+          <tbody id="tbody"></tbody>
+        </table>
+      </div>
+    </details>
+
+    <h3>Which parts matter</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Variant</th><th class="n">Accuracy</th><th class="n">NLL</th><th>What it tells us</th></tr></thead>
+        <tbody>
+          <tr class="ours"><td>Full ADAR</td><td class="n">91.7%</td><td class="n">0.244</td><td></td></tr>
+          <tr><td>Without the experts</td><td class="n">90.8%</td><td class="n">0.276</td><td>Experts add +0.9 points (significant)</td></tr>
+          <tr><td>Without the encoder</td><td class="n">89.7%</td><td class="n">0.303</td><td>Encoder adds +2.0 points (significant)</td></tr>
+          <tr><td>Without attention</td><td class="n">91.5%</td><td class="n">0.255</td><td>+0.2 points, not significant; attention mainly helps the probabilities</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>What the head learned about the architectures</h3>
+    <div class="col"><p>Nobody told the head which expert is better. It worked out a routing weight for each one, per input:</p></div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Expert</th><th class="n">Avg routing weight</th><th class="n">Real accuracy</th></tr></thead>
+        <tbody>
+          <tr><td>Bi-GRU</td><td class="n">0.187</td><td class="n">89.4%</td></tr>
+          <tr><td>TextCNN</td><td class="n">0.184</td><td class="n">89.5%</td></tr>
+          <tr><td>Bi-LSTM</td><td class="n">0.117</td><td class="n">89.3%</td></tr>
+          <tr><td>Bi-RNN</td><td class="n">0.065</td><td class="n">88.4%</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col"><p>It trusts the plain RNN least: the weakest expert here, and the architecture the syllabus flags for vanishing gradients. Its per-input "is this expert right?" predictions separate right from wrong with an AUC of about 0.89.</p></div>
+  </section>
+
+  <!-- 4. LIMITS -->
+  <section>
+    <h2>4 · Limits, stated plainly</h2>
+    <ul class="clean col">
+      <li>The numbers on this page use a stand-in encoder. The Laya numbers come from the Kaggle run.</li>
+      <li>Laya is frozen; ADAR trains only the head.</li>
+      <li>Attention's accuracy gain is not significant at this scale.</li>
+      <li>The cascade threshold chosen on validation lost 0.47 points on test against always using the expensive path (the target was at most 0.5).</li>
+      <li>The REINFORCE router stops escalating altogether once the cost weight λ reaches 0.4.</li>
+      <li>On typed-decisions, ADAR-Cal re-calibrates Laya's probabilities; it does not change Laya's answers.</li>
+      <li>Only text classification is covered so far.</li>
+    </ul>
+  </section>
+
+  <!-- 5. SYLLABUS -->
+  <section>
+    <h2>5 · How it maps to the syllabus</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Unit</th><th>In ADAR</th></tr></thead>
+        <tbody>
+          <tr><td>I</td><td>TextCNN, backpropagation, initialisation, BatchNorm, gradient clipping against exploding gradients, AdamW with a cosine schedule</td></tr>
+          <tr><td>II</td><td>CNNs for classification; training a new head on a frozen pretrained network</td></tr>
+          <tr><td>III</td><td>RNN, LSTM, GRU; embeddings; attention and a transformer head; a BERT-family encoder (Laya)</td></tr>
+          <tr><td>IV</td><td>REINFORCE policy-gradient router (reward = correct − λ·cost)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 6. NEXT -->
+  <section>
+    <h2>6 · Next steps and where to find things</h2>
+    <div class="docs">
+      <div class="doc"><code>docs/KAGGLE_SETUP.md</code><p>Run the notebook on Kaggle GPU T4 ×2, resume after failures, read the results.</p></div>
+      <div class="doc"><code>docs/LEADERBOARD_SUBMISSION.md</code><p>Checklist for the typed-decisions leaderboard; the RouterArena plan.</p></div>
+      <div class="doc"><code>docs/GITHUB_AND_HF_UPLOAD.md</code><p>Make the repo public and publish the trained heads on Hugging Face.</p></div>
+      <div class="doc"><code>docs/qc/ag_news_standin/</code><p>The full local QC report, CSV and figures behind this page.</p></div>
+    </div>
+  </section>
+</div>
+
+<script>
+(function () {
+  var rows = [
+    ["Random Forest (TF-IDF)", 0.8620, 0.399, 0.202, 0.016, 68.3, 0],
+    ["Bi-RNN", 0.8836, 0.354, 0.177, 0.024, 1.31, 0],
+    ["Encoder + Logistic Regression", 0.8903, 0.319, 0.163, 0.014, 19.7, 0],
+    ["Bi-LSTM", 0.8930, 0.329, 0.167, 0.025, 0.99, 0],
+    ["Stacking (encoder + experts)", 0.8930, 0.311, 0.160, 0.016, 24.8, 0],
+    ["Bi-GRU", 0.8938, 0.323, 0.164, 0.030, 2.38, 0],
+    ["TextCNN", 0.8951, 0.332, 0.164, 0.028, 0.42, 0],
+    ["Average of the 4 experts", 0.8970, 0.318, 0.159, 0.026, 5.10, 0],
+    ["Naive Bayes (TF-IDF)", 0.8980, 0.328, 0.159, 0.025, 1.76, 0],
+    ["Logistic Regression (TF-IDF)", 0.9057, 0.298, 0.147, 0.020, 0.77, 0],
+    ["Linear SVM (TF-IDF)", 0.9071, 0.287, 0.143, 0.009, 3.41, 0],
+    ["sklearn MLP (TF-IDF)", 0.9089, 0.289, 0.144, 0.019, 18.1, 0],
+    ["ADAR cascade (9% escalated)", 0.9121, 0.295, 0.144, 0.021, 7.02, 1],
+    ["ADAR (mean of 3 seeds)", 0.9165, 0.244, 0.127, 0.007, 26.1, 1]
+  ];
+  // cascade threshold sweep, test set (docs/qc/ag_news_standin/router.json): [mean ms, accuracy]
+  var curve = [[5.1,0.897],[5.63,0.9033],[6.16,0.9078],[6.68,0.9109],[7.21,0.9126],[7.73,0.9136],[8.26,0.9153],[8.79,0.9146],[9.31,0.9151],[9.84,0.9153],[10.36,0.9154],[10.89,0.9155],[11.42,0.9158],[11.94,0.9155],[12.47,0.9158],[12.99,0.9158],[13.52,0.9159],[14.05,0.9155],[14.57,0.9158],[15.1,0.9159],[15.62,0.9158],[16.15,0.9158],[16.68,0.9159],[17.2,0.9159],[17.73,0.9159],[18.25,0.9162],[18.78,0.9163],[19.31,0.9162],[19.83,0.9163],[20.36,0.9163],[20.88,0.9163],[21.41,0.9164],[21.94,0.9166],[22.46,0.9166],[22.99,0.9166],[23.51,0.9166],[24.04,0.9166],[24.57,0.9166],[25.09,0.9167],[25.62,0.9168],[26.14,0.9168]];
+  var SVGNS = "http://www.w3.org/2000/svg";
+  function el(tag, attrs, parent) { var e = document.createElementNS(SVGNS, tag); for (var k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; }
+  function css(name) { return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
+  function pct(v) { return (v * 100).toFixed(1) + "%"; }
+
+  function tipFor(fig) {
+    var t = document.createElement("div"); t.className = "tip"; t.hidden = true; fig.appendChild(t);
+    return {
+      show: function (html, x, y) { t.innerHTML = html; t.style.left = x + "px"; t.style.top = y + "px"; t.hidden = false; },
+      hide: function () { t.hidden = true; }
+    };
+  }
+  function place(fig, svg, cx, cy) {
+    var fr = fig.getBoundingClientRect(), sr = svg.getBoundingClientRect();
+    return [sr.left - fr.left + cx, sr.top - fr.top + cy];
+  }
+
+  function drawAcc() {
+    var svg = document.getElementById("acc"), fig = document.getElementById("fig-acc");
+    svg.innerHTML = "";
+    var W = Math.max(svg.clientWidth, 560), H = 460, L = 210, R = 56, T = 12, B = 34;
+    svg.setAttribute("viewBox", "0 0 " + W + " " + H);
+    var x0 = 0.85, x1 = 0.925, n = rows.length, rowH = (H - T - B) / n;
+    var X = function (v) { return L + (v - x0) / (x1 - x0) * (W - L - R); };
+    var ink = css("--muted"), rule = css("--rule"), fg = css("--fg"), acc = css("--accent"), neu = css("--neutral-mark"), surf = css("--surface");
+    var tip = tipFor(fig);
+    for (var g = 0.85; g <= 0.9201; g += 0.01) {
+      el("line", { x1: X(g), x2: X(g), y1: T, y2: H - B, stroke: rule, "stroke-width": 1 }, svg);
+      var tx = el("text", { x: X(g), y: H - B + 18, "text-anchor": "middle", "font-size": 11, fill: ink }, svg); tx.textContent = Math.round(g * 100) + "%";
+    }
+    rows.forEach(function (r, i) {
+      var y = T + rowH * (i + 0.5), ours = r[6] === 1;
+      var lab = el("text", { x: L - 10, y: y + 4, "text-anchor": "end", "font-size": 12, fill: ours ? fg : ink, "font-weight": ours ? 700 : 500 }, svg); lab.textContent = r[0];
+      el("line", { x1: X(x0), x2: X(r[1]), y1: y, y2: y, stroke: ours ? acc : neu, "stroke-width": 2, "stroke-opacity": 0.35 }, svg);
+      el("circle", { cx: X(r[1]), cy: y, r: ours ? 7 : 5.5, fill: ours ? acc : neu, stroke: surf, "stroke-width": 2 }, svg);
+      if (ours) { var v = el("text", { x: X(r[1]) + 12, y: y + 4, "font-size": 12, "font-weight": 700, fill: fg }, svg); v.textContent = pct(r[1]); }
+      var hit = el("rect", { x: 0, y: y - rowH / 2, width: W, height: rowH, fill: "transparent" }, svg);
+      hit.addEventListener("mousemove", function () { var p = place(fig, svg, X(r[1]) * svg.clientWidth / W, y * svg.clientHeight / H); tip.show("<b>" + r[0] + "</b><br>accuracy " + pct(r[1]) + " · NLL " + r[2].toFixed(3) + " · ECE " + r[4].toFixed(3), p[0], p[1]); });
+      hit.addEventListener("mouseleave", tip.hide);
+    });
+  }
+
+  function drawCost() {
+    var svg = document.getElementById("cost"), fig = document.getElementById("fig-cost");
+    svg.innerHTML = "";
+    var W = Math.max(svg.clientWidth, 560), H = 380, L = 56, R = 24, T = 16, B = 44;
+    svg.setAttribute("viewBox", "0 0 " + W + " " + H);
+    var lx0 = Math.log10(0.3), lx1 = Math.log10(100), y0 = 0.855, y1 = 0.92;
+    var X = function (v) { return L + (Math.log10(v) - lx0) / (lx1 - lx0) * (W - L - R); };
+    var Y = function (v) { return T + (1 - (v - y0) / (y1 - y0)) * (H - T - B); };
+    var ink = css("--muted"), rule = css("--rule"), fg = css("--fg"), acc = css("--accent"), neu = css("--neutral-mark"), surf = css("--surface");
+    var tip = tipFor(fig);
+    [0.3, 1, 3, 10, 30, 100].forEach(function (v) {
+      el("line", { x1: X(v), x2: X(v), y1: T, y2: H - B, stroke: rule }, svg);
+      var t = el("text", { x: X(v), y: H - B + 18, "text-anchor": "middle", "font-size": 11, fill: ink }, svg); t.textContent = v + " ms";
+    });
+    [0.86, 0.88, 0.90, 0.92].forEach(function (v) {
+      el("line", { x1: L, x2: W - R, y1: Y(v), y2: Y(v), stroke: rule }, svg);
+      var t = el("text", { x: L - 8, y: Y(v) + 4, "text-anchor": "end", "font-size": 11, fill: ink }, svg); t.textContent = Math.round(v * 100) + "%";
+    });
+    var d = curve.map(function (p, i) { return (i ? "L" : "M") + X(p[0]).toFixed(1) + "," + Y(p[1]).toFixed(1); }).join("");
+    el("path", { d: d, fill: "none", stroke: acc, "stroke-width": 2 }, svg);
+    var labelled = { "TextCNN": 1, "Linear SVM (TF-IDF)": 1, "Logistic Regression (TF-IDF)": 1, "sklearn MLP (TF-IDF)": 1, "Random Forest (TF-IDF)": 1, "ADAR (mean of 3 seeds)": 1, "ADAR cascade (9% escalated)": 1 };
+    rows.forEach(function (r) {
+      var ours = r[6] === 1, cx = X(r[5]), cy = Y(r[1]);
+      el("circle", { cx: cx, cy: cy, r: ours ? 7 : 5.5, fill: ours ? acc : neu, stroke: surf, "stroke-width": 2 }, svg);
+      if (labelled[r[0]]) {
+        var right = cx < W - 170;
+        var t = el("text", { x: right ? cx + 10 : cx - 10, y: cy - 9, "text-anchor": right ? "start" : "end", "font-size": 11, fill: ours ? fg : ink, "font-weight": ours ? 700 : 500 }, svg);
+        t.textContent = r[0].replace(" (mean of 3 seeds)", "").replace(" (9% escalated)", "");
+      }
+      var hit = el("circle", { cx: cx, cy: cy, r: 14, fill: "transparent" }, svg);
+      hit.addEventListener("mousemove", function () { var p = place(fig, svg, cx * svg.clientWidth / W, cy * svg.clientHeight / H); tip.show("<b>" + r[0] + "</b><br>" + pct(r[1]) + " at " + r[5] + " ms per input", p[0], p[1]); });
+      hit.addEventListener("mouseleave", tip.hide);
+    });
+  }
+
+  function fillTable() {
+    var tb = document.getElementById("tbody");
+    rows.slice().reverse().forEach(function (r) {
+      var tr = document.createElement("tr"); if (r[6]) tr.className = "ours";
+      tr.innerHTML = "<td>" + r[0] + "</td><td class='n'>" + pct(r[1]) + "</td><td class='n'>" + r[2].toFixed(3) + "</td><td class='n'>" + r[3].toFixed(3) + "</td><td class='n'>" + r[4].toFixed(3) + "</td><td class='n'>" + r[5] + "</td>";
+      tb.appendChild(tr);
+    });
+  }
+
+  function drawAll() { drawAcc(); drawCost(); }
+  fillTable();
+  drawAll();
+  var rt; window.addEventListener("resize", function () { clearTimeout(rt); rt = setTimeout(drawAll, 120); });
+  if (window.matchMedia) { var mq = window.matchMedia("(prefers-color-scheme: dark)"); if (mq.addEventListener) mq.addEventListener("change", drawAll); }
+  new MutationObserver(drawAll).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+})();
+</script>
+
+</body>
+</html>

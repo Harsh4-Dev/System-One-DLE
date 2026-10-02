@@ -28,12 +28,16 @@ Laya + ADAR only when they are unsure.
 | `adar/` | the package (the notebook writes these exact files) |
 | `tests/` | unit tests: resume/failure handling, metrics, head structure, typed-decisions scorer |
 | `tools/build_notebook.py` | regenerates the notebook from `adar/` |
-| `LEADERBOARDS.md` | how to publish the head and submit to typed-decisions; RouterArena plan |
+| `docs/MAIN.md` | **start here**: the problem, the fix, the improvement, in plain language (also `docs/ADAR_explained.html`) |
+| `docs/KAGGLE_SETUP.md` | running the notebook on Kaggle, resuming after failures |
+| `docs/LEADERBOARD_SUBMISSION.md` | preparing typed-decisions / course / Hugging Face submissions; RouterArena plan |
+| `docs/GITHUB_AND_HF_UPLOAD.md` | making the repo public and publishing the trained heads |
 | `docs/LOCAL_QC.md` | what was verified before the Kaggle run, and what was not |
+| `docs/qc/ag_news_standin/` | the local QC report (stand-in encoder) with figures |
 
 ## Run it
 
-1. Upload `notebooks/adar_kaggle.ipynb` to Kaggle → **Accelerator: GPU T4 ×2**, **Internet: On**.
+1. Follow `docs/KAGGLE_SETUP.md`, or in short: upload `notebooks/adar_kaggle.ipynb` to Kaggle → **Accelerator: GPU T4 ×2**, **Internet: On**.
 2. **Save Version → Save & Run All**. Expect roughly 1.5–3 hours.
 3. Download `adar_outputs.zip`: comparison tables and plots (`results/`), the publishable head
    (`publish/`), typed-decisions results, `SUMMARY.md`.
