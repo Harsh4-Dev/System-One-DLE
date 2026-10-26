@@ -30,7 +30,7 @@ TFIDF_MODELS = {
     # MLP on all 200k TF-IDF columns is impractically slow (dense 200k x 256 weight updates);
     # it gets the 20k most informative columns (chi-squared), selected on its own training rows.
     "sk_mlp": lambda: make_pipeline(SelectKBest(chi2, k=20000),
-                                    MLPClassifier(hidden_layer_sizes=(256,), early_stopping=True, max_iter=15,
+                                    MLPClassifier(hidden_layer_sizes=(256,), early_stopping=True, max_iter=40,
                                                   n_iter_no_change=3, random_state=0, batch_size=256)),
 }
 # Random forest / sklearn-MLP are slow on 100k+ sparse rows; cap their training rows (reported).

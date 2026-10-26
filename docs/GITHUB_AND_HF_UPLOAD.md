@@ -121,7 +121,7 @@ from adar.inference import ADARClassifier
 
 path = snapshot_download("<your-username>/adar-head-ag-news")
 clf = ADARClassifier.from_pretrained(path)
-clf.predict(["The striker scored twice as the home side won the derby."])
+clf.predict(["NASA's new telescope captured images of a distant galaxy cluster."])
 # -> label, calibrated probabilities, P(each expert is right), routing weights, escalate flag
 ```
 

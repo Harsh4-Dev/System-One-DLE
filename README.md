@@ -117,9 +117,10 @@ If a session dies, attach its output as an input and run again. Details: [`docs/
 from adar.inference import ADARClassifier
 
 clf = ADARClassifier.from_pretrained("adar_run/publish/adar-head-ag_news")
-clf.predict(["The striker scored twice as the home side won the derby."])
-# [{'label': 'sports', 'probabilities': {...}, 'p_head_correct': 0.96,
-#   'p_expert_correct': {...}, 'routing_weights': {...}, 'escalate': False}]
+clf.predict(["NASA's new telescope captured images of a distant galaxy cluster."])
+# [{'label': 'sci_tech', 'probabilities': {'world': 0.051, 'sports': 0.0003, 'business': 0.0011,
+#    'sci_tech': 0.9476}, 'p_head_correct': 0.9732, 'escalate': False,
+#    'p_expert_correct': {...}, 'routing_weights': {...}}]   <- real output from the Kaggle run
 ```
 
 ### Run the tests locally

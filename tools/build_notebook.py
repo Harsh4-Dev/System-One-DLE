@@ -160,7 +160,7 @@ pub = os.path.join(pipe.run_dir, "publish", f"adar-head-{pipe.cfg['tasks'][0]}")
 if os.path.isdir(pub):
     clf = ADARClassifier.from_pretrained(pub)
     for r in clf.predict(["NASA's new telescope captured images of a distant galaxy cluster.",
-                          "The striker scored twice as the home side won the derby."]):
+                          "Real Madrid beat Barcelona 3-1 in the Champions League semi-final on Tuesday."]):
         print(r)
 """))
     nb = {"cells": cells, "metadata": {"kernelspec": {"display_name": "Python 3", "language": "python", "name": "python3"},
