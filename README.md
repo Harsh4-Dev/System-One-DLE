@@ -60,44 +60,10 @@ The head is trained with **proper scoring rules** (log score + Brier) on **out-o
 opinions, then temperature-scaled. A **cascade router** (threshold or **REINFORCE** policy gradient)
 calls Laya only when the cheap experts are unsure.
 
-## Results
+<!-- results:start -->
+<!-- results:end -->
 
-> Local QC run with **DistilBERT standing in for Laya's encoder** (Laya's weights were not
-> downloadable where the code was built): AG News, 30,000 training rows, full 7,600-row test set.
-> The Kaggle notebook reproduces these tables with the real Laya encoder.
-> A claim counts only when its paired-bootstrap 95% CI excludes zero; **13/13 QC gates pass**.
-
-| Model | Accuracy | NLL ↓ | Brier ↓ | ECE ↓ | CPU ms / input |
-|---|---:|---:|---:|---:|---:|
-| Random Forest (TF-IDF) | 86.2% | 0.399 | 0.202 | 0.016 | 68.3 |
-| Bi-RNN | 88.4% | 0.354 | 0.177 | 0.024 | 1.3 |
-| Bi-LSTM | 89.3% | 0.329 | 0.167 | 0.025 | 1.0 |
-| Bi-GRU | 89.4% | 0.323 | 0.164 | 0.030 | 2.4 |
-| TextCNN | 89.5% | 0.332 | 0.164 | 0.028 | 0.4 |
-| Logistic Regression (TF-IDF) | 90.6% | 0.298 | 0.147 | 0.020 | 0.8 |
-| Linear SVM (TF-IDF) | 90.7% | 0.287 | 0.143 | 0.009 | 3.4 |
-| sklearn MLP (TF-IDF) | 90.9% | 0.289 | 0.144 | 0.019 | 18.1 |
-| **ADAR cascade** (expensive path on 9% of inputs) | **91.2%** | 0.295 | 0.144 | 0.021 | **7.0** |
-| **ADAR** (3 seeds) | **91.7% ± 0.1** | **0.244** | **0.127** | **0.007** | 26.1 |
-
-- **+0.8 points** over the best scikit-learn model (95% CI +0.3 to +1.3) and **+2.2** over the best syllabus model.
-- **15% lower log-loss** than the best baseline: more honest probabilities.
-- The cascade scores higher than every baseline at **about a quarter of ADAR's CPU cost**.
-
-<table>
-<tr>
-<td width="50%"><img src="docs/qc/ag_news_standin/accuracy_vs_latency.png" alt="Accuracy versus CPU latency with the ADAR cascade curve"></td>
-<td width="50%"><img src="docs/qc/ag_news_standin/reliability.png" alt="Reliability diagram: ADAR is closest to perfect calibration"></td>
-</tr>
-<tr>
-<td align="center"><sub>Accuracy for the cost. The cascade curve sits above every baseline from about 7 ms.</sub></td>
-<td align="center"><sub>Confidence vs. real accuracy. ADAR stays closest to the diagonal.</sub></td>
-</tr>
-</table>
-
-**Ablations:** removing the experts costs 0.9 points, removing the encoder costs 2.0 (both significant).
-Removing attention costs 0.2 points, which is not significant: attention mainly improves the probabilities.
-Full report: [`docs/qc/ag_news_standin/REPORT.md`](docs/qc/ag_news_standin/REPORT.md).
+The earlier local check with a stand-in encoder (before Laya was available) is in [`docs/LOCAL_QC.md`](docs/LOCAL_QC.md).
 
 ## Quick start
 

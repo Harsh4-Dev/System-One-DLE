@@ -71,7 +71,13 @@ What it does:
 3. Polls `kaggle kernels status` every 2 minutes.
 4. `kaggle kernels output … --file-pattern adar_results_small.zip` into `runs/<timestamp>/`.
 5. `tools/collect_results.py` → `results/kaggle_run/summary.json` (the old one is archived in `results/previous_runs/`).
-6. Regenerates `submissions/` and `docs/ADAR_Project_Report.docx`.
+6. Regenerates `submissions/` and `docs/ADAR_Project_Report.docx` (the kernel log is kept as
+   `results/kaggle_run/kernel.log`; the demo output on the slides and in the report comes from it).
+7. With `--deck <deck>/project`, also rebuilds every slide with `tools/report/build_slides.py`.
+   Run that script by hand any time: `python tools/report/build_slides.py results/kaggle_run/summary.json <deck>/project --log results/kaggle_run/kernel.log`.
+
+The slide, report and post wording follows the quality checks: "beats" only when the 95% CI
+excludes zero, "ties" when it does not, "behind" when ADAR is significantly worse.
 
 If your terminal closes during the run, the Kaggle run continues. Fetch it later with
 `python tools/kaggle_run.py --user $KAGGLE_USERNAME --no-push`.
