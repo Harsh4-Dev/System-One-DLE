@@ -9,7 +9,7 @@ const {
 
 const [summaryPath, figDir, outPath] = process.argv.slice(2);
 const S = JSON.parse(fs.readFileSync(summaryPath, "utf8"));
-const INK = "1F2233", CORAL = "B8401B", COBALT = "2B59C3", MUTED = "5E5648", CREAM = "F5EEDC", CARD = "FBF7EC";
+const INK = "1F2233", CORAL = "A8432F", COBALT = "4A5874", MUTED = "6B6E78", CREAM = "F7F3EA", CARD = "FCFAF5";
 const FONT = "Calibri";
 
 // ---------- text helpers ----------
@@ -123,6 +123,29 @@ const escAG = Math.round(escRate("ag_news") * 100), escEM = Math.round(escRate("
 const auc = (task, k) => (T[task].routing && T[task].routing[k] && T[task].routing[k].noul_auc) || null;
 const qcAG = T.ag_news.qc, qcEM = T.emotion.qc;
 const gate = (qc, needle) => qc.find((q) => q.includes(needle)) || "";
+// parsed QC gate: {ok, d, lo, hi} (accuracy difference in points, seed 0, paired bootstrap 95% CI)
+const G = (task, needle) => { const q = gate(T[task].qc, needle); const m = /delta=([+-][\d.]+)pp,? (?:95% )?CI \[([+-][\d.]+), ([+-][\d.]+)\]/.exec(q);
+  return m ? { ok: q.startsWith("PASS"), d: +m[1], lo: +m[2], hi: +m[3], text: q } : null; };
+const joinList = (xs) => xs.length < 2 ? xs.join("") : xs.slice(0, -1).join(", ") + " and " + xs[xs.length - 1];
+const verdict = (task) => { const win = [], tie = [], lose = [];
+  [["Laya zero-shot", "best Laya zero-shot"], ["the best syllabus network", "best syllabus deep model"], ["the best scikit-learn model", "best scikit-learn model"]].forEach(([n, k]) => {
+    const g = G(task, k); if (!g) return; (g.ok ? win : g.hi < 0 ? lose : tie).push(n); });
+  const parts = []; if (win.length) parts.push("significantly beats " + joinList(win)); if (tie.length) parts.push("ties " + joinList(tie) + " (difference not significant)");
+  if (lose.length) parts.push("is significantly behind " + joinList(lose)); return "ADAR " + parts.join("; ") + "."; };
+const EXPERT_NAMES = ["TextCNN", "Bi-RNN", "Bi-LSTM", "Bi-GRU"];
+const bestExpert = (task) => T[task].rows.filter((r) => EXPERT_NAMES.includes(r.model)).sort((a, b) => b.accuracy - a.accuracy)[0];
+const baselines = (task) => T[task].rows.filter((r) => !r.model.startsWith("ADAR"));
+const bestNll = (task) => baselines(task).slice().sort((a, b) => a.nll - b.nll)[0];
+const nSeeds = (task) => { const m = /mean of (\d+) seeds/.exec(row(task, "ADAR (ours").model); return m ? +m[1] : 1; };
+const short = (n) => n.startsWith("ADAR (ours") ? `ADAR (ours, ${nSeeds("ag_news")} seeds)` : n.replace(/ADAR cascade \(escalates (\d+)%\)/, "ADAR cascade (Laya on $1%)");
+const rankRows = (task) => T[task].rows.filter((r) => !r.model.startsWith("ADAR ablation")).slice().sort((a, b) => b.accuracy - a.accuracy);
+const axisLo = (task) => Math.max(0, Math.floor((Math.min(...rankRows(task).map((r) => r.accuracy)) * 100 - 2) / 5) * 5);
+const DEMO = (() => { const f = process.argv[5]; if (!f || !fs.existsSync(f)) return null; const t = fs.readFileSync(f, "utf8").replace(/\\"/g, '"');
+  const m = /'label': '([^']+)', 'probabilities': \{([^}]*)\}, 'p_head_correct': ([\d.]+), 'escalate': (True|False)/.exec(t); if (!m) return null;
+  const pr = Object.fromEntries([...m[2].matchAll(/'([^']+)': ([\d.]+)/g)].map((x) => [x[1], +x[2]]));
+  return { label: m[1], p: pr[m[1]], act: +m[3], esc: m[4] === "True" }; })();
+const nllRed = 1 - adarAG.nll / bestNll("ag_news").nll;
+const tdMatch = Math.abs(tdFt.shipped.accuracy - 0.766) < 0.005;
 
 // ---------- content ----------
 const children = [];
@@ -149,23 +172,23 @@ children.push(H1("Abstract"),
   P("Picking the right deep-learning architecture for an application is usually done by hand: we train a CNN, an LSTM and a GRU, keep the best one and discard the rest. Large ",
     { t: "System-One models", i: true }, " such as TypeSafe AI’s Jev and its open-source counterpart Laya answer typed questions in a single forward pass, but they are expensive, they are not always the most accurate, and their probabilities are not always honest."),
   P("We present ", { t: "ADAR (Adaptive Deep Architecture Routing)", b: true },
-    ", a 2.3M-parameter decision head trained on top of the frozen Laya encoder and four networks from our syllabus (TextCNN, Bi-RNN, Bi-LSTM, Bi-GRU). For every input, ADAR returns a calibrated answer, the probability that each expert is right, and the probability that its own answer is right. A cascade router lets the cheap experts answer first and calls Laya only when they are unsure."),
-  P("On AG News (7,600 test articles), ADAR reaches ", { t: `${pct(adarAG.accuracy, 2)} accuracy`, b: true },
-    `, above every baseline including Laya itself (${pct(AG("Laya zero-shot").accuracy, 2)}), with ${Math.round((1 - adarAG.nll / AG("Stacking").nll) * 100)}% lower log-loss than the best baseline; the cascade keeps ${pct(AG("ADAR cascade").accuracy)} accuracy at ${(adarAG.cpu_ms / AG("ADAR cascade").cpu_ms).toFixed(1)}× lower CPU cost. On Emotion tweets, where Laya is weak (${pct(EM("Laya zero-shot").accuracy)}), ADAR ties the best syllabus network (${pct(adarEM.accuracy)}) and the router learns to call Laya for only ${escEM}% of inputs. On the public typed-decisions benchmark, our calibration (ADAR-Cal) lowers Laya’s expected calibration error from ${tdBase.shipped.ece.toFixed(3)} to ${tdCal.ece.toFixed(3)}. All numbers come from one full run of our notebook on Kaggle (GPU T4 ×2, ${Math.round(S.total_minutes)} minutes).`),
+    `, a ${adarAG.params_M.toFixed(1)}M-parameter decision head trained on top of the frozen Laya encoder and four networks from our syllabus (TextCNN, Bi-RNN, Bi-LSTM, Bi-GRU). For every input, ADAR returns a calibrated answer, the probability that each expert is right, and the probability that its own answer is right. A cascade router lets the cheap experts answer first and calls Laya only when they are unsure.`),
+  P(`On AG News (${S.splits.ag_news.test.toLocaleString("en-US")} test articles), ADAR reaches `, { t: `${pct(adarAG.accuracy, 2)} accuracy`, b: true },
+    ` against ${pct(AG("Laya zero-shot").accuracy, 2)} for Laya zero-shot. ${verdict("ag_news")} Its log-loss is ${Math.round(Math.abs(nllRed) * 100)}% ${nllRed > 0 ? "lower" : "higher"} than the best baseline’s, and the cascade reaches ${pct(AG("ADAR cascade").accuracy)} accuracy at ${(adarAG.cpu_ms / AG("ADAR cascade").cpu_ms).toFixed(1)}× lower CPU cost. On Emotion tweets, where Laya is weak (${pct(EM("Laya zero-shot").accuracy)}), ADAR reaches ${pct(adarEM.accuracy)}; ${verdict("emotion").replace(/^ADAR /, "it ")} The router learns to call Laya for ${escEM}% of tweets. On the public typed-decisions benchmark, our scorer gives ${tdFt.shipped.accuracy.toFixed(3)} accuracy for Laya’s fine-tuned checkpoint (board: 0.766), and train-fitted temperatures (ADAR-Cal) move base Laya’s expected calibration error from ${tdBase.shipped.ece.toFixed(3)} to ${tdCal.ece.toFixed(3)}. All numbers come from one full run of our notebook on Kaggle (GPU T4 ×2, ${Math.round(S.total_minutes)} minutes).`),
 );
 
 // 1 Introduction
 children.push(H1("1. Introduction"), H2("1.1 The problem"),
   P("Three measurements from our own run motivate the project:"),
-  Bullet({ t: "The biggest model is not always right. ", b: true }, `Laya (421M parameters) answers Emotion tweets with ${pct(EM("Laya zero-shot").accuracy)} accuracy, while a 1.2M-parameter Bi-LSTM reaches ${pct(EM("Bi-LSTM").accuracy)}.`),
+  Bullet({ t: "The biggest model is not always right. ", b: true }, `Laya (${AG("Laya zero-shot").params_M.toFixed(0)}M-parameter encoder) answers Emotion tweets with ${pct(EM("Laya zero-shot").accuracy)} accuracy zero-shot, while a ${bestExpert("emotion").params_M.toFixed(1)}M-parameter ${bestExpert("emotion").model} reaches ${pct(bestExpert("emotion").accuracy)}.`),
   Bullet({ t: "Big models are slow. ", b: true }, `On a CPU, Laya needs ${AG("Laya zero-shot").cpu_ms.toFixed(0)} ms per input; a TextCNN needs ${AG("TextCNN").cpu_ms.toFixed(1)} ms, about ${Math.round(AG("Laya zero-shot").cpu_ms / AG("TextCNN").cpu_ms)} times less.`),
-  Bullet({ t: "Confidence is not always honest. ", b: true }, `Laya’s fine-tuned checkpoint has an expected calibration error (ECE) of ${tdFt.shipped.ece.toFixed(3)} on its own leaderboard: its probabilities are off by about 20 points.`),
+  Bullet({ t: "Confidence is not always honest. ", b: true }, `Laya’s fine-tuned checkpoint has an expected calibration error (ECE) of ${tdFt.shipped.ece.toFixed(3)} on the typed-decisions benchmark: its confidence is off by about ${Math.round(tdFt.shipped.ece * 100)} points on average.`),
   P("Our course asks us to ", { t: "“analyse and identify the appropriate deep architecture for a given application.”", i: true }, " ADAR turns that manual choice into a learned, per-input decision."),
   H2("1.2 Contributions"),
   Bullet("A ", { t: "System-One decision head", b: true }, " that fuses a frozen System-One encoder with syllabus networks through attention, and outputs typed, calibrated decisions (choice, per-expert noul, act)."),
   Bullet("A ", { t: "cascade router", b: true }, " (threshold and REINFORCE policy gradient) that spends the expensive model only on hard inputs."),
-  Bullet("A ", { t: "fair evaluation", b: true }, " against 12 baselines on two datasets with temperature-scaled probabilities, three seeds and paired-bootstrap confidence intervals."),
-  Bullet({ t: "ADAR-Cal", b: true }, ", a train-split calibration of Laya evaluated on the public typed-decisions benchmark, with a scorer that reproduces the published leaderboard numbers."),
+  Bullet("A ", { t: "fair evaluation", b: true }, ` against ${baselines("ag_news").length} baselines on two datasets with temperature-scaled probabilities, ${nSeeds("ag_news")} seeds and paired-bootstrap confidence intervals.`),
+  Bullet({ t: "ADAR-Cal", b: true }, `, a train-split calibration of Laya evaluated on the public typed-decisions benchmark, with a scorer whose accuracy for the published checkpoint (${tdFt.shipped.accuracy.toFixed(3)}) we compare with the board (0.766).`),
 );
 
 // 2 Background
@@ -245,53 +268,65 @@ children.push(new Paragraph({ children: [new PageBreak()] }), H1("4. Experimenta
     { cells: ["Experts", "embedding 128, 128 filters (3/4/5) or 128 hidden units per direction; max length 64 (AG News) / 48 (Emotion); vocabulary 30k"] },
     { cells: ["Expert training", "AdamW, lr 2e-3, weight decay 1e-4, batch 256, ≤10 epochs, early stopping (patience 2) on validation NLL, gradient clipping at 1.0"] },
     { cells: ["Laya encoder", "convaiinnovations/laya, frozen, fp16 on GPU, max 128 (AG News) / 64 (Emotion) tokens, sharded cache on both GPUs"] },
-    { cells: ["ADAR head", "d = 256, 2 layers, 4 heads, feed-forward 512, dropout 0.1, 2.3M parameters"] },
-    { cells: ["Head training", "AdamW, lr 1e-3, weight decay 0.01, batch 512, ≤30 epochs, 5% warm-up + cosine, early stopping (patience 5), expert dropout 0.15, seeds 0/1/2"] },
+    { cells: ["ADAR head", `d = 256, 2 layers, 4 heads, feed-forward 512, dropout 0.1, ${adarAG.params_M.toFixed(1)}M parameters`] },
+    { cells: ["Head training", `AdamW, lr 1e-3, weight decay 0.01, batch 512, ≤30 epochs, 5% warm-up + cosine, early stopping (patience 5), expert dropout 0.15, ${nSeeds("ag_news")} seeds`] },
     { cells: ["Hardware", `Kaggle GPU T4 ×2; whole pipeline ${Math.round(S.total_minutes)} minutes; CPU latencies are batch-1 medians on the Kaggle CPU`] },
   ], [2200, 7430]),
   gap(),
   H2("4.4 Evaluation protocol"),
-  P("Every model’s probabilities are temperature-scaled on the validation split and evaluated on the same test rows. We report accuracy, macro-F1, NLL, Brier, ECE (15 bins) and CPU latency. ADAR is trained with three seeds and reported as mean ± standard deviation. A claim “A beats B” counts only if the 95% confidence interval of the accuracy difference, from 2,000 paired bootstrap resamples of the test set, excludes zero:"),
+  P(`Every model’s probabilities are temperature-scaled on the validation split and evaluated on the same test rows. We report accuracy, macro-F1, NLL, Brier, ECE (15 bins) and CPU latency. ADAR is trained with ${nSeeds("ag_news")} seeds and reported as mean ± standard deviation. A claim “A beats B” counts only if the 95% confidence interval of the accuracy difference, from 2,000 paired bootstrap resamples of the test set, excludes zero:`),
   Eq("Δ = acc(A) − acc(B),    CI_{95} = [Δ_{2.5%}, Δ_{97.5%}] over paired resamples"),
 );
 
 // 5 Results
-const agRows = [
-  ["ADAR (ours, 3 seeds)", adarAG, true], [`ADAR cascade (${escAG}% to Laya)`, AG("ADAR cascade"), true], ["Laya zero-shot", AG("Laya zero-shot"), false],
-  ["Logistic Regression (TF-IDF)", AG("Logistic Regression"), false], ["Linear SVM (TF-IDF)", AG("Linear SVM"), false], ["Bi-GRU", AG("Bi-GRU"), false],
-  ["Bi-LSTM", AG("Bi-LSTM"), false], ["Stacking (Laya + experts)", AG("Stacking"), false], ["TextCNN", AG("TextCNN"), false], ["Random Forest (TF-IDF)", AG("Random Forest"), false]];
+const agRows = rankRows("ag_news").map((r) => [short(r.model), r, r.model.startsWith("ADAR")]);
+const emRows = rankRows("emotion").map((r) => [short(r.model), r, r.model.startsWith("ADAR")]);
+const gateBullets = (task) => [["Laya zero-shot", "best Laya zero-shot"], ["best syllabus network", "best syllabus deep model"], ["best scikit-learn model", "best scikit-learn model"], ["stacking", "best stacking baseline"]]
+  .map(([n, k]) => [n, G(task, k)]).filter(([, g]) => g)
+  .map(([n, g]) => Bullet(`ADAR − ${n}: ${g.d >= 0 ? "+" : ""}${g.d.toFixed(2)} pts, 95% CI [${g.lo.toFixed(2)}, ${g.hi.toFixed(2)}] (${g.ok ? "significant" : g.hi < 0 ? "significantly behind" : "not significant"})`));
+const ab = (k) => [AG("ADAR ablation: " + k), G("ag_news", "ablation: " + k), EM("ADAR ablation: " + k), G("emotion", "ablation: " + k)];
+const abRow = (label, k) => { const [ra, ga, re, ge] = ab(k); if (!ra || !ga) return null;
+  const f = (g) => g ? `${(-g.d).toFixed(2)} pts (${g.lo > 0 ? "sig." : "n.s."})` : "–";
+  return { cells: [label, f(ga), ra.nll.toFixed(3), f(ge), re ? re.nll.toFixed(3) : "–"] }; };
+const abRows = [abRow("Without the experts (Laya only)", "laya only"), abRow("Without Laya (experts only)", "experts only"), abRow("Without attention", "no attention")].filter((x) => x);
+const abNeeded = ["laya only", "experts only"].filter((k) => { const g = G("ag_news", "ablation: " + k); return g && g.lo > 0; });
+const naAG = AG("ADAR ablation: no attention"), gNA = G("ag_news", "ablation: no attention");
+const abText = (abNeeded.length === 2 ? "On AG News both information sources are needed: removing either the experts or Laya costs significant accuracy. " :
+  abNeeded.length === 1 ? `On AG News removing ${abNeeded[0] === "laya only" ? "the experts" : "Laya"} costs significant accuracy; removing the other part does not. ` :
+  "On AG News no single part’s removal costs significant accuracy. ") +
+  (gNA ? (gNA.lo > 0 ? "Attention adds significant accuracy." : naAG && naAG.nll > adarAG.nll ? `Attention adds little accuracy but improves the probabilities (log-loss ${naAG.nll.toFixed(3)} without it, ${adarAG.nll.toFixed(3)} with it).` : "Attention adds no significant accuracy.") : "");
+const casAG = AG("ADAR cascade"), casEM = EM("ADAR cascade");
 const fmtRow = ([n, r, hl]) => ({ hl, cells: [n, pct(r.accuracy, 2) + (r.accuracy_std ? ` ± ${(r.accuracy_std * 100).toFixed(2)}` : ""), r.nll.toFixed(3), r.brier.toFixed(3), r.ece_ts.toFixed(3), r.cpu_ms.toFixed(1)] });
 children.push(new Paragraph({ children: [new PageBreak()] }), H1("5. Results"), H2("5.1 AG News"),
-  ...Fig("fig3_agnews.png", 590, "Figure 3. AG News test accuracy (7,600 articles). Axis starts at 85%."),
-  tableOf(["Model", "Accuracy", "NLL ↓", "Brier ↓", "ECE ↓", "CPU ms"], agRows.map(fmtRow), [3300, 1500, 1100, 1100, 1100, 1530], { rightCols: true }),
+  ...Fig("fig3_agnews.png", 590, `Figure 3. AG News test accuracy (${S.splits.ag_news.test.toLocaleString("en-US")} articles). Axis starts at ${axisLo("ag_news")}%.`),
+  tableOf(["Model", "Accuracy", "NLL ↓", "Brier ↓", "ECE ↓", "CPU ms"], agRows.filter((x) => x[1]).map(fmtRow), [3300, 1500, 1100, 1100, 1100, 1530], { rightCols: true }),
   gap(),
-  P(`ADAR is the most accurate model and passes all ${T.ag_news.qc_pass} of ${T.ag_news.qc_total} quality checks. Selected confidence intervals (seed 0):`),
-  Bullet(gate(qcAG, "Laya zero-shot").replace("PASS — ", "")),
-  Bullet(gate(qcAG, "best scikit-learn").replace("PASS — ", "")),
-  Bullet(gate(qcAG, "best syllabus").replace("PASS — ", "")),
+  P(`${verdict("ag_news")} ADAR ranks ${agRows.findIndex((x) => x[1] === adarAG) + 1} of ${agRows.length} by accuracy and passes ${T.ag_news.qc_pass} of ${T.ag_news.qc_total} quality checks. Differences with 95% confidence intervals (seed 0):`),
+  ...gateBullets("ag_news"),
   H2("5.2 Honesty and cost"),
   ...Fig("fig5_honesty_cost.png", 620, "Figure 4. AG News: log-loss (left) and CPU time per input (right)."),
-  P(`ADAR’s log-loss (${adarAG.nll.toFixed(3)}) is ${Math.round((1 - adarAG.nll / AG("Stacking").nll) * 100)}% lower than the best baseline’s, so its probabilities are the most honest of all models. The cascade calls Laya for ${escAG}% of inputs and averages ${AG("ADAR cascade").cpu_ms.toFixed(0)} ms per input instead of ${adarAG.cpu_ms.toFixed(0)} ms (${(adarAG.cpu_ms / AG("ADAR cascade").cpu_ms).toFixed(1)}× cheaper) while keeping ${pct(AG("ADAR cascade").accuracy)} accuracy.`),
+  P(`ADAR’s log-loss (${adarAG.nll.toFixed(3)}) is ${Math.round(Math.abs(nllRed) * 100)}% ${nllRed > 0 ? "lower" : "higher"} than the best baseline’s (${bestNll("ag_news").model}, ${bestNll("ag_news").nll.toFixed(3)})${nllRed > 0 ? ", so its probabilities are the most honest of all models" : ""}. The cascade calls Laya for ${escAG}% of inputs and averages ${casAG.cpu_ms.toFixed(0)} ms per input instead of ${adarAG.cpu_ms.toFixed(0)} ms (${(adarAG.cpu_ms / casAG.cpu_ms).toFixed(1)}× cheaper), at ${pct(casAG.accuracy, 2)} accuracy instead of ${pct(adarAG.accuracy, 2)}.`),
   H2("5.3 Emotion"),
-  ...Fig("fig4_emotion.png", 560, "Figure 5. Emotion test accuracy (2,000 tweets). Axis starts at 50%."),
-  P(`Laya is weak on emotion tweets (${pct(EM("Laya zero-shot").accuracy)} zero-shot, ${pct(EM("Laya encoder").accuracy)} with a probe), consistent with the 57.3% reported on Laya’s own model card. ADAR (${pct(adarEM.accuracy)} ± ${(adarEM.accuracy_std * 100).toFixed(2)}) beats every scikit-learn model (best: Linear SVM, ${pct(EM("Linear SVM").accuracy)}) and Laya by 34 points, but only ties the best syllabus network (Bi-LSTM, ${pct(EM("Bi-LSTM").accuracy)}); the difference is not significant, and ${T.emotion.qc_total - T.emotion.qc_pass} of ${T.emotion.qc_total} checks fail for that reason. The router learned that Laya does not help here: it escalates only ${escEM}% of tweets, giving ${pct(EM("ADAR cascade").accuracy)} accuracy at ${EM("ADAR cascade").cpu_ms.toFixed(1)} ms instead of ${adarEM.cpu_ms.toFixed(0)} ms per input.`),
-  H2("5.4 Ablations (AG News)"),
-  tableOf(["Variant", "Accuracy", "Change", "Significant?"], [
-    { hl: true, cells: ["Full ADAR (mean of 3 seeds)", pct(adarAG.accuracy, 2), "–", "–"] },
-    { cells: ["Without the experts (Laya only)", pct(AG("ADAR ablation: laya only").accuracy, 2), `${((AG("ADAR ablation: laya only").accuracy - adarAG.accuracy) * 100).toFixed(1)} pts`, "yes"] },
-    { cells: ["Without Laya (experts only)", pct(AG("ADAR ablation: experts only").accuracy, 2), `${((AG("ADAR ablation: experts only").accuracy - adarAG.accuracy) * 100).toFixed(1)} pts`, "yes"] },
-    { cells: ["Without attention (no transformer)", pct(AG("ADAR ablation: no attention").accuracy, 2), `${((AG("ADAR ablation: no attention").accuracy - adarAG.accuracy) * 100).toFixed(1)} pts`, "no"] },
-  ], [4100, 1700, 1700, 2130], { rightCols: true }),
+  ...Fig("fig4_emotion.png", 560, `Figure 5. Emotion test accuracy (${S.splits.emotion.test.toLocaleString("en-US")} tweets). Axis starts at ${axisLo("emotion")}%.`),
+  tableOf(["Model", "Accuracy", "NLL ↓", "Brier ↓", "ECE ↓", "CPU ms"], emRows.filter((x) => x[1]).map(fmtRow), [3300, 1500, 1100, 1100, 1100, 1530], { rightCols: true }),
   gap(),
-  P(`Both information sources are needed. Attention adds little accuracy but improves the probabilities (log-loss ${AG("ADAR ablation: no attention").nll.toFixed(3)} without it, ${adarAG.nll.toFixed(3)} with it).`),
+  P(`Laya is weak on emotion tweets (${pct(EM("Laya zero-shot").accuracy)} zero-shot, ${pct(EM("Laya encoder").accuracy)} with a probe; Laya’s own model card reports 57.3%). The best syllabus network, ${bestExpert("emotion").model}, reaches ${pct(bestExpert("emotion").accuracy)}, and ADAR ${pct(adarEM.accuracy)} ± ${(adarEM.accuracy_std * 100).toFixed(2)}. ${verdict("emotion")} ${T.emotion.qc_pass} of ${T.emotion.qc_total} quality checks pass. The router escalates only ${escEM}% of tweets, giving ${pct(casEM.accuracy)} accuracy at ${casEM.cpu_ms.toFixed(1)} ms instead of ${adarEM.cpu_ms.toFixed(0)} ms per input.`),
+  ...gateBullets("emotion"),
+  H2("5.4 Ablations"),
+  P("Each variant removes one part and is retrained (seed 0). The change is the accuracy difference to the full head with its paired-bootstrap 95% CI; “sig.” means the CI excludes zero."),
+  tableOf(["Variant", "AG News Δ acc", "NLL", "Emotion Δ acc", "NLL"], [
+    { hl: true, cells: ["Full ADAR", pct(adarAG.accuracy, 2), adarAG.nll.toFixed(3), pct(adarEM.accuracy, 2), adarEM.nll.toFixed(3)] }, ...abRows,
+  ], [3230, 1800, 1100, 2400, 1100], { rightCols: true }),
+  gap(),
+  P(abText),
   H2("5.5 typed-decisions benchmark"),
-  P("First we checked that our scorer matches the leaderboard by evaluating the published fine-tuned checkpoint:"),
-  tableOf(["laya-typed-decisions", "Published", "Our run"], [
-    { cells: ["Accuracy", "0.766", tdFt.shipped.accuracy.toFixed(4)] }, { cells: ["Brier (vs gold distribution)", "0.062", tdFt.shipped.brier_soft.toFixed(4)] },
-    { cells: ["ECE (10 bins)", "0.213", tdFt.shipped.ece.toFixed(4)] }], [4600, 2500, 2530], { rightCols: true }),
+  P(`First we checked our scorer against the leaderboard, which lists the fine-tuned checkpoint with accuracy only. ${tdMatch ? "Our accuracy matches the board, so the calibration metrics we add are comparable." : "Our accuracy differs from the board’s; the scorer should be checked before the metrics are posted."}`),
+  tableOf(["laya-typed-decisions", "Board", "Our run"], [
+    { cells: ["Accuracy", "0.766", tdFt.shipped.accuracy.toFixed(4)] }, { cells: ["Brier (vs gold distribution)", "not listed", tdFt.shipped.brier_soft.toFixed(4)] },
+    { cells: ["KL", "not listed", tdFt.shipped.kl.toFixed(4)] }, { cells: ["ECE (10 bins)", "not listed", tdFt.shipped.ece.toFixed(4)] }], [4600, 2500, 2530], { rightCols: true }),
   gap(),
-  P("Our entry, base Laya + ADAR-Cal (temperatures fitted on the train split):"),
-  tableOf(["Metric (2,000 test decisions)", "Laya", "Laya + ADAR-Cal", "Change"], [
+  P(`Calibration study: base Laya + ADAR-Cal (per question-type temperatures fitted on the train split, ${tdBase.adar_cal_selected} objective):`),
+  tableOf([`Metric (${tdBase.shipped.decisions.toLocaleString("en-US")} test decisions)`, "Laya", "Laya + ADAR-Cal", "Change"], [
     { cells: ["ECE ↓", tdBase.shipped.ece.toFixed(3), tdCal.ece.toFixed(3), `${Math.round((tdCal.ece / tdBase.shipped.ece - 1) * 100)}%`] },
     { cells: ["Brier ↓", tdBase.shipped.brier_soft.toFixed(3), tdCal.brier_soft.toFixed(3), `${Math.round((tdCal.brier_soft / tdBase.shipped.brier_soft - 1) * 100)}%`] },
     { cells: ["KL ↓", tdBase.shipped.kl.toFixed(3), tdCal.kl.toFixed(3), `${Math.round((tdCal.kl / tdBase.shipped.kl - 1) * 100)}%`] },
@@ -302,8 +337,8 @@ children.push(new Paragraph({ children: [new PageBreak()] }), H1("5. Results"), 
 
 // 6 Discussion
 children.push(H1("6. Discussion"),
-  Bullet({ t: "When does Laya help? ", b: true }, `On news topics Laya’s encoder carries information the experts miss (${((adarAG.accuracy - AG("ADAR ablation: experts only").accuracy) * 100).toFixed(1)} points over the experts-only head). On tweets it does not; the router detects this and stops paying for it. The same head therefore adapts its cost to the dataset.`),
-  Bullet({ t: "Why attention adds little. ", b: true }, "With 9–11 tokens, the bilinear path and the expert vote already capture most interactions; attention mainly sharpens the probabilities. Larger option sets or more experts may change this."),
+  Bullet({ t: "When does Laya help? ", b: true }, `On news topics the full head is ${((adarAG.accuracy - AG("ADAR ablation: experts only").accuracy) * 100).toFixed(1)} points more accurate than the experts-only head, and the router sends ${escAG}% of articles to Laya. On tweets it sends only ${escEM}%, so the same head adapts its cost to how useful Laya is on the dataset.`),
+  Bullet({ t: "What attention adds. ", b: true }, gNA && gNA.lo > 0 ? `Removing attention costs ${(-gNA.d).toFixed(2)} points of accuracy on AG News, so the token interactions matter.` : `Removing attention changes AG News accuracy by ${gNA ? (-gNA.d).toFixed(2) : "?"} points (not significant). With 9–11 tokens, the bilinear path and the expert vote already capture most interactions; larger option sets or more experts may change this.`),
   Bullet({ t: "Calibration is not accuracy. ", b: true }, "On typed-decisions the gold answers are soft distributions. Making the top answer more confident lowers ECE but can move the probabilities away from the gold distribution (higher Brier). Reporting both metrics avoids over-claiming."),
   Bullet({ t: "Honest per-expert reliability. ", b: true }, T.ag_news.routing
     ? `On AG News the noul outputs separate each expert’s right and wrong answers with AUCs of ${["textcnn", "rnn", "lstm", "gru"].map((k) => auc("ag_news", k)).filter((v) => v).map((v) => v.toFixed(3)).join(", ")} (TextCNN, RNN, LSTM, GRU); this per-input reliability is what makes routing possible.`
@@ -324,8 +359,9 @@ children.push(H1("7. Mapping to the Deep Learning syllabus"),
 // 8 Limitations
 children.push(H1("8. Limitations and future work"),
   Bullet("Only text classification (AG News, Emotion) is covered; vision tasks (Unit II) are future work."),
-  Bullet("Laya is frozen; only the 2.3M-parameter head is trained."),
-  Bullet("On Emotion, ADAR ties rather than beats the best expert; attention’s accuracy gain is not significant."),
+  Bullet(`Laya is frozen; only the ${adarAG.params_M.toFixed(1)}M-parameter head is trained.`),
+  ...(G("emotion", "best syllabus deep model") && !G("emotion", "best syllabus deep model").ok ? [Bullet(`On Emotion, ADAR does not significantly beat the best syllabus network (${bestExpert("emotion").model}).`)] : []),
+  ...(gNA && gNA.lo <= 0 ? [Bullet("Attention’s accuracy gain is not significant.")] : []),
   Bullet("ADAR-Cal improves calibration on typed-decisions but not accuracy."),
   Bullet("Future work: RouterArena (routing between large language models with the same per-expert noul idea), an image task with CNN experts, an echo-state-network expert, and a short arXiv paper."),
 );
@@ -334,13 +370,14 @@ children.push(H1("8. Limitations and future work"),
 children.push(H1("9. Reproducibility"),
   Num("Import notebooks/adar_kaggle.ipynb into Kaggle; set Accelerator to GPU T4 ×2 and Internet on."),
   Num("Save Version → Save & Run All. Every stage checkpoints; a re-run skips finished work."),
+  Num("Or from a terminal: python tools/kaggle_run.py pushes the notebook, waits for it, downloads the proof bundle and rebuilds every table, figure, slide and this report from it (docs/KAGGLE_CLI_SETUP.md)."),
   Num("Download adar_outputs.zip: results/ (tables, figures, quality checks), publish/ (trained heads), typed_decisions/ (benchmark files)."),
-  Num("Regenerate the leaderboard entry and model cards: python tools/make_submissions.py."),
+  Num("Regenerate the leaderboard post and model cards: python tools/make_submissions.py."),
   P("Using a published head:"),
   Code("from adar.inference import ADARClassifier"),
   Code("clf = ADARClassifier.from_pretrained(\"adar-head-ag-news\")"),
   Code("clf.predict([\"NASA's new telescope captured images of a distant galaxy cluster.\"])"),
-  Code("# -> sci_tech 0.948, P(answer right) 0.973, escalate: False   (real output from the run)"),
+  ...(DEMO ? [Code(`# -> ${DEMO.label} ${DEMO.p.toFixed(3)}, P(answer right) ${DEMO.act.toFixed(3)}, escalate: ${DEMO.esc ? "True" : "False"}   (output from the run)`)] : []),
   gap(),
 );
 

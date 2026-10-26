@@ -7,7 +7,7 @@ S = json.load(open(sys.argv[1])); OUT = sys.argv[2]
 
 
 def find(task, prefix):
-    return next(r for r in S["tasks"][task]["rows"] if r["model"].startswith(prefix))
+    return next((r for r in S["tasks"][task]["rows"] if r["model"].startswith(prefix)), None)
 
 
 def esc_rate(task):
@@ -19,8 +19,8 @@ def esc_rate(task):
 
 
 ESC = esc_rate("ag_news")
-CREAM, CARD, INK, MUT = "#F5EEDC", "#FBF7EC", "#1F2233", "#5E5648"
-MUS, COB, COR, GRY, CORL = "#E9A72B", "#2B59C3", "#E4572E", "#B9AE97", "#F2A285"
+CREAM, CARD, INK, MUT = "#F7F3EA", "#FCFAF5", "#1F2233", "#6B6E78"
+MUS, COB, COR, GRY, CORL = "#A79E8C", "#4A5874", "#C0503A", "#CFC7B6", "#DE9C8C"
 plt.rcParams.update({"font.family": "DejaVu Sans", "font.size": 11, "text.color": INK, "axes.labelcolor": INK,
                      "xtick.color": MUT, "ytick.color": INK})
 
@@ -74,7 +74,8 @@ def color_for(m):
     return GRY
 
 def bars(task, names, lo, hi, fname, title):
-    sel = [(n, find(task, k)["accuracy"] * 100) for n, k in names]
+    sel = [(find(task, k)["model"].replace("ours, ", "") if k == "ADAR (ours" else n, find(task, k)["accuracy"] * 100)
+           for n, k in names if find(task, k)]
     fig, ax = plt.subplots(figsize=(10, 0.5 * len(sel) + 1.2)); fig.patch.set_facecolor(CREAM); ax.set_facecolor(CREAM)
     y = range(len(sel))[::-1]
     for yi, (n, v) in zip(y, sel):
@@ -85,25 +86,29 @@ def bars(task, names, lo, hi, fname, title):
         if lbl.get_text().startswith("ADAR"): lbl.set_fontweight("bold")
     ax.set_xlim(lo, hi); ax.set_xlabel(f"test accuracy (%) — axis starts at {lo}%")
     for s in ("top", "right", "left"): ax.spines[s].set_visible(False)
-    ax.spines["bottom"].set_color(MUT); ax.tick_params(axis="y", length=0); ax.grid(axis="x", color="#E3D6BA"); ax.set_axisbelow(True)
+    ax.spines["bottom"].set_color(MUT); ax.tick_params(axis="y", length=0); ax.grid(axis="x", color="#DDD3C0"); ax.set_axisbelow(True)
     ax.set_title(title, loc="left", fontsize=12, fontweight="bold")
     fig.savefig(f"{OUT}/{fname}", dpi=200, bbox_inches="tight", facecolor=CREAM); plt.close(fig)
 
-bars("ag_news", [("ADAR (mean of 3 seeds)", "ADAR (ours"), ("ADAR cascade", "ADAR cascade"),
-                 ("Laya zero-shot", "Laya zero-shot"), ("Logistic Regression (TF-IDF)", "Logistic Regression (TF-IDF)"),
-                 ("Linear SVM (TF-IDF)", "Linear SVM (TF-IDF)"), ("Bi-GRU", "Bi-GRU"), ("Bi-LSTM", "Bi-LSTM"), ("TextCNN", "TextCNN"),
-                 ("Bi-RNN", "Bi-RNN"), ("sklearn MLP (TF-IDF)", "sklearn MLP"),
-                 ("Laya + LogReg probe", "Laya encoder"), ("Random Forest (TF-IDF)", "Random Forest (TF-IDF)")],
-     85, 95, "fig3_agnews.png", "AG News (7,600 test articles)")
-bars("emotion", [("Bi-LSTM", "Bi-LSTM"), ("Bi-GRU", "Bi-GRU"), ("ADAR cascade", "ADAR cascade"),
-                 ("ADAR (mean of 3 seeds)", "ADAR (ours"), ("TextCNN", "TextCNN"), ("Linear SVM (TF-IDF)", "Linear SVM (TF-IDF)"),
-                 ("Logistic Regression (TF-IDF)", "Logistic Regression (TF-IDF)"), ("Laya + LogReg probe", "Laya encoder"),
-                 ("Laya zero-shot", "Laya zero-shot")], 50, 97, "fig4_emotion.png", "Emotion (2,000 test tweets)")
+def auto_bars(task, fname, title):
+    rs = sorted((r for r in S["tasks"][task]["rows"] if not r["model"].startswith("ADAR ablation")), key=lambda r: -r["accuracy"])
+    accs = [r["accuracy"] * 100 for r in rs]
+    lo = max(0, int((min(accs) - 2) // 5 * 5))
+    hi = min(100, int(-(-(max(accs) + 1) // 1)))
+    names = [(r["model"].replace("ours, ", "") if r["model"].startswith("ADAR (ours") else
+              re.sub(r"ADAR cascade \(escalates (\d+)%\)", r"ADAR cascade (Laya on \1%)", r["model"]), r["model"]) for r in rs]
+    bars(task, names, lo, hi, fname, title)
+
+sp = S.get("splits", {})
+auto_bars("ag_news", "fig3_agnews.png", f"AG News ({sp.get('ag_news', {}).get('test', 0):,} test articles)")
+auto_bars("emotion", "fig4_emotion.png", f"Emotion ({sp.get('emotion', {}).get('test', 0):,} test tweets)")
 
 # Figure 5: honesty and cost (AG News)
 fig, axs = plt.subplots(1, 2, figsize=(11, 3.3)); fig.patch.set_facecolor(CREAM)
-d1 = [("ADAR", find("ag_news", "ADAR (ours")["nll"], COR), ("Stacking (best baseline)", find("ag_news", "Stacking")["nll"], GRY),
-      ("Laya zero-shot", find("ag_news", "Laya zero-shot")["nll"], COB)]
+best_nll = min((r for r in S["tasks"]["ag_news"]["rows"] if not r["model"].startswith("ADAR")), key=lambda r: r["nll"])
+d1 = [("ADAR", find("ag_news", "ADAR (ours")["nll"], COR), (f"{best_nll['model']} (best baseline)", best_nll["nll"], GRY)]
+if not best_nll["model"].startswith("Laya zero-shot"):
+    d1.append(("Laya zero-shot", find("ag_news", "Laya zero-shot")["nll"], COB))
 d2 = [("ADAR cascade", find("ag_news", "ADAR cascade")["cpu_ms"], CORL), ("Always Laya + ADAR", find("ag_news", "ADAR (ours")["cpu_ms"], COR),
       ("Laya zero-shot", find("ag_news", "Laya zero-shot")["cpu_ms"], COB)]
 for ax, d, title, fmt in ((axs[0], d1, "Log-loss, lower = more honest", "{:.3f}"), (axs[1], d2, "CPU time per input (ms), lower = cheaper", "{:.0f} ms")):
@@ -113,6 +118,6 @@ for ax, d, title, fmt in ((axs[0], d1, "Log-loss, lower = more honest", "{:.3f}"
     ax.set_yticks(range(len(d))); ax.set_yticklabels([n for n, _, _ in d[::-1]])
     ax.set_xlim(0, max(v for _, v, _ in d) * 1.25); ax.set_title(title, loc="left", fontsize=11.5, fontweight="bold")
     for s in ("top", "right", "left"): ax.spines[s].set_visible(False)
-    ax.tick_params(axis="y", length=0); ax.grid(axis="x", color="#E3D6BA"); ax.set_axisbelow(True)
+    ax.tick_params(axis="y", length=0); ax.grid(axis="x", color="#DDD3C0"); ax.set_axisbelow(True)
 fig.tight_layout(); fig.savefig(f"{OUT}/fig5_honesty_cost.png", dpi=200, bbox_inches="tight", facecolor=CREAM); plt.close(fig)
 print("ok")

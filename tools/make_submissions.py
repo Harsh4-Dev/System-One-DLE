@@ -9,6 +9,7 @@ Writes:
                                               so the Hub shows the evaluation results on the model page
 """
 import argparse
+import re
 import json
 import os
 
@@ -16,7 +17,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 HF_USER = "DEV-HV"
 DATASETS = {"ag_news": ("AG News", "fancyzhx/ag_news"), "emotion": ("Emotion", "dair-ai/emotion")}
 TD_MODEL = "convaiinnovations/laya"
-TD_PUBLISHED = {"model": "convaiinnovations/laya-typed-decisions", "accuracy": 0.766, "brier": 0.062, "ece": 0.213}
+TD_PUBLISHED = {"model": "convaiinnovations/laya-typed-decisions", "accuracy": 0.766}  # the board lists accuracy only
 
 
 def load(path):
@@ -72,6 +73,8 @@ def typed_decisions_post(summary):
     os.makedirs(out, exist_ok=True)
     with open(os.path.join(out, "entry.json"), "w") as f:
         json.dump(entry, f, indent=2)
+    match_line = ("Our accuracy matches the published 0.766, so the scorer agrees with the card" if entry["matches_published_accuracy"]
+                  else f"Our accuracy ({entry['accuracy']}) differs from the published 0.766; please treat these numbers with care")
     lat_s = f"{entry['latency_ms_p50']} ms ({entry['latency_note']})" if lat is not None else "–"
     post = f"""Title: Full metrics for Laya typed-decisions + a calibration note
 
@@ -81,7 +84,7 @@ Hi! The leaderboard lists **Laya typed-decisions** (fitted on `train`) with accu
 |---|---|---|---|---|---|---|
 | [Laya typed-decisions](https://huggingface.co/convaiinnovations/laya-typed-decisions) | fitted on `train` | {entry['accuracy']} | {entry['kl']} | {entry['brier']} | {entry['ece']} | {lat_s} |
 
-Our accuracy matches the published 0.766, so the scorer agrees with the card (accuracy = argmax vs gold argmax; Brier = sum over the label set against the gold distribution; ECE = top-label confidence, 10 equal-width bins).
+{match_line} (accuracy = argmax vs gold argmax; Brier = sum over the label set against the gold distribution; ECE = top-label confidence, 10 equal-width bins).
 
 **Calibration note.** We also fitted one temperature per (question type, option count) on `train` (selected on `train` only):
 
@@ -122,10 +125,10 @@ model-index:
     metrics:
     - type: accuracy
       value: {acc}
-      name: Accuracy (mean of 3 seeds)
+      name: Accuracy (mean of {seeds} seeds)
     - type: f1
       value: {f1}
-      name: Macro F1 (mean of 3 seeds)
+      name: Macro F1 (mean of {seeds} seeds)
 ---
 
 # ADAR head for {ds_name}
@@ -175,7 +178,7 @@ def hf_cards(summary):
         keep.sort(key=lambda r: -r["accuracy"])
         lines = []
         for r in keep:
-            name = r["model"].replace(" (ours, mean of 3 seeds)", " (ours, 3 seeds)")
+            name = re.sub(r" \(ours, mean of (\d+) seeds\)", r" (ours, \1 seeds)", r["model"])
             bold = r["model"].startswith("ADAR")
             row = f"| {name} | {r['accuracy'] * 100:.2f}% | {r['nll']:.3f} | {r['cpu_ms']:.1f} |"
             lines.append(row.replace(f"| {name} |", f"| **{name}** |") if bold else row)
@@ -183,7 +186,8 @@ def hf_cards(summary):
         headline = (f"ADAR: {a['accuracy'] * 100:.2f}% vs. best baseline {bb['model']} "
                     f"{bb['accuracy'] * 100:.2f}%.")
         repo = f"adar-head-{task.replace('_', '-')}"
-        card = CARD.format(hf_dataset=hf_ds, repo=repo, ds_name=ds_name, acc=a["accuracy"], f1=a["macro_f1"],
+        m = re.search(r"mean of (\d+) seeds", a["model"])
+        card = CARD.format(seeds=m.group(1) if m else 1, hf_dataset=hf_ds, repo=repo, ds_name=ds_name, acc=a["accuracy"], f1=a["macro_f1"],
                            n_test=summary["splits"][task]["test"], table="\n".join(lines), headline=headline,
                            qc_pass=t["qc_pass"], qc_total=t["qc_total"], repo_id=f"{HF_USER}/{repo}")
         out = os.path.join(ROOT, "submissions", "huggingface", repo)

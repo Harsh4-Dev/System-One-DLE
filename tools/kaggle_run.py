@@ -75,6 +75,7 @@ def main():
     ap.add_argument("--no-push", action="store_true")
     ap.add_argument("--poll", type=int, default=120)
     ap.add_argument("--max-hours", type=float, default=11.5)
+    ap.add_argument("--deck", help="Slides deck project/ folder to rebuild from the fresh summary (tools/report/build_slides.py)")
     a = ap.parse_args()
     ref = f"{a.user}/{a.slug}"
     stamp = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
@@ -101,8 +102,15 @@ def main():
     os.makedirs(figs, exist_ok=True)
     summary = os.path.join(ROOT, "results", "kaggle_run", "summary.json")
     sh([sys.executable, os.path.join(ROOT, "tools", "report", "make_figures.py"), summary, figs], check=False)
+    logs = [os.path.join(dp, f) for dp, _, fs in os.walk(run_dir) for f in fs if f.endswith(".log")]
+    kernel_log = os.path.join(ROOT, "results", "kaggle_run", "kernel.log")
+    if logs:
+        shutil.copy2(max(logs, key=os.path.getsize), kernel_log)
     sh(["node", os.path.join(ROOT, "tools", "report", "build_report.js"), summary, figs,
-        os.path.join(ROOT, "docs", "ADAR_Project_Report.docx")], check=False)
+        os.path.join(ROOT, "docs", "ADAR_Project_Report.docx")] + ([kernel_log] if logs else []), check=False)
+    if a.deck:
+        sh([sys.executable, os.path.join(ROOT, "tools", "report", "build_slides.py"), summary, a.deck]
+           + (["--log", kernel_log] if logs else []), check=False)
     print("\nDone. Every number now comes from", os.path.relpath(summary, ROOT), "| raw files in", os.path.relpath(run_dir, ROOT))
     if status != "complete":
         print("WARNING: the kernel did not finish cleanly; check results/kaggle_run/state.json for failed stages")

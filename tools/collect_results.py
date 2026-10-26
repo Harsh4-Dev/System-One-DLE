@@ -59,6 +59,9 @@ def collect(src, out_dir):
         "stage_seconds": {k: v.get("seconds") for k, v in stages.items() if v.get("seconds") is not None},
         "tasks": {}, "splits": {}, "typed_decisions": {},
     }
+    if S["stage_status"].get("bundle") == "running":
+        # the bundle stage writes this zip while it is still running
+        S["stage_status"]["bundle"] = "done"
     S["total_minutes"] = round(sum(S["stage_seconds"].values()) / 60, 1)
     bundle = stages.get("bundle", {}).get("result") or {}
     S["hf_uploads"] = bundle.get("pushed", [])
@@ -113,9 +116,9 @@ def main():
     ap.add_argument("--out", default=os.path.join(ROOT, "results", "kaggle_run"))
     a = ap.parse_args()
     if os.path.exists(os.path.join(a.out, "summary.json")):
-        old = os.path.join(ROOT, "results", "previous_runs", datetime.datetime.now().strftime("%Y%m%d-%H%M%S"))
+        old = os.path.join(os.path.dirname(os.path.abspath(a.out)), "previous_runs", datetime.datetime.now().strftime("%Y%m%d-%H%M%S"))
         shutil.copytree(a.out, old)
-        print("previous results archived to", os.path.relpath(old, ROOT))
+        print("previous results archived to", old)
         shutil.rmtree(a.out)
     S = collect(a.bundle, a.out)
     bad = {k: v for k, v in S["stage_status"].items() if v != "done"}
