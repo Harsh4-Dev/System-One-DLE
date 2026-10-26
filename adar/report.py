@@ -360,13 +360,33 @@ def build_task_report(pipe, name):
             "adar_accuracy": adar_rows[0]["accuracy"] if adar_rows else None}
 
 
+HF_DATASETS = {"ag_news": "fancyzhx/ag_news", "emotion": "dair-ai/emotion"}
+
 MODEL_CARD = """---
 license: apache-2.0
 base_model: {base}
 library_name: pytorch
+pipeline_tag: text-classification
 tags: [system-one, laya, decision-model, calibration, routing, text-classification, adar]
 datasets: [{dataset}]
-metrics: [accuracy, f1, brier, ece]
+metrics: [accuracy, f1]
+model-index:
+- name: adar-head-{repo_task}
+  results:
+  - task:
+      type: text-classification
+      name: Text Classification
+    dataset:
+      name: {task}
+      type: {dataset}
+      split: test
+    metrics:
+    - type: accuracy
+      value: {acc:.4f}
+      name: Accuracy (mean of 3 seeds)
+    - type: f1
+      value: {f1:.4f}
+      name: Macro F1 (mean of 3 seeds)
 ---
 
 # ADAR head for {task} (on top of {base})
@@ -399,7 +419,7 @@ QC gates: {qc}
 ```python
 from adar.inference import ADARClassifier
 clf = ADARClassifier.from_pretrained("path/to/this/folder", device="cuda")
-clf.predict(["Stocks rallied after the central bank held rates."])
+clf.predict(["NASA's new telescope captured images of a distant galaxy cluster."])
 ```
 
 ## Limitations
@@ -423,7 +443,9 @@ def model_cards(pipe):
                                                   "stacking_logreg", "expert_ensemble", "sk_logreg", "gru", "lstm",
                                                   "textcnn")]
         keep.sort(key=lambda r: -r["accuracy"])
-        card = MODEL_CARD.format(base=pipe.cfg["encoder"]["model_id"], dataset=name, task=name,
+        adar = next((r for r in rows if r["key"] == "adar"), {"accuracy": float("nan"), "macro_f1": float("nan")})
+        card = MODEL_CARD.format(base=pipe.cfg["encoder"]["model_id"], dataset=HF_DATASETS.get(name, name), task=name,
+                                 repo_task=name.replace("_", "-"), acc=adar["accuracy"], f1=adar["macro_f1"],
                                  labels=", ".join(cfg["labels"]), n_test=len(pipe.task(name).y_test),
                                  table=table_md(keep), params=cfg["params"],
                                  qc=f"{sum(c['pass'] for c in checks)}/{len(checks)} passed (see REPORT.md)")

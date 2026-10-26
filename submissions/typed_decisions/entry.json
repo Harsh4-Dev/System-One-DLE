@@ -1,0 +1,39 @@
+{
+  "system_name": "Laya + ADAR-Cal",
+  "base_model": "convaiinnovations/laya",
+  "parameters": "421M (Laya) + one temperature per question type",
+  "accuracy": 0.363,
+  "brier": 0.2365,
+  "ece": 0.0214,
+  "kl": 0.4325,
+  "latency_ms": null,
+  "latency_note": "copy latency_ms_p50 from typed_decisions/laya/metrics.json",
+  "price": "free: open weights (Apache-2.0), self-hosted",
+  "training_data_disclosure": "Temperatures per (question type, option count) fitted on the typed-decisions train split only; the variant was selected on train. Test labels were never used. Laya's answers are unchanged, so accuracy equals the base model's.",
+  "link": "https://github.com/Harsh4-Dev/System-One-DLE",
+  "baseline_same_model": {
+    "accuracy": 0.363,
+    "brier_soft": 0.3154,
+    "ece": 0.1731,
+    "kl": 0.5687
+  },
+  "improvement": {
+    "ece": "-88%",
+    "brier": "-25%",
+    "kl": "-24%"
+  },
+  "scorer_check": {
+    "against": "convaiinnovations/laya-typed-decisions",
+    "published": {
+      "accuracy": 0.766,
+      "brier": 0.062,
+      "ece": 0.213
+    },
+    "ours": {
+      "accuracy": 0.7665,
+      "brier": 0.0615,
+      "ece": 0.2137
+    },
+    "matches": true
+  }
+}
