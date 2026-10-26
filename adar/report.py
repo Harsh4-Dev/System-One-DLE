@@ -498,12 +498,34 @@ def bundle(pipe):
         for f in glob.glob(os.path.join(rd, "head", "*", "*.npz")) + glob.glob(os.path.join(rd, "head", "*", "*.json")):
             z.write(f, os.path.relpath(f, rd))
     os.replace(zpath + ".tmp", zpath)
+    small = proof_bundle(pipe)
     hf = pipe.cfg["publish"].get("hf_repo_prefix")
     pushed = []
     if hf:
         pushed = push_to_hub(pipe, hf)
-    LOG.info("bundle written: %s (%.1f MB)", zpath, os.path.getsize(zpath) / 1e6)
-    return {"zip": zpath, "pushed": pushed}
+    LOG.info("bundle written: %s (%.1f MB); proof bundle: %s (%.1f MB)", zpath, os.path.getsize(zpath) / 1e6,
+             small, os.path.getsize(small) / 1e6)
+    return {"zip": zpath, "proof_zip": small, "pushed": pushed}
+
+
+def proof_bundle(pipe):
+    """Small zip with every number the project reports (no weights, no caches): what the
+    Kaggle CLI downloads and tools/collect_results.py turns into results/kaggle_run/summary.json."""
+    rd = pipe.run_dir
+    zpath = os.path.join(os.path.dirname(rd.rstrip("/")), "adar_results_small.zip")
+    with zipfile.ZipFile(zpath + ".tmp", "w", zipfile.ZIP_DEFLATED) as z:
+        for f in ("SUMMARY.md", "state.json", "config.json", "run.log", "errors.log"):
+            if os.path.exists(os.path.join(rd, f)):
+                z.write(os.path.join(rd, f), f)
+        pats = ["results/*/*", "router/*/router.json", "typed_decisions/*/*.json", "typed_decisions/*/*.jsonl",
+                "experts/*/*.json", "sklearn/*/*.json", "emb/*/info.json", "head/*/*.json", "data/*.json",
+                "publish/*/README.md", "publish/*/config.json"]
+        for pat in pats:
+            for f in sorted(glob.glob(os.path.join(rd, pat))):
+                if os.path.isfile(f) and not f.endswith("vocab.json"):
+                    z.write(f, os.path.relpath(f, rd))
+    os.replace(zpath + ".tmp", zpath)
+    return zpath
 
 
 def push_to_hub(pipe, prefix):

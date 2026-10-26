@@ -4,3 +4,5 @@ __pycache__/
 adar_run/
 adar_outputs.zip
 *.ipynb_checkpoints
+runs/
+build/

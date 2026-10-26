@@ -1,9 +1,24 @@
-import json, sys
+import json, re, sys
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from matplotlib.patches import FancyBboxPatch, Polygon
 S = json.load(open(sys.argv[1])); OUT = sys.argv[2]
+
+
+def find(task, prefix):
+    return next(r for r in S["tasks"][task]["rows"] if r["model"].startswith(prefix))
+
+
+def esc_rate(task):
+    rj = S["tasks"][task].get("router") or {}
+    if rj.get("chosen"):
+        return rj["chosen"]["escalation_rate"]
+    m = re.search(r"escalates (\d+)%", find(task, "ADAR cascade")["model"])
+    return int(m.group(1)) / 100
+
+
+ESC = esc_rate("ag_news")
 CREAM, CARD, INK, MUT = "#F5EEDC", "#FBF7EC", "#1F2233", "#5E5648"
 MUS, COB, COR, GRY, CORL = "#E9A72B", "#2B59C3", "#E4572E", "#B9AE97", "#F2A285"
 plt.rcParams.update({"font.family": "DejaVu Sans", "font.size": 11, "text.color": INK, "axes.labelcolor": INK,
@@ -28,7 +43,7 @@ box(ax, 10.0, 1.9, 3.2, 1.9, COB, "Laya encoder\nfrozen · 421M", tc=CREAM, fs=1
 box(ax, 15.8, 1.5, 6.2, 2.6, COR, "ADAR head (2.3M)\nanswer · P(answer right)\nP(each expert right)", fs=10)
 arrow(ax, 2.6, 6.6, 3.4, 6.6); arrow(ax, 9.0, 6.6, 9.8, 6.6); arrow(ax, 13.4, 6.6, 15.8, 6.6)
 arrow(ax, 11.6, 5.5, 11.6, 3.8); arrow(ax, 13.2, 2.85, 15.8, 2.85)
-ax.text(13.7, 7.0, "yes · 64%", color=MUT, fontweight="bold", fontsize=9.5); ax.text(11.8, 4.6, "no · 36%", color=MUT, fontweight="bold", fontsize=9.5)
+ax.text(13.7, 7.0, f"yes · {round(100 * (1 - ESC))}%", color=MUT, fontweight="bold", fontsize=9.5); ax.text(11.8, 4.6, f"no · {round(100 * ESC)}%", color=MUT, fontweight="bold", fontsize=9.5)
 ax.plot([6.2, 6.2, 18.9], [5.4, 0.6, 0.6], color="#9A6B00", lw=1.8, ls="--"); arrow(ax, 18.9, 0.6, 18.9, 1.5, c="#9A6B00", ls="--")
 ax.text(6.4, 0.85, "expert votes + confidence", color="#7A5500", fontsize=9.5, fontweight="bold")
 ax.text(0.2, 8.7, "Split shown for AG News (from the Kaggle run)", color=MUT, fontsize=9.5)
@@ -59,8 +74,7 @@ def color_for(m):
     return GRY
 
 def bars(task, names, lo, hi, fname, title):
-    rows = {r["model"]: r for r in S["tasks"][task]["rows"]}
-    sel = [(n, rows[k]["accuracy"] * 100) for n, k in names]
+    sel = [(n, find(task, k)["accuracy"] * 100) for n, k in names]
     fig, ax = plt.subplots(figsize=(10, 0.5 * len(sel) + 1.2)); fig.patch.set_facecolor(CREAM); ax.set_facecolor(CREAM)
     y = range(len(sel))[::-1]
     for yi, (n, v) in zip(y, sel):
@@ -75,24 +89,23 @@ def bars(task, names, lo, hi, fname, title):
     ax.set_title(title, loc="left", fontsize=12, fontweight="bold")
     fig.savefig(f"{OUT}/{fname}", dpi=200, bbox_inches="tight", facecolor=CREAM); plt.close(fig)
 
-bars("ag_news", [("ADAR (mean of 3 seeds)", "ADAR (ours, mean of 3 seeds)"), ("ADAR cascade", "ADAR cascade (escalates 36%)"),
-                 ("Laya zero-shot", "Laya zero-shot (typed choice)"), ("Logistic Regression (TF-IDF)", "Logistic Regression (TF-IDF)"),
+bars("ag_news", [("ADAR (mean of 3 seeds)", "ADAR (ours"), ("ADAR cascade", "ADAR cascade"),
+                 ("Laya zero-shot", "Laya zero-shot"), ("Logistic Regression (TF-IDF)", "Logistic Regression (TF-IDF)"),
                  ("Linear SVM (TF-IDF)", "Linear SVM (TF-IDF)"), ("Bi-GRU", "Bi-GRU"), ("Bi-LSTM", "Bi-LSTM"), ("TextCNN", "TextCNN"),
-                 ("Bi-RNN", "Bi-RNN"), ("sklearn MLP (TF-IDF)", "sklearn MLPClassifier (TF-IDF)"),
-                 ("Laya + LogReg probe", "Laya encoder + Logistic Regression"), ("Random Forest (TF-IDF)", "Random Forest (TF-IDF)")],
+                 ("Bi-RNN", "Bi-RNN"), ("sklearn MLP (TF-IDF)", "sklearn MLP"),
+                 ("Laya + LogReg probe", "Laya encoder"), ("Random Forest (TF-IDF)", "Random Forest (TF-IDF)")],
      85, 95, "fig3_agnews.png", "AG News (7,600 test articles)")
-bars("emotion", [("Bi-LSTM", "Bi-LSTM"), ("Bi-GRU", "Bi-GRU"), ("ADAR cascade", "ADAR cascade (escalates 1%)"),
-                 ("ADAR (mean of 3 seeds)", "ADAR (ours, mean of 3 seeds)"), ("TextCNN", "TextCNN"), ("Linear SVM (TF-IDF)", "Linear SVM (TF-IDF)"),
-                 ("Logistic Regression (TF-IDF)", "Logistic Regression (TF-IDF)"), ("Laya + LogReg probe", "Laya encoder + Logistic Regression"),
-                 ("Laya zero-shot", "Laya zero-shot (typed choice)")], 50, 97, "fig4_emotion.png", "Emotion (2,000 test tweets)")
+bars("emotion", [("Bi-LSTM", "Bi-LSTM"), ("Bi-GRU", "Bi-GRU"), ("ADAR cascade", "ADAR cascade"),
+                 ("ADAR (mean of 3 seeds)", "ADAR (ours"), ("TextCNN", "TextCNN"), ("Linear SVM (TF-IDF)", "Linear SVM (TF-IDF)"),
+                 ("Logistic Regression (TF-IDF)", "Logistic Regression (TF-IDF)"), ("Laya + LogReg probe", "Laya encoder"),
+                 ("Laya zero-shot", "Laya zero-shot")], 50, 97, "fig4_emotion.png", "Emotion (2,000 test tweets)")
 
 # Figure 5: honesty and cost (AG News)
-rows = {r["model"]: r for r in S["tasks"]["ag_news"]["rows"]}
 fig, axs = plt.subplots(1, 2, figsize=(11, 3.3)); fig.patch.set_facecolor(CREAM)
-d1 = [("ADAR", rows["ADAR (ours, mean of 3 seeds)"]["nll"], COR), ("Stacking (best baseline)", rows["Stacking LogReg (Laya emb + experts)"]["nll"], GRY),
-      ("Laya zero-shot", rows["Laya zero-shot (typed choice)"]["nll"], COB)]
-d2 = [("ADAR cascade", rows["ADAR cascade (escalates 36%)"]["cpu_ms"], CORL), ("Always Laya + ADAR", rows["ADAR (ours, mean of 3 seeds)"]["cpu_ms"], COR),
-      ("Laya zero-shot", rows["Laya zero-shot (typed choice)"]["cpu_ms"], COB)]
+d1 = [("ADAR", find("ag_news", "ADAR (ours")["nll"], COR), ("Stacking (best baseline)", find("ag_news", "Stacking")["nll"], GRY),
+      ("Laya zero-shot", find("ag_news", "Laya zero-shot")["nll"], COB)]
+d2 = [("ADAR cascade", find("ag_news", "ADAR cascade")["cpu_ms"], CORL), ("Always Laya + ADAR", find("ag_news", "ADAR (ours")["cpu_ms"], COR),
+      ("Laya zero-shot", find("ag_news", "Laya zero-shot")["cpu_ms"], COB)]
 for ax, d, title, fmt in ((axs[0], d1, "Log-loss, lower = more honest", "{:.3f}"), (axs[1], d2, "CPU time per input (ms), lower = cheaper", "{:.0f} ms")):
     ax.set_facecolor(CREAM)
     for i, (n, v, c) in enumerate(d[::-1]):

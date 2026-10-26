@@ -1,11 +1,10 @@
 """Build the leaderboard / Hugging Face submission files from a finished run.
 
     python tools/make_submissions.py                                  # from results/kaggle_run/summary.json
-    python tools/make_submissions.py --metrics adar_run/typed_decisions/laya/metrics.json
 
 Writes:
-  submissions/typed_decisions/entry.json      values for the typed-decisions leaderboard form
-  submissions/typed_decisions/ENTRY.md        the same, as a table to paste or screenshot
+  submissions/typed_decisions/DISCUSSION.md   the post for the typed-decisions leaderboard (a Discussion)
+  submissions/typed_decisions/entry.json      the same numbers as JSON
   submissions/huggingface/<repo>/README.md    model cards with a `model-index` results block,
                                               so the Hub shows the evaluation results on the model page
 """
@@ -34,68 +33,71 @@ def best_baseline(task):
     return max(rows, key=lambda r: r["accuracy"])
 
 
-def typed_decisions_entry(summary, metrics_path):
+def _cal(entry):
+    sel = entry.get("adar_cal_selected")
+    if sel:
+        return sel, entry["adar_cal_" + sel]
+    k = next(k for k in entry if k in ("adar_cal_soft", "adar_cal_hard"))
+    return k.split("_")[-1], entry[k]
+
+
+def typed_decisions_post(summary):
+    """Text for a Discussion on huggingface.co/datasets/LocalLLaMA/typed-decisions.
+
+    The board takes new rows as Discussions ("score it on test with the full distributions and open a
+    discussion with the numbers and the mode"). Our contribution: the full metrics for the
+    laya-typed-decisions row (the card lists only its accuracy) and the calibration trade-off we measured.
+    """
     td = summary["typed_decisions"]
-    base = td[TD_MODEL]
-    cal_key = next(k for k in base if k.startswith("adar_cal"))
-    cal, shipped = base[cal_key], base["shipped"]
-    check = td.get("convaiinnovations/laya-typed-decisions", {}).get("shipped")
-    latency, latency_note = None, "copy latency_ms_p50 from typed_decisions/laya/metrics.json"
-    if metrics_path:
-        m = load(metrics_path)
-        latency, latency_note = round(m["latency_ms_p50"], 1), "p50 per case (5 questions), Kaggle GPU T4, batch 1"
+    ft, base = td["convaiinnovations/laya-typed-decisions"], td[TD_MODEL]
+    s = ft["shipped"]
+    fsel, fcal = _cal(ft)
+    bsel, bcal = _cal(base)
+    lat = ft.get("latency_ms_p50")
     entry = {
-        "system_name": "Laya + ADAR-Cal",
-        "base_model": TD_MODEL,
-        "parameters": "421M (Laya) + one temperature per question type",
-        "accuracy": round(cal["accuracy"], 4),
-        "brier": round(cal["brier_soft"], 4),
-        "ece": round(cal["ece"], 4),
-        "kl": round(cal["kl"], 4),
-        "latency_ms": latency,
-        "latency_note": latency_note,
-        "price": "free: open weights (Apache-2.0), self-hosted",
-        "training_data_disclosure": "Temperatures per (question type, option count) fitted on the typed-decisions "
-                                    "train split only; the variant was selected on train. Test labels were never "
-                                    "used. Laya's answers are unchanged, so accuracy equals the base model's.",
+        "row": "Laya typed-decisions (convaiinnovations/laya-typed-decisions)", "mode": "fitted on train (as published)",
+        "accuracy": round(s["accuracy"], 4), "kl": round(s["kl"], 4), "brier": round(s["brier_soft"], 4),
+        "ece": round(s["ece"], 4), "latency_ms_p50": None if lat is None else round(lat, 1),
+        "latency_note": "batch 1, 5 questions per case, Kaggle GPU T4" if lat is not None else "see metrics.json",
+        "matches_published_accuracy": abs(s["accuracy"] - TD_PUBLISHED["accuracy"]) < 0.005,
+        "calibration_study": {
+            "laya-typed-decisions": {"shipped": {k: round(s[k], 4) for k in ("ece", "brier_soft", "kl")},
+                                     f"ADAR-Cal ({fsel})": {k: round(fcal[k], 4) for k in ("ece", "brier_soft", "kl")}},
+            "laya (base, zero-shot)": {"shipped": {k: round(base["shipped"][k], 4) for k in ("accuracy", "ece", "brier_soft", "kl")},
+                                      f"ADAR-Cal ({bsel})": {k: round(bcal[k], 4) for k in ("accuracy", "ece", "brier_soft", "kl")}},
+        },
         "link": "https://github.com/Harsh4-Dev/System-One-DLE",
-        "baseline_same_model": {k: round(shipped[k], 4) for k in ("accuracy", "brier_soft", "ece", "kl")},
-        "improvement": {
-            "ece": f"{(cal['ece'] / shipped['ece'] - 1) * 100:+.0f}%",
-            "brier": f"{(cal['brier_soft'] / shipped['brier_soft'] - 1) * 100:+.0f}%",
-            "kl": f"{(cal['kl'] / shipped['kl'] - 1) * 100:+.0f}%",
-        },
-        "scorer_check": None if check is None else {
-            "against": TD_PUBLISHED["model"],
-            "published": {k: TD_PUBLISHED[k] for k in ("accuracy", "brier", "ece")},
-            "ours": {"accuracy": round(check["accuracy"], 4), "brier": round(check["brier_soft"], 4),
-                     "ece": round(check["ece"], 4)},
-            "matches": abs(check["accuracy"] - TD_PUBLISHED["accuracy"]) < 0.01
-            and abs(check["brier_soft"] - TD_PUBLISHED["brier"]) < 0.01
-            and abs(check["ece"] - TD_PUBLISHED["ece"]) < 0.01,
-        },
     }
     out = os.path.join(ROOT, "submissions", "typed_decisions")
     os.makedirs(out, exist_ok=True)
     with open(os.path.join(out, "entry.json"), "w") as f:
         json.dump(entry, f, indent=2)
-    b = entry["baseline_same_model"]
-    md = ["# typed-decisions entry: Laya + ADAR-Cal", "",
-          "| Field | Value |", "|---|---|"]
-    for k in ("system_name", "base_model", "parameters", "accuracy", "brier", "ece", "kl", "latency_ms", "price", "link"):
-        md.append(f"| {k} | {entry[k] if entry[k] is not None else '(see latency_note)'} |")
-    md += ["", f"Training-data disclosure: {entry['training_data_disclosure']}", "",
-           "| Metric (test, 2,000 decisions) | Laya as shipped | Laya + ADAR-Cal | Change |", "|---|---|---|---|",
-           f"| ECE ↓ | {b['ece']} | {entry['ece']} | {entry['improvement']['ece']} |",
-           f"| Brier ↓ | {b['brier_soft']} | {entry['brier']} | {entry['improvement']['brier']} |",
-           f"| KL ↓ | {b['kl']} | {entry['kl']} | {entry['improvement']['kl']} |",
-           f"| Accuracy ↑ | {b['accuracy']} | {entry['accuracy']} | unchanged |"]
-    if entry["scorer_check"]:
-        c = entry["scorer_check"]
-        md += ["", f"Scorer check against {c['against']}: published {c['published']}, ours {c['ours']}, "
-                   f"match = {c['matches']}"]
-    with open(os.path.join(out, "ENTRY.md"), "w") as f:
-        f.write("\n".join(md) + "\n")
+    lat_s = f"{entry['latency_ms_p50']} ms ({entry['latency_note']})" if lat is not None else "–"
+    post = f"""Title: Full metrics for Laya typed-decisions + a calibration note
+
+Hi! The leaderboard lists **Laya typed-decisions** (fitted on `train`) with accuracy only. We scored it on `test` with the full gold distributions (400 cases, 2,000 decisions) and can fill in the other columns:
+
+| Model | Mode | Accuracy | KL from gold | Brier | ECE | p50 latency |
+|---|---|---|---|---|---|---|
+| [Laya typed-decisions](https://huggingface.co/convaiinnovations/laya-typed-decisions) | fitted on `train` | {entry['accuracy']} | {entry['kl']} | {entry['brier']} | {entry['ece']} | {lat_s} |
+
+Our accuracy matches the published 0.766, so the scorer agrees with the card (accuracy = argmax vs gold argmax; Brier = sum over the label set against the gold distribution; ECE = top-label confidence, 10 equal-width bins).
+
+**Calibration note.** We also fitted one temperature per (question type, option count) on `train` (selected on `train` only):
+
+| Model | Variant | ECE | Brier | KL |
+|---|---|---|---|---|
+| laya-typed-decisions | as shipped | {s['ece']:.4f} | {s['brier_soft']:.4f} | {s['kl']:.4f} |
+| laya-typed-decisions | + temperatures ({fsel}) | {fcal['ece']:.4f} | {fcal['brier_soft']:.4f} | {fcal['kl']:.4f} |
+| laya (base, zero-shot) | as shipped | {base['shipped']['ece']:.4f} | {base['shipped']['brier_soft']:.4f} | {base['shipped']['kl']:.4f} |
+| laya (base) | + temperatures ({bsel}) | {bcal['ece']:.4f} | {bcal['brier_soft']:.4f} | {bcal['kl']:.4f} |
+
+Because the gold labels are soft, lowering top-label ECE and lowering Brier/KL can pull in different directions; we found it useful to report both, as the card recommends. Temperatures never change the argmax, so accuracy is unchanged.
+
+Code and the full evaluation (part of a student project, ADAR): https://github.com/Harsh4-Dev/System-One-DLE
+"""
+    with open(os.path.join(out, "DISCUSSION.md"), "w") as f:
+        f.write(post)
     return entry
 
 
@@ -195,12 +197,11 @@ def hf_cards(summary):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--summary", default=os.path.join(ROOT, "results", "kaggle_run", "summary.json"))
-    ap.add_argument("--metrics", default=None, help="typed_decisions/laya/metrics.json from the run (for latency)")
     a = ap.parse_args()
     s = load(a.summary)
-    e = typed_decisions_entry(s, a.metrics)
-    print("typed-decisions entry:", json.dumps({k: e[k] for k in ("accuracy", "brier", "ece", "kl")}),
-          "| scorer check:", e["scorer_check"] and e["scorer_check"]["matches"])
+    e = typed_decisions_post(s)
+    print("typed-decisions post:", json.dumps({k: e[k] for k in ("accuracy", "kl", "brier", "ece", "latency_ms_p50")}),
+          "| matches published accuracy:", e["matches_published_accuracy"])
     for p in hf_cards(s):
         print("model card:", os.path.relpath(p, ROOT))
 

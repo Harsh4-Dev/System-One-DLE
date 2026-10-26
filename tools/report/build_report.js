@@ -114,7 +114,13 @@ const AG = (p) => row("ag_news", p), EM = (p) => row("emotion", p);
 const adarAG = AG("ADAR (ours"), adarEM = EM("ADAR (ours");
 const td = S.typed_decisions;
 const tdBase = td["convaiinnovations/laya"], tdFt = td["convaiinnovations/laya-typed-decisions"];
-const tdCal = tdBase[Object.keys(tdBase).find((k) => k.startsWith("adar_cal"))];
+const calKey = tdBase.adar_cal_selected ? "adar_cal_" + tdBase.adar_cal_selected : Object.keys(tdBase).find((k) => /^adar_cal_(soft|hard)$/.test(k));
+const tdCal = tdBase[calKey];
+const ftCal = tdFt[tdFt.adar_cal_selected ? "adar_cal_" + tdFt.adar_cal_selected : Object.keys(tdFt).find((k) => /^adar_cal_(soft|hard)$/.test(k))];
+const escRate = (task) => { const rj = T[task].router; if (rj && rj.chosen) return rj.chosen.escalation_rate;
+  const m = /escalates (\d+)%/.exec(row(task, "ADAR cascade").model); return m ? Number(m[1]) / 100 : NaN; };
+const escAG = Math.round(escRate("ag_news") * 100), escEM = Math.round(escRate("emotion") * 100);
+const auc = (task, k) => (T[task].routing && T[task].routing[k] && T[task].routing[k].noul_auc) || null;
 const qcAG = T.ag_news.qc, qcEM = T.emotion.qc;
 const gate = (qc, needle) => qc.find((q) => q.includes(needle)) || "";
 
@@ -145,7 +151,7 @@ children.push(H1("Abstract"),
   P("We present ", { t: "ADAR (Adaptive Deep Architecture Routing)", b: true },
     ", a 2.3M-parameter decision head trained on top of the frozen Laya encoder and four networks from our syllabus (TextCNN, Bi-RNN, Bi-LSTM, Bi-GRU). For every input, ADAR returns a calibrated answer, the probability that each expert is right, and the probability that its own answer is right. A cascade router lets the cheap experts answer first and calls Laya only when they are unsure."),
   P("On AG News (7,600 test articles), ADAR reaches ", { t: `${pct(adarAG.accuracy, 2)} accuracy`, b: true },
-    `, above every baseline including Laya itself (${pct(AG("Laya zero-shot").accuracy, 2)}), with ${Math.round((1 - adarAG.nll / AG("Stacking").nll) * 100)}% lower log-loss than the best baseline; the cascade keeps ${pct(AG("ADAR cascade").accuracy)} accuracy at ${(adarAG.cpu_ms / AG("ADAR cascade").cpu_ms).toFixed(1)}× lower CPU cost. On Emotion tweets, where Laya is weak (${pct(EM("Laya zero-shot").accuracy)}), ADAR ties the best syllabus network (${pct(adarEM.accuracy)}) and the router learns to call Laya for only 1% of inputs. On the public typed-decisions benchmark, our calibration (ADAR-Cal) lowers Laya’s expected calibration error from ${tdBase.shipped.ece.toFixed(3)} to ${tdCal.ece.toFixed(3)}. All numbers come from one full run of our notebook on Kaggle (GPU T4 ×2, ${Math.round(S.total_minutes)} minutes).`),
+    `, above every baseline including Laya itself (${pct(AG("Laya zero-shot").accuracy, 2)}), with ${Math.round((1 - adarAG.nll / AG("Stacking").nll) * 100)}% lower log-loss than the best baseline; the cascade keeps ${pct(AG("ADAR cascade").accuracy)} accuracy at ${(adarAG.cpu_ms / AG("ADAR cascade").cpu_ms).toFixed(1)}× lower CPU cost. On Emotion tweets, where Laya is weak (${pct(EM("Laya zero-shot").accuracy)}), ADAR ties the best syllabus network (${pct(adarEM.accuracy)}) and the router learns to call Laya for only ${escEM}% of inputs. On the public typed-decisions benchmark, our calibration (ADAR-Cal) lowers Laya’s expected calibration error from ${tdBase.shipped.ece.toFixed(3)} to ${tdCal.ece.toFixed(3)}. All numbers come from one full run of our notebook on Kaggle (GPU T4 ×2, ${Math.round(S.total_minutes)} minutes).`),
 );
 
 // 1 Introduction
@@ -190,7 +196,7 @@ children.push(H1("2. Background"), H2("2.1 System-One models"),
 // 3 Method
 children.push(new Paragraph({ children: [new PageBreak()] }), H1("3. Method: ADAR"), H2("3.1 Overview"),
   P("Figure 1 shows the pipeline. Four syllabus experts answer first (≈16 ms on a CPU in total). A router reads only the experts’ signals and predicts whether they are right. If so, the experts’ answer is returned; otherwise the input escalates: the frozen Laya encoder embeds the text and the ADAR head combines that embedding with the experts’ votes."),
-  ...Fig("fig1_architecture.png", 620, "Figure 1. ADAR system architecture. Percentages are the AG News routing split from the Kaggle run."),
+  ...Fig("fig1_architecture.png", 620, "Figure 1. ADAR system architecture. Percentages are the AG News routing split from the run."),
   H2("3.2 Honest expert opinions (out-of-fold training)"),
   P("If the head learned from an expert’s predictions on that expert’s own training data, it would learn to trust over-fitted experts. We therefore split the training pool into K = 3 stratified folds and train every expert three times. Example i in fold k(i) only receives predictions from the model that did not see it:"),
   Eq("p̂_e(x_i) = f_e^{(−k(i))}(x_i)"),
@@ -251,7 +257,7 @@ children.push(new Paragraph({ children: [new PageBreak()] }), H1("4. Experimenta
 
 // 5 Results
 const agRows = [
-  ["ADAR (ours, 3 seeds)", adarAG, true], ["ADAR cascade (36% to Laya)", AG("ADAR cascade"), true], ["Laya zero-shot", AG("Laya zero-shot"), false],
+  ["ADAR (ours, 3 seeds)", adarAG, true], [`ADAR cascade (${escAG}% to Laya)`, AG("ADAR cascade"), true], ["Laya zero-shot", AG("Laya zero-shot"), false],
   ["Logistic Regression (TF-IDF)", AG("Logistic Regression"), false], ["Linear SVM (TF-IDF)", AG("Linear SVM"), false], ["Bi-GRU", AG("Bi-GRU"), false],
   ["Bi-LSTM", AG("Bi-LSTM"), false], ["Stacking (Laya + experts)", AG("Stacking"), false], ["TextCNN", AG("TextCNN"), false], ["Random Forest (TF-IDF)", AG("Random Forest"), false]];
 const fmtRow = ([n, r, hl]) => ({ hl, cells: [n, pct(r.accuracy, 2) + (r.accuracy_std ? ` ± ${(r.accuracy_std * 100).toFixed(2)}` : ""), r.nll.toFixed(3), r.brier.toFixed(3), r.ece_ts.toFixed(3), r.cpu_ms.toFixed(1)] });
@@ -265,10 +271,10 @@ children.push(new Paragraph({ children: [new PageBreak()] }), H1("5. Results"), 
   Bullet(gate(qcAG, "best syllabus").replace("PASS — ", "")),
   H2("5.2 Honesty and cost"),
   ...Fig("fig5_honesty_cost.png", 620, "Figure 4. AG News: log-loss (left) and CPU time per input (right)."),
-  P(`ADAR’s log-loss (${adarAG.nll.toFixed(3)}) is ${Math.round((1 - adarAG.nll / AG("Stacking").nll) * 100)}% lower than the best baseline’s, so its probabilities are the most honest of all models. The cascade calls Laya for 36% of inputs and averages ${AG("ADAR cascade").cpu_ms.toFixed(0)} ms per input instead of ${adarAG.cpu_ms.toFixed(0)} ms (${(adarAG.cpu_ms / AG("ADAR cascade").cpu_ms).toFixed(1)}× cheaper) while keeping ${pct(AG("ADAR cascade").accuracy)} accuracy.`),
+  P(`ADAR’s log-loss (${adarAG.nll.toFixed(3)}) is ${Math.round((1 - adarAG.nll / AG("Stacking").nll) * 100)}% lower than the best baseline’s, so its probabilities are the most honest of all models. The cascade calls Laya for ${escAG}% of inputs and averages ${AG("ADAR cascade").cpu_ms.toFixed(0)} ms per input instead of ${adarAG.cpu_ms.toFixed(0)} ms (${(adarAG.cpu_ms / AG("ADAR cascade").cpu_ms).toFixed(1)}× cheaper) while keeping ${pct(AG("ADAR cascade").accuracy)} accuracy.`),
   H2("5.3 Emotion"),
   ...Fig("fig4_emotion.png", 560, "Figure 5. Emotion test accuracy (2,000 tweets). Axis starts at 50%."),
-  P(`Laya is weak on emotion tweets (${pct(EM("Laya zero-shot").accuracy)} zero-shot, ${pct(EM("Laya encoder").accuracy)} with a probe), consistent with the 57.3% reported on Laya’s own model card. ADAR (${pct(adarEM.accuracy)} ± ${(adarEM.accuracy_std * 100).toFixed(2)}) beats every scikit-learn model (best: Linear SVM, ${pct(EM("Linear SVM").accuracy)}) and Laya by 34 points, but only ties the best syllabus network (Bi-LSTM, ${pct(EM("Bi-LSTM").accuracy)}); the difference is not significant, and ${T.emotion.qc_total - T.emotion.qc_pass} of ${T.emotion.qc_total} checks fail for that reason. The router learned that Laya does not help here: it escalates only 1% of tweets, giving ${pct(EM("ADAR cascade").accuracy)} accuracy at ${EM("ADAR cascade").cpu_ms.toFixed(1)} ms instead of ${adarEM.cpu_ms.toFixed(0)} ms per input.`),
+  P(`Laya is weak on emotion tweets (${pct(EM("Laya zero-shot").accuracy)} zero-shot, ${pct(EM("Laya encoder").accuracy)} with a probe), consistent with the 57.3% reported on Laya’s own model card. ADAR (${pct(adarEM.accuracy)} ± ${(adarEM.accuracy_std * 100).toFixed(2)}) beats every scikit-learn model (best: Linear SVM, ${pct(EM("Linear SVM").accuracy)}) and Laya by 34 points, but only ties the best syllabus network (Bi-LSTM, ${pct(EM("Bi-LSTM").accuracy)}); the difference is not significant, and ${T.emotion.qc_total - T.emotion.qc_pass} of ${T.emotion.qc_total} checks fail for that reason. The router learned that Laya does not help here: it escalates only ${escEM}% of tweets, giving ${pct(EM("ADAR cascade").accuracy)} accuracy at ${EM("ADAR cascade").cpu_ms.toFixed(1)} ms instead of ${adarEM.cpu_ms.toFixed(0)} ms per input.`),
   H2("5.4 Ablations (AG News)"),
   tableOf(["Variant", "Accuracy", "Change", "Significant?"], [
     { hl: true, cells: ["Full ADAR (mean of 3 seeds)", pct(adarAG.accuracy, 2), "–", "–"] },
@@ -291,15 +297,17 @@ children.push(new Paragraph({ children: [new PageBreak()] }), H1("5. Results"), 
     { cells: ["KL ↓", tdBase.shipped.kl.toFixed(3), tdCal.kl.toFixed(3), `${Math.round((tdCal.kl / tdBase.shipped.kl - 1) * 100)}%`] },
     { cells: ["Accuracy ↑", tdBase.shipped.accuracy.toFixed(3), tdCal.accuracy.toFixed(3), "unchanged"] }], [3600, 1900, 2300, 1830], { rightCols: true }),
   gap(),
-  P("Calibration never changes the chosen answer, so accuracy is unchanged while every probability metric improves. Applying the same procedure to the fine-tuned checkpoint lowered its ECE by 71% but more than doubled its Brier score, because that checkpoint was trained on the same train split; we therefore submit the base-model entry."),
+  P(`Calibration never changes the chosen answer, so accuracy is unchanged while the probability metrics move. Applying the same procedure to the fine-tuned checkpoint changed its ECE from ${tdFt.shipped.ece.toFixed(3)} to ${ftCal.ece.toFixed(3)} and its Brier score from ${tdFt.shipped.brier_soft.toFixed(3)} to ${ftCal.brier_soft.toFixed(3)}: on soft gold labels, sharpening the top answer (lower ECE) can move the distribution away from the gold (higher Brier). That checkpoint was also trained on the same train split, so its train-fitted temperatures are biased.`),
 );
 
 // 6 Discussion
 children.push(H1("6. Discussion"),
-  Bullet({ t: "When does Laya help? ", b: true }, "On news topics Laya’s encoder carries information the experts miss (+0.7 points over the experts-only head). On tweets it does not; the router detects this and stops paying for it. The same head therefore adapts its cost to the dataset."),
+  Bullet({ t: "When does Laya help? ", b: true }, `On news topics Laya’s encoder carries information the experts miss (${((adarAG.accuracy - AG("ADAR ablation: experts only").accuracy) * 100).toFixed(1)} points over the experts-only head). On tweets it does not; the router detects this and stops paying for it. The same head therefore adapts its cost to the dataset.`),
   Bullet({ t: "Why attention adds little. ", b: true }, "With 9–11 tokens, the bilinear path and the expert vote already capture most interactions; attention mainly sharpens the probabilities. Larger option sets or more experts may change this."),
   Bullet({ t: "Calibration is not accuracy. ", b: true }, "On typed-decisions the gold answers are soft distributions. Making the top answer more confident lowers ECE but can move the probabilities away from the gold distribution (higher Brier). Reporting both metrics avoids over-claiming."),
-  Bullet({ t: "Honest per-expert reliability. ", b: true }, "On AG News the noul output for TextCNN separates its right and wrong answers with an AUC of 0.902 (the per-expert table is in the run report); this per-input reliability is what makes routing possible."),
+  Bullet({ t: "Honest per-expert reliability. ", b: true }, T.ag_news.routing
+    ? `On AG News the noul outputs separate each expert’s right and wrong answers with AUCs of ${["textcnn", "rnn", "lstm", "gru"].map((k) => auc("ag_news", k)).filter((v) => v).map((v) => v.toFixed(3)).join(", ")} (TextCNN, RNN, LSTM, GRU); this per-input reliability is what makes routing possible.`
+    : "The noul outputs separate each expert’s right and wrong answers well above chance (see the run report); this per-input reliability is what makes routing possible."),
 );
 
 // 7 Syllabus
