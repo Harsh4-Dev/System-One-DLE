@@ -1,0 +1,72 @@
+[
+  {
+    "check": "ADAR accuracy > best scikit-learn model (Linear SVM (TF-IDF))",
+    "pass": true,
+    "detail": "delta=+4.10pp, 95% CI [+2.90, +5.40]"
+  },
+  {
+    "check": "ADAR accuracy > best syllabus deep model (Bi-LSTM)",
+    "pass": false,
+    "detail": "delta=+0.00pp, 95% CI [-0.75, +0.75]"
+  },
+  {
+    "check": "ADAR accuracy > best expert ensemble (Average of syllabus experts)",
+    "pass": false,
+    "detail": "delta=+0.05pp, 95% CI [-0.75, +0.85]"
+  },
+  {
+    "check": "ADAR accuracy > best Laya zero-shot (Laya zero-shot (typed choice))",
+    "pass": true,
+    "detail": "delta=+34.20pp, 95% CI [+31.80, +36.65]"
+  },
+  {
+    "check": "ADAR accuracy > best Laya linear probe (Laya encoder + Logistic Regression)",
+    "pass": true,
+    "detail": "delta=+33.10pp, 95% CI [+30.80, +35.35]"
+  },
+  {
+    "check": "ADAR accuracy > best stacking baseline (Stacking LogReg (Laya emb + experts))",
+    "pass": true,
+    "detail": "delta=+4.30pp, 95% CI [+2.90, +5.65]"
+  },
+  {
+    "check": "ADAR NLL lower than every baseline (best: Bi-GRU)",
+    "pass": true,
+    "detail": "ADAR 0.1711 vs 0.1740"
+  },
+  {
+    "check": "ADAR BRIER lower than every baseline (best: Bi-GRU)",
+    "pass": true,
+    "detail": "ADAR 0.1018 vs 0.1028"
+  },
+  {
+    "check": "ADAR ECE (after TS) <= best baseline ECE + 0.005 (best: Random Forest (TF-IDF))",
+    "pass": true,
+    "detail": "ADAR 0.0150 vs 0.0136"
+  },
+  {
+    "check": "full ADAR >= ADAR ablation: laya only (accuracy; NLL lower)",
+    "pass": true,
+    "detail": "delta=+27.30pp CI [+25.10, +29.60], NLL 0.1711 vs 0.9751"
+  },
+  {
+    "check": "full ADAR >= ADAR ablation: experts only (accuracy; NLL lower)",
+    "pass": false,
+    "detail": "delta=+0.25pp CI [-0.65, +1.20], NLL 0.1711 vs 0.1647"
+  },
+  {
+    "check": "full ADAR >= ADAR ablation: no attention (accuracy; NLL lower)",
+    "pass": false,
+    "detail": "delta=+0.20pp CI [-0.80, +1.20], NLL 0.1711 vs 0.1708"
+  },
+  {
+    "check": "ADAR stable across seeds (accuracy std < 0.5pp)",
+    "pass": true,
+    "detail": "std=0.19pp over 3 seeds"
+  },
+  {
+    "check": "Cascade keeps accuracy within 0.5pp of always-Laya while skipping Laya calls",
+    "pass": true,
+    "detail": "acc 0.9220 vs 0.9225; Laya called on 0% of inputs; mean cost 9.6 vs 387.6 ms"
+  }
+]

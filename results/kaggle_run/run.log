@@ -1,0 +1,465 @@
+17:36:18 INFO devices: [device(type='cuda', index=0), device(type='cuda', index=1)]
+17:36:18 INFO [run ] experts:ag_news
+17:36:27 INFO loaded fancyzhx/ag_news from Hugging Face (train=120000, test=7600)
+17:36:27 INFO ag_news: train=114000 val=6000 test=7600 classes=4 folds=3
+17:36:44 INFO   textcnn ep1 loss=0.8092 val_nll=0.3559 val_acc=0.8862 (6s)
+17:36:48 INFO   textcnn ep2 loss=0.3883 val_nll=0.3146 val_acc=0.9028 (4s)
+17:36:52 INFO   textcnn ep3 loss=0.2868 val_nll=0.2711 val_acc=0.9142 (4s)
+17:36:55 INFO   textcnn ep4 loss=0.2176 val_nll=0.2780 val_acc=0.9130 (4s)
+17:36:59 INFO   textcnn ep5 loss=0.1660 val_nll=0.2975 val_acc=0.9152 (4s)
+17:37:04 INFO   textcnn ep1 loss=0.8276 val_nll=0.3791 val_acc=0.8753 (4s)
+17:37:08 INFO   textcnn ep2 loss=0.3994 val_nll=0.3160 val_acc=0.9037 (4s)
+17:37:12 INFO   textcnn ep3 loss=0.2862 val_nll=0.2856 val_acc=0.9107 (4s)
+17:37:17 INFO   textcnn ep4 loss=0.2208 val_nll=0.2700 val_acc=0.9177 (4s)
+17:37:21 INFO   textcnn ep5 loss=0.1709 val_nll=0.2824 val_acc=0.9152 (4s)
+17:37:25 INFO   textcnn ep6 loss=0.1240 val_nll=0.2983 val_acc=0.9157 (4s)
+17:37:30 INFO   textcnn ep1 loss=0.8188 val_nll=0.3646 val_acc=0.8818 (4s)
+17:37:34 INFO   textcnn ep2 loss=0.3912 val_nll=0.3141 val_acc=0.9008 (4s)
+17:37:38 INFO   textcnn ep3 loss=0.2846 val_nll=0.2783 val_acc=0.9117 (4s)
+17:37:42 INFO   textcnn ep4 loss=0.2197 val_nll=0.2862 val_acc=0.9140 (4s)
+17:37:46 INFO   textcnn ep5 loss=0.1633 val_nll=0.2861 val_acc=0.9137 (4s)
+17:37:47 INFO expert textcnn: oof_acc=0.9111 val_acc=0.9238 params=4039556 cpu=1.11ms
+17:37:55 INFO   rnn ep1 loss=0.6828 val_nll=0.3849 val_acc=0.8723 (8s)
+17:38:03 INFO   rnn ep2 loss=0.3696 val_nll=0.3120 val_acc=0.8980 (8s)
+17:38:11 INFO   rnn ep3 loss=0.2971 val_nll=0.3025 val_acc=0.9005 (8s)
+17:38:19 INFO   rnn ep4 loss=0.2512 val_nll=0.2896 val_acc=0.9125 (8s)
+17:38:27 INFO   rnn ep5 loss=0.2228 val_nll=0.2878 val_acc=0.9118 (8s)
+17:38:34 INFO   rnn ep6 loss=0.2002 val_nll=0.2867 val_acc=0.9122 (8s)
+17:38:42 INFO   rnn ep7 loss=0.1818 val_nll=0.2939 val_acc=0.9110 (8s)
+17:38:50 INFO   rnn ep8 loss=0.1677 val_nll=0.3016 val_acc=0.9097 (8s)
+17:38:59 INFO   rnn ep1 loss=0.6975 val_nll=0.3741 val_acc=0.8752 (8s)
+17:39:06 INFO   rnn ep2 loss=0.3740 val_nll=0.3200 val_acc=0.8927 (8s)
+17:39:14 INFO   rnn ep3 loss=0.2952 val_nll=0.3164 val_acc=0.9032 (8s)
+17:39:22 INFO   rnn ep4 loss=0.2541 val_nll=0.2894 val_acc=0.9097 (8s)
+17:39:30 INFO   rnn ep5 loss=0.2215 val_nll=0.2907 val_acc=0.9108 (8s)
+17:39:38 INFO   rnn ep6 loss=0.1998 val_nll=0.2988 val_acc=0.9132 (8s)
+17:39:46 INFO   rnn ep1 loss=0.6912 val_nll=0.3965 val_acc=0.8688 (8s)
+17:39:54 INFO   rnn ep2 loss=0.3705 val_nll=0.3228 val_acc=0.8963 (8s)
+17:40:02 INFO   rnn ep3 loss=0.2964 val_nll=0.2998 val_acc=0.9092 (8s)
+17:40:10 INFO   rnn ep4 loss=0.2544 val_nll=0.2946 val_acc=0.9052 (8s)
+17:40:18 INFO   rnn ep5 loss=0.2245 val_nll=0.2861 val_acc=0.9117 (8s)
+17:40:25 INFO   rnn ep6 loss=0.1989 val_nll=0.2960 val_acc=0.9100 (8s)
+17:40:33 INFO   rnn ep7 loss=0.1819 val_nll=0.3043 val_acc=0.9152 (8s)
+17:40:34 INFO expert rnn: oof_acc=0.9082 val_acc=0.9210 params=3908356 cpu=3.39ms
+17:40:43 INFO   lstm ep1 loss=0.6039 val_nll=0.3597 val_acc=0.8858 (9s)
+17:40:52 INFO   lstm ep2 loss=0.3230 val_nll=0.2867 val_acc=0.9080 (9s)
+17:41:00 INFO   lstm ep3 loss=0.2586 val_nll=0.2997 val_acc=0.9027 (9s)
+17:41:09 INFO   lstm ep4 loss=0.2176 val_nll=0.2707 val_acc=0.9155 (9s)
+17:41:18 INFO   lstm ep5 loss=0.1905 val_nll=0.2689 val_acc=0.9198 (9s)
+17:41:27 INFO   lstm ep6 loss=0.1664 val_nll=0.2545 val_acc=0.9218 (9s)
+17:41:36 INFO   lstm ep7 loss=0.1472 val_nll=0.2869 val_acc=0.9168 (9s)
+17:41:45 INFO   lstm ep8 loss=0.1312 val_nll=0.2658 val_acc=0.9222 (9s)
+17:41:55 INFO   lstm ep1 loss=0.6175 val_nll=0.3231 val_acc=0.8932 (9s)
+17:42:03 INFO   lstm ep2 loss=0.3249 val_nll=0.2870 val_acc=0.9082 (9s)
+17:42:12 INFO   lstm ep3 loss=0.2567 val_nll=0.2934 val_acc=0.9122 (9s)
+17:42:21 INFO   lstm ep4 loss=0.2184 val_nll=0.2810 val_acc=0.9155 (9s)
+17:42:30 INFO   lstm ep5 loss=0.1863 val_nll=0.2776 val_acc=0.9160 (9s)
+17:42:39 INFO   lstm ep6 loss=0.1646 val_nll=0.2853 val_acc=0.9168 (9s)
+17:42:48 INFO   lstm ep7 loss=0.1449 val_nll=0.2894 val_acc=0.9202 (9s)
+17:42:58 INFO   lstm ep1 loss=0.6105 val_nll=0.3430 val_acc=0.8898 (9s)
+17:43:06 INFO   lstm ep2 loss=0.3202 val_nll=0.2924 val_acc=0.9043 (9s)
+17:43:15 INFO   lstm ep3 loss=0.2591 val_nll=0.2888 val_acc=0.9122 (9s)
+17:43:24 INFO   lstm ep4 loss=0.2183 val_nll=0.2798 val_acc=0.9147 (9s)
+17:43:33 INFO   lstm ep5 loss=0.1893 val_nll=0.2694 val_acc=0.9165 (9s)
+17:43:42 INFO   lstm ep6 loss=0.1645 val_nll=0.2844 val_acc=0.9162 (9s)
+17:43:50 INFO   lstm ep7 loss=0.1461 val_nll=0.2951 val_acc=0.9170 (9s)
+17:43:52 INFO expert lstm: oof_acc=0.9138 val_acc=0.9285 params=4106500 cpu=6.40ms
+17:44:00 INFO   gru ep1 loss=0.5948 val_nll=0.3497 val_acc=0.8897 (9s)
+17:44:09 INFO   gru ep2 loss=0.3209 val_nll=0.2839 val_acc=0.9102 (9s)
+17:44:18 INFO   gru ep3 loss=0.2580 val_nll=0.3019 val_acc=0.9053 (9s)
+17:44:27 INFO   gru ep4 loss=0.2167 val_nll=0.2708 val_acc=0.9155 (9s)
+17:44:35 INFO   gru ep5 loss=0.1886 val_nll=0.2756 val_acc=0.9197 (9s)
+17:44:44 INFO   gru ep6 loss=0.1647 val_nll=0.2720 val_acc=0.9188 (9s)
+17:44:54 INFO   gru ep1 loss=0.6067 val_nll=0.3272 val_acc=0.8928 (9s)
+17:45:03 INFO   gru ep2 loss=0.3257 val_nll=0.2908 val_acc=0.9072 (9s)
+17:45:11 INFO   gru ep3 loss=0.2578 val_nll=0.2889 val_acc=0.9127 (9s)
+17:45:20 INFO   gru ep4 loss=0.2181 val_nll=0.2801 val_acc=0.9147 (9s)
+17:45:29 INFO   gru ep5 loss=0.1904 val_nll=0.2689 val_acc=0.9192 (9s)
+17:45:38 INFO   gru ep6 loss=0.1671 val_nll=0.2801 val_acc=0.9198 (9s)
+17:45:46 INFO   gru ep7 loss=0.1459 val_nll=0.3003 val_acc=0.9173 (9s)
+17:45:56 INFO   gru ep1 loss=0.6020 val_nll=0.3346 val_acc=0.8922 (9s)
+17:46:05 INFO   gru ep2 loss=0.3199 val_nll=0.2913 val_acc=0.9068 (9s)
+17:46:14 INFO   gru ep3 loss=0.2583 val_nll=0.2817 val_acc=0.9097 (9s)
+17:46:22 INFO   gru ep4 loss=0.2174 val_nll=0.2789 val_acc=0.9122 (9s)
+17:46:31 INFO   gru ep5 loss=0.1877 val_nll=0.2722 val_acc=0.9170 (9s)
+17:46:40 INFO   gru ep6 loss=0.1632 val_nll=0.2830 val_acc=0.9147 (9s)
+17:46:48 INFO   gru ep7 loss=0.1469 val_nll=0.3008 val_acc=0.9162 (9s)
+17:46:50 INFO expert gru: oof_acc=0.9138 val_acc=0.9275 params=4040452 cpu=6.16ms
+17:46:50 INFO [done] experts:ag_news (631.4s)
+17:46:50 INFO [run ] sklearn:ag_news
+17:47:11 INFO baseline sk_naive_bayes: val_acc=0.9160 fit=0s rows=114000
+17:48:16 INFO baseline sk_logreg: val_acc=0.9293 fit=65s rows=114000
+17:48:24 INFO baseline sk_linear_svm: val_acc=0.9308 fit=8s rows=114000
+17:51:18 INFO baseline sk_random_forest: val_acc=0.8697 fit=169s rows=30000
+17:56:22 INFO baseline sk_mlp: val_acc=0.9168 fit=303s rows=40000
+17:56:23 INFO [done] sklearn:ag_news (573.0s)
+17:56:23 INFO [run ] experts:emotion
+17:56:25 INFO loaded dair-ai/emotion from Hugging Face (train=16000, validation=2000, test=2000)
+17:56:25 INFO emotion: train=16000 val=2000 test=2000 classes=6 folds=3
+17:56:26 INFO   textcnn ep1 loss=2.1847 val_nll=1.4791 val_acc=0.4365 (1s)
+17:56:26 INFO   textcnn ep2 loss=1.4488 val_nll=1.2746 val_acc=0.5175 (0s)
+17:56:27 INFO   textcnn ep3 loss=1.1751 val_nll=0.9992 val_acc=0.6385 (0s)
+17:56:27 INFO   textcnn ep4 loss=0.8509 val_nll=0.6900 val_acc=0.7540 (0s)
+17:56:28 INFO   textcnn ep5 loss=0.5715 val_nll=0.4939 val_acc=0.8240 (0s)
+17:56:28 INFO   textcnn ep6 loss=0.3777 val_nll=0.3734 val_acc=0.8675 (0s)
+17:56:29 INFO   textcnn ep7 loss=0.2757 val_nll=0.3493 val_acc=0.8775 (0s)
+17:56:29 INFO   textcnn ep8 loss=0.1992 val_nll=0.3171 val_acc=0.8865 (0s)
+17:56:30 INFO   textcnn ep9 loss=0.1584 val_nll=0.3447 val_acc=0.8920 (0s)
+17:56:30 INFO   textcnn ep10 loss=0.1136 val_nll=0.2927 val_acc=0.9025 (0s)
+17:56:31 INFO   textcnn ep1 loss=2.1966 val_nll=1.4491 val_acc=0.4240 (0s)
+17:56:31 INFO   textcnn ep2 loss=1.4612 val_nll=1.3023 val_acc=0.5035 (0s)
+17:56:32 INFO   textcnn ep3 loss=1.1713 val_nll=0.9982 val_acc=0.6510 (0s)
+17:56:32 INFO   textcnn ep4 loss=0.8332 val_nll=0.6642 val_acc=0.7735 (0s)
+17:56:33 INFO   textcnn ep5 loss=0.5579 val_nll=0.4632 val_acc=0.8335 (0s)
+17:56:33 INFO   textcnn ep6 loss=0.3671 val_nll=0.4061 val_acc=0.8565 (0s)
+17:56:34 INFO   textcnn ep7 loss=0.2629 val_nll=0.3231 val_acc=0.8910 (0s)
+17:56:34 INFO   textcnn ep8 loss=0.1882 val_nll=0.3040 val_acc=0.9005 (0s)
+17:56:35 INFO   textcnn ep9 loss=0.1433 val_nll=0.2995 val_acc=0.9000 (0s)
+17:56:35 INFO   textcnn ep10 loss=0.1248 val_nll=0.3009 val_acc=0.9015 (0s)
+17:56:36 INFO   textcnn ep1 loss=2.1948 val_nll=1.4926 val_acc=0.4385 (0s)
+17:56:36 INFO   textcnn ep2 loss=1.4481 val_nll=1.3560 val_acc=0.4315 (0s)
+17:56:37 INFO   textcnn ep3 loss=1.1744 val_nll=1.0613 val_acc=0.5985 (0s)
+17:56:37 INFO   textcnn ep4 loss=0.8399 val_nll=0.7204 val_acc=0.7360 (0s)
+17:56:38 INFO   textcnn ep5 loss=0.5451 val_nll=0.4738 val_acc=0.8215 (0s)
+17:56:38 INFO   textcnn ep6 loss=0.3713 val_nll=0.3861 val_acc=0.8610 (0s)
+17:56:39 INFO   textcnn ep7 loss=0.2524 val_nll=0.3258 val_acc=0.8850 (0s)
+17:56:39 INFO   textcnn ep8 loss=0.1790 val_nll=0.3123 val_acc=0.8890 (0s)
+17:56:40 INFO   textcnn ep9 loss=0.1476 val_nll=0.2910 val_acc=0.8945 (0s)
+17:56:40 INFO   textcnn ep10 loss=0.1070 val_nll=0.3062 val_acc=0.9000 (0s)
+17:56:40 INFO expert textcnn: oof_acc=0.8941 val_acc=0.9105 params=1147398 cpu=1.06ms
+17:56:41 INFO   rnn ep1 loss=1.5920 val_nll=1.5088 val_acc=0.4020 (1s)
+17:56:42 INFO   rnn ep2 loss=1.4618 val_nll=1.3578 val_acc=0.4845 (1s)
+17:56:43 INFO   rnn ep3 loss=1.3300 val_nll=1.2134 val_acc=0.5440 (1s)
+17:56:43 INFO   rnn ep4 loss=1.1779 val_nll=1.0436 val_acc=0.6235 (1s)
+17:56:44 INFO   rnn ep5 loss=1.0018 val_nll=0.8238 val_acc=0.7130 (1s)
+17:56:45 INFO   rnn ep6 loss=0.7983 val_nll=0.6419 val_acc=0.7800 (1s)
+17:56:46 INFO   rnn ep7 loss=0.6150 val_nll=0.4647 val_acc=0.8420 (1s)
+17:56:47 INFO   rnn ep8 loss=0.4538 val_nll=0.3702 val_acc=0.8740 (1s)
+17:56:47 INFO   rnn ep9 loss=0.3517 val_nll=0.3234 val_acc=0.8885 (1s)
+17:56:48 INFO   rnn ep10 loss=0.2949 val_nll=0.2920 val_acc=0.9005 (1s)
+17:56:49 INFO   rnn ep1 loss=1.5890 val_nll=1.5179 val_acc=0.3870 (1s)
+17:56:50 INFO   rnn ep2 loss=1.4800 val_nll=1.3839 val_acc=0.4785 (1s)
+17:56:51 INFO   rnn ep3 loss=1.3622 val_nll=1.2476 val_acc=0.5205 (1s)
+17:56:51 INFO   rnn ep4 loss=1.2180 val_nll=1.1108 val_acc=0.5995 (1s)
+17:56:52 INFO   rnn ep5 loss=1.0518 val_nll=0.9181 val_acc=0.6580 (1s)
+17:56:53 INFO   rnn ep6 loss=0.8789 val_nll=0.7291 val_acc=0.7400 (1s)
+17:56:54 INFO   rnn ep7 loss=0.6940 val_nll=0.5888 val_acc=0.8005 (1s)
+17:56:54 INFO   rnn ep8 loss=0.5355 val_nll=0.4419 val_acc=0.8510 (1s)
+17:56:55 INFO   rnn ep9 loss=0.4024 val_nll=0.3680 val_acc=0.8650 (1s)
+17:56:56 INFO   rnn ep10 loss=0.3168 val_nll=0.3268 val_acc=0.8900 (1s)
+17:56:57 INFO   rnn ep1 loss=1.6004 val_nll=1.5097 val_acc=0.4045 (1s)
+17:56:58 INFO   rnn ep2 loss=1.4720 val_nll=1.3902 val_acc=0.4625 (1s)
+17:56:59 INFO   rnn ep3 loss=1.3467 val_nll=1.2296 val_acc=0.5390 (1s)
+17:56:59 INFO   rnn ep4 loss=1.2103 val_nll=1.0631 val_acc=0.6145 (1s)
+17:57:00 INFO   rnn ep5 loss=1.0197 val_nll=0.8389 val_acc=0.7060 (1s)
+17:57:01 INFO   rnn ep6 loss=0.7937 val_nll=0.6308 val_acc=0.7820 (1s)
+17:57:02 INFO   rnn ep7 loss=0.5846 val_nll=0.4768 val_acc=0.8310 (1s)
+17:57:02 INFO   rnn ep8 loss=0.4311 val_nll=0.3490 val_acc=0.8815 (1s)
+17:57:03 INFO   rnn ep9 loss=0.3212 val_nll=0.3010 val_acc=0.8960 (1s)
+17:57:04 INFO   rnn ep10 loss=0.2614 val_nll=0.2584 val_acc=0.9035 (1s)
+17:57:04 INFO expert rnn: oof_acc=0.8934 val_acc=0.9130 params=1016454 cpu=1.82ms
+17:57:05 INFO   lstm ep1 loss=1.5652 val_nll=1.4971 val_acc=0.4095 (1s)
+17:57:06 INFO   lstm ep2 loss=1.3820 val_nll=1.1559 val_acc=0.5890 (1s)
+17:57:07 INFO   lstm ep3 loss=1.0440 val_nll=0.7750 val_acc=0.7185 (1s)
+17:57:08 INFO   lstm ep4 loss=0.7157 val_nll=0.5473 val_acc=0.8085 (1s)
+17:57:08 INFO   lstm ep5 loss=0.5118 val_nll=0.4200 val_acc=0.8485 (1s)
+17:57:09 INFO   lstm ep6 loss=0.3733 val_nll=0.3529 val_acc=0.8730 (1s)
+17:57:10 INFO   lstm ep7 loss=0.2925 val_nll=0.3135 val_acc=0.8940 (1s)
+17:57:11 INFO   lstm ep8 loss=0.2416 val_nll=0.2911 val_acc=0.8975 (1s)
+17:57:12 INFO   lstm ep9 loss=0.1959 val_nll=0.2669 val_acc=0.9005 (1s)
+17:57:13 INFO   lstm ep10 loss=0.1624 val_nll=0.2840 val_acc=0.9100 (1s)
+17:57:14 INFO   lstm ep1 loss=1.5755 val_nll=1.5121 val_acc=0.4065 (1s)
+17:57:15 INFO   lstm ep2 loss=1.4110 val_nll=1.2146 val_acc=0.5770 (1s)
+17:57:16 INFO   lstm ep3 loss=1.0934 val_nll=0.8440 val_acc=0.7050 (1s)
+17:57:17 INFO   lstm ep4 loss=0.7458 val_nll=0.5750 val_acc=0.7925 (1s)
+17:57:17 INFO   lstm ep5 loss=0.5093 val_nll=0.3985 val_acc=0.8685 (1s)
+17:57:18 INFO   lstm ep6 loss=0.3689 val_nll=0.3475 val_acc=0.8810 (1s)
+17:57:19 INFO   lstm ep7 loss=0.2970 val_nll=0.3020 val_acc=0.8965 (1s)
+17:57:20 INFO   lstm ep8 loss=0.2344 val_nll=0.2906 val_acc=0.9020 (1s)
+17:57:21 INFO   lstm ep9 loss=0.1939 val_nll=0.2779 val_acc=0.9075 (1s)
+17:57:22 INFO   lstm ep10 loss=0.1637 val_nll=0.2674 val_acc=0.9065 (1s)
+17:57:23 INFO   lstm ep1 loss=1.5739 val_nll=1.5162 val_acc=0.4075 (1s)
+17:57:24 INFO   lstm ep2 loss=1.4063 val_nll=1.2180 val_acc=0.5565 (1s)
+17:57:25 INFO   lstm ep3 loss=1.0674 val_nll=0.8252 val_acc=0.7065 (1s)
+17:57:26 INFO   lstm ep4 loss=0.7390 val_nll=0.5493 val_acc=0.8095 (1s)
+17:57:26 INFO   lstm ep5 loss=0.5200 val_nll=0.3969 val_acc=0.8625 (1s)
+17:57:27 INFO   lstm ep6 loss=0.3696 val_nll=0.3288 val_acc=0.8815 (1s)
+17:57:28 INFO   lstm ep7 loss=0.2795 val_nll=0.3278 val_acc=0.8870 (1s)
+17:57:29 INFO   lstm ep8 loss=0.2344 val_nll=0.2885 val_acc=0.8965 (1s)
+17:57:30 INFO   lstm ep9 loss=0.1876 val_nll=0.2490 val_acc=0.9130 (1s)
+17:57:31 INFO   lstm ep10 loss=0.1618 val_nll=0.2627 val_acc=0.9145 (1s)
+17:57:31 INFO expert lstm: oof_acc=0.9008 val_acc=0.9200 params=1214598 cpu=3.28ms
+17:57:32 INFO   gru ep1 loss=1.5552 val_nll=1.4792 val_acc=0.4210 (1s)
+17:57:33 INFO   gru ep2 loss=1.3879 val_nll=1.2035 val_acc=0.5565 (1s)
+17:57:34 INFO   gru ep3 loss=1.0759 val_nll=0.7865 val_acc=0.7190 (1s)
+17:57:35 INFO   gru ep4 loss=0.7236 val_nll=0.5014 val_acc=0.8295 (1s)
+17:57:35 INFO   gru ep5 loss=0.4726 val_nll=0.3475 val_acc=0.8780 (1s)
+17:57:36 INFO   gru ep6 loss=0.3319 val_nll=0.2813 val_acc=0.8955 (1s)
+17:57:37 INFO   gru ep7 loss=0.2497 val_nll=0.2651 val_acc=0.9045 (1s)
+17:57:38 INFO   gru ep8 loss=0.2024 val_nll=0.2595 val_acc=0.9060 (1s)
+17:57:39 INFO   gru ep9 loss=0.1626 val_nll=0.2444 val_acc=0.9110 (1s)
+17:57:40 INFO   gru ep10 loss=0.1416 val_nll=0.2375 val_acc=0.9140 (1s)
+17:57:41 INFO   gru ep1 loss=1.5636 val_nll=1.4829 val_acc=0.4065 (1s)
+17:57:42 INFO   gru ep2 loss=1.4021 val_nll=1.2450 val_acc=0.5425 (1s)
+17:57:43 INFO   gru ep3 loss=1.1063 val_nll=0.8277 val_acc=0.7065 (1s)
+17:57:43 INFO   gru ep4 loss=0.6996 val_nll=0.4961 val_acc=0.8285 (1s)
+17:57:44 INFO   gru ep5 loss=0.4512 val_nll=0.3636 val_acc=0.8650 (1s)
+17:57:45 INFO   gru ep6 loss=0.3140 val_nll=0.3222 val_acc=0.8890 (1s)
+17:57:46 INFO   gru ep7 loss=0.2441 val_nll=0.2760 val_acc=0.8990 (1s)
+17:57:47 INFO   gru ep8 loss=0.1952 val_nll=0.2726 val_acc=0.8955 (1s)
+17:57:48 INFO   gru ep9 loss=0.1628 val_nll=0.2615 val_acc=0.9045 (1s)
+17:57:49 INFO   gru ep10 loss=0.1420 val_nll=0.2568 val_acc=0.9100 (1s)
+17:57:50 INFO   gru ep1 loss=1.5742 val_nll=1.4821 val_acc=0.4240 (1s)
+17:57:51 INFO   gru ep2 loss=1.3996 val_nll=1.2273 val_acc=0.5415 (1s)
+17:57:51 INFO   gru ep3 loss=1.0886 val_nll=0.7865 val_acc=0.7310 (1s)
+17:57:52 INFO   gru ep4 loss=0.7079 val_nll=0.4606 val_acc=0.8365 (1s)
+17:57:53 INFO   gru ep5 loss=0.4477 val_nll=0.3524 val_acc=0.8740 (1s)
+17:57:54 INFO   gru ep6 loss=0.3197 val_nll=0.2904 val_acc=0.8940 (1s)
+17:57:55 INFO   gru ep7 loss=0.2358 val_nll=0.2668 val_acc=0.8985 (1s)
+17:57:56 INFO   gru ep8 loss=0.1949 val_nll=0.2673 val_acc=0.8980 (1s)
+17:57:57 INFO   gru ep9 loss=0.1622 val_nll=0.2578 val_acc=0.9060 (1s)
+17:57:58 INFO   gru ep10 loss=0.1332 val_nll=0.2580 val_acc=0.9095 (1s)
+17:57:58 INFO expert gru: oof_acc=0.9069 val_acc=0.9160 params=1148550 cpu=3.02ms
+17:57:58 INFO [done] experts:emotion (95.3s)
+17:57:58 INFO [run ] sklearn:emotion
+17:57:59 INFO baseline sk_naive_bayes: val_acc=0.7700 fit=0s rows=16000
+17:58:16 INFO baseline sk_logreg: val_acc=0.8835 fit=17s rows=16000
+17:58:17 INFO baseline sk_linear_svm: val_acc=0.8990 fit=1s rows=16000
+17:58:52 INFO baseline sk_random_forest: val_acc=0.8780 fit=32s rows=16000
+18:03:29 INFO baseline sk_mlp: val_acc=0.8625 fit=276s rows=16000
+18:03:29 INFO [done] sklearn:emotion (331.3s)
+18:03:29 INFO [run ] embed:ag_news
+18:03:29 INFO loading laya encoder (convaiinnovations/laya) on [device(type='cuda', index=0), device(type='cuda', index=1)]
+18:04:01 INFO embedding train: 28/28 shards to do on 2 device(s)
+18:04:18 INFO   train shard 1 done on cuda:1 (2/28, 17s)
+18:04:24 INFO   train shard 0 done on cuda:0 (3/28, 23s)
+18:04:36 INFO   train shard 2 done on cuda:1 (4/28, 35s)
+18:04:47 INFO   train shard 3 done on cuda:0 (5/28, 46s)
+18:04:54 INFO   train shard 4 done on cuda:1 (6/28, 53s)
+18:05:09 INFO   train shard 5 done on cuda:0 (7/28, 68s)
+18:05:12 INFO   train shard 6 done on cuda:1 (8/28, 71s)
+18:05:31 INFO   train shard 8 done on cuda:1 (9/28, 90s)
+18:05:32 INFO   train shard 7 done on cuda:0 (10/28, 91s)
+18:05:51 INFO   train shard 9 done on cuda:1 (11/28, 110s)
+18:05:55 INFO   train shard 10 done on cuda:0 (12/28, 114s)
+18:06:11 INFO   train shard 11 done on cuda:1 (13/28, 130s)
+18:06:17 INFO   train shard 12 done on cuda:0 (14/28, 136s)
+18:06:31 INFO   train shard 13 done on cuda:1 (15/28, 150s)
+18:06:38 INFO   train shard 14 done on cuda:0 (16/28, 157s)
+18:06:51 INFO   train shard 15 done on cuda:1 (17/28, 170s)
+18:07:01 INFO   train shard 16 done on cuda:0 (18/28, 180s)
+18:07:11 INFO   train shard 17 done on cuda:1 (19/28, 190s)
+18:07:23 INFO   train shard 18 done on cuda:0 (20/28, 202s)
+18:07:30 INFO   train shard 19 done on cuda:1 (21/28, 209s)
+18:07:45 INFO   train shard 20 done on cuda:0 (22/28, 224s)
+18:07:50 INFO   train shard 21 done on cuda:1 (23/28, 229s)
+18:08:07 INFO   train shard 22 done on cuda:0 (24/28, 246s)
+18:08:10 INFO   train shard 23 done on cuda:1 (25/28, 249s)
+18:08:29 INFO   train shard 24 done on cuda:0 (26/28, 268s)
+18:08:30 INFO   train shard 25 done on cuda:1 (27/28, 269s)
+18:08:47 INFO   train shard 27 done on cuda:1 (28/28, 286s)
+18:08:52 INFO   train shard 26 done on cuda:0 (28/28, 291s)
+18:08:53 INFO embedding val: 2/2 shards to do on 2 device(s)
+18:09:02 INFO   val shard 1 done on cuda:1 (2/2, 9s)
+18:09:15 INFO   val shard 0 done on cuda:0 (2/2, 22s)
+18:09:15 INFO embedding test: 2/2 shards to do on 2 device(s)
+18:09:32 INFO   test shard 1 done on cuda:1 (2/2, 17s)
+18:09:38 INFO   test shard 0 done on cuda:0 (2/2, 23s)
+18:10:04 INFO [done] embed:ag_news (394.6s)
+18:10:04 INFO [run ] probe:ag_news
+18:12:37 INFO laya_linear_probe: val_acc=0.9130
+18:15:27 INFO [done] probe:ag_news (323.5s)
+18:15:27 INFO [run ] zeroshot:ag_news
+18:15:54 INFO   laya zero-shot val shard 1/3 (27s)
+18:16:19 INFO   laya zero-shot val shard 2/3 (52s)
+18:16:40 INFO   laya zero-shot val shard 3/3 (73s)
+18:17:04 INFO   laya zero-shot test shard 1/4 (24s)
+18:17:29 INFO   laya zero-shot test shard 2/4 (49s)
+18:17:53 INFO   laya zero-shot test shard 3/4 (73s)
+18:18:10 INFO   laya zero-shot test shard 4/4 (90s)
+18:18:10 INFO [done] zeroshot:ag_news (163.1s)
+18:18:10 INFO [run ] embed:emotion
+18:18:10 INFO embedding train: 4/4 shards to do on 2 device(s)
+18:18:18 INFO   train shard 1 done on cuda:1 (2/4, 8s)
+18:18:19 INFO   train shard 0 done on cuda:0 (3/4, 8s)
+18:18:26 INFO   train shard 3 done on cuda:0 (4/4, 16s)
+18:18:26 INFO   train shard 2 done on cuda:1 (4/4, 16s)
+18:18:26 INFO embedding val: 1/1 shards to do on 2 device(s)
+18:18:31 INFO   val shard 0 done on cuda:0 (1/1, 4s)
+18:18:31 INFO embedding test: 1/1 shards to do on 2 device(s)
+18:18:35 INFO   test shard 0 done on cuda:0 (1/1, 4s)
+18:18:55 INFO [done] embed:emotion (44.6s)
+18:18:55 INFO [run ] probe:emotion
+18:20:47 INFO laya_linear_probe: val_acc=0.6105
+18:21:19 INFO [done] probe:emotion (144.3s)
+18:21:19 INFO [run ] zeroshot:emotion
+18:21:39 INFO   laya zero-shot val shard 1/1 (20s)
+18:21:59 INFO   laya zero-shot test shard 1/1 (20s)
+18:21:59 INFO [done] zeroshot:emotion (39.6s)
+18:21:59 INFO [run ] head:ag_news
+18:24:17 INFO   head full seed 0: best val_nll=0.1774 val_acc=0.9415 epochs=25
+18:24:17 INFO publishable head written to /kaggle/working/adar_run/publish/adar-head-ag_news
+18:26:02 INFO   head full seed 1: best val_nll=0.1772 val_acc=0.9408 epochs=19
+18:26:51 INFO   head full seed 2: best val_nll=0.1859 val_acc=0.9370 epochs=9
+18:28:38 INFO   head {'use_experts': False} seed 0: best val_nll=0.2195 val_acc=0.9253 epochs=30
+18:29:41 INFO   head {'use_state': False} seed 0: best val_nll=0.2173 val_acc=0.9302 epochs=12
+18:30:07 INFO   head {'use_transformer': False} seed 0: best val_nll=0.1845 val_acc=0.9390 epochs=14
+18:30:07 INFO [done] head:ag_news (488.0s)
+18:30:07 INFO [run ] router:ag_news
+18:30:11 INFO [done] router:ag_news (4.0s)
+18:30:11 INFO [run ] head:emotion
+18:30:17 INFO   head full seed 0: best val_nll=0.1760 val_acc=0.9225 epochs=6
+18:30:17 INFO publishable head written to /kaggle/working/adar_run/publish/adar-head-emotion
+18:30:24 INFO   head full seed 1: best val_nll=0.1751 val_acc=0.9185 epochs=7
+18:30:30 INFO   head full seed 2: best val_nll=0.1771 val_acc=0.9195 epochs=6
+18:30:36 INFO   head {'use_experts': False} seed 0: best val_nll=0.9930 val_acc=0.6530 epochs=9
+18:30:47 INFO   head {'use_state': False} seed 0: best val_nll=0.1678 val_acc=0.9230 epochs=11
+18:30:49 INFO   head {'use_transformer': False} seed 0: best val_nll=0.1775 val_acc=0.9240 epochs=8
+18:30:49 INFO [done] head:emotion (38.5s)
+18:30:49 INFO [run ] router:emotion
+18:30:53 INFO [done] router:emotion (3.4s)
+18:30:53 INFO [run ] report:ag_news
+18:30:56 INFO 
+# ADAR results — ag_news
+
+ag_news: train=114000 val=6000 test=7600 classes=4 folds=3
+
+All probabilistic models are temperature-scaled on the validation split (ECE raw = before). CPU latency = median batch-1 time on the run's CPU. Test rows are identical for every model.
+
+| Model | Family | Syllabus unit | Accuracy | Macro-F1 | NLL | Brier | ECE (TS) | ECE (raw) | AURC | CPU ms/sample | Params |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| Random Forest (TF-IDF) | scikit-learn | - | 0.8689 | 0.8681 | 0.3842 | 0.1980 | 0.0137 | 0.2183 | 0.0382 | 66.89 | - |
+| Laya encoder + Logistic Regression | System One + sklearn | III | 0.9053 | 0.9052 | 0.2778 | 0.1450 | 0.0123 | 0.0207 | 0.0215 | 472.15 | 394.78M |
+| Naive Bayes (TF-IDF) | scikit-learn | - | 0.9076 | 0.9073 | 0.3011 | 0.1471 | 0.0259 | 0.0455 | 0.0285 | 2.95 | - |
+| sklearn MLPClassifier (TF-IDF) | scikit-learn | - | 0.9124 | 0.9122 | 0.2750 | 0.1383 | 0.0178 | 0.0183 | 0.0232 | 27.24 | - |
+| Bi-RNN | Deep learning (syllabus) | III | 0.9150 | 0.9149 | 0.2634 | 0.1333 | 0.0187 | 0.0178 | 0.0209 | 3.39 | 3.91M |
+| TextCNN | Deep learning (syllabus) | I-II | 0.9171 | 0.9169 | 0.2580 | 0.1284 | 0.0192 | 0.0171 | 0.0210 | 1.11 | 4.04M |
+| Stacking LogReg (Laya emb + experts) | Ensemble | I-III | 0.9204 | 0.9203 | 0.2323 | 0.1203 | 0.0091 | 0.0188 | 0.0154 | 489.21 | - |
+| Bi-LSTM | Deep learning (syllabus) | III | 0.9230 | 0.9228 | 0.2324 | 0.1211 | 0.0140 | 0.0159 | 0.0157 | 6.40 | 4.11M |
+| Bi-GRU | Deep learning (syllabus) | III | 0.9241 | 0.9239 | 0.2365 | 0.1218 | 0.0175 | 0.0179 | 0.0164 | 6.16 | 4.04M |
+| Average of syllabus experts | Ensemble | I-III | 0.9247 | 0.9246 | 0.2349 | 0.1200 | 0.0164 | 0.0173 | 0.0166 | 17.06 | 16.09M |
+| Logistic Regression (TF-IDF) | scikit-learn | - | 0.9251 | 0.9250 | 0.2410 | 0.1202 | 0.0149 | 0.0149 | 0.0184 | 2.79 | - |
+| Linear SVM (TF-IDF) | scikit-learn | - | 0.9251 | 0.9250 | 0.2366 | 0.1179 | 0.0076 | 0.0228 | 0.0194 | 2.76 | - |
+| Laya zero-shot (typed choice) | System One | III | 0.9253 | 0.9252 | 0.2366 | 0.1203 | 0.0214 | 0.0641 | 0.0167 | 706.27 | 394.78M |
+| ADAR ablation: laya only | Ablation | - | 0.9182 | 0.9182 | 0.2380 | 0.1255 | 0.0084 | 0.0142 | 0.0158 | 473.92 | 2.33M |
+| ADAR ablation: experts only | Ablation | - | 0.9263 | 0.9262 | 0.2266 | 0.1173 | 0.0119 | 0.0113 | 0.0152 | 19.40 | 2.33M |
+| ADAR ablation: no attention | Ablation | - | 0.9320 | 0.9320 | 0.2020 | 0.1048 | 0.0091 | 0.0100 | 0.0120 | 490.80 | 1.28M |
+| **ADAR (ours, mean of 3 seeds)** | ADAR (ours) | I-IV | 0.9328 ± 0.0016 | 0.9328 ± 0.0016 | 0.1973 ± 0.0030 | 0.1033 ± 0.0018 | 0.0092 ± 0.0008 | 0.0093 | 0.0115 | 491.73 | 2.33M |
+| **ADAR cascade (escalates 36%)** | ADAR (ours) | I-IV | 0.9332 | 0.9332 | 0.2077 | 0.1057 | 0.0111 | 0.0111 | 0.0141 | 189.19 | - |
+
+## QC gates (paired bootstrap, 95% CI)
+
+- PASS — ADAR accuracy > best scikit-learn model (Logistic Regression (TF-IDF)): delta=+0.95pp, 95% CI [+0.47, +1.43]
+- PASS — ADAR accuracy > best syllabus deep model (Bi-GRU): delta=+1.05pp, 95% CI [+0.63, +1.51]
+- PASS — ADAR accuracy > best expert ensemble (Average of syllabus experts): delta=+0.99pp, 95% CI [+0.57, +1.42]
+- PASS — ADAR accuracy > best Laya zero-shot (Laya zero-shot (typed choice)): delta=+0.93pp, 95% CI [+0.42, +1.47]
+- PASS — ADAR accuracy > best Laya linear probe (Laya encoder + Logistic Regression): delta=+2.93pp, 95% CI [+2.43, +3.46]
+- PASS — ADAR accuracy > best stacking baseline (Stacking LogReg (Laya emb + experts)): delta=+1.42pp, 95% CI [+1.00, +1.84]
+- PASS — ADAR NLL lower than every baseline (best: Stacking LogReg (Laya emb + experts)): ADAR 0.1949 vs 0.2323
+- PASS — ADAR BRIER lower than every baseline (best: Linear SVM (TF-IDF)): ADAR 0.1023 vs 0.1179
+- PASS — ADAR ECE (after TS) <= best baseline ECE + 0.005 (best: Linear SVM (TF-IDF)): ADAR 0.0088 vs 0.0076
+- PASS — full ADAR >= ADAR ablation: laya only (accuracy; NLL lower): delta=+1.64pp CI [+1.18, +2.12], NLL 0.1949 vs 0.2380
+- PASS — full ADAR >= ADAR ablation: experts only (accuracy; NLL lower): delta=+0.83pp CI [+0.41, +1.28], NLL 0.1949 vs 0.2266
+- PASS — full ADAR >= ADAR ablation: no attention (accuracy; NLL lower): delta=+0.26pp CI [+0.00, +0.57], NLL 0.1949 vs 0.2020
+- PASS — ADAR stable across seeds (accuracy std < 0.5pp): std=0.16pp over 3 seeds
+- PASS — Cascade keeps accuracy within 0.5pp of always-Laya while skipping Laya calls: acc 0.9332 vs 0.9346; Laya called on 36% of inputs; mean cost 189.2 vs 491.7 ms
+
+## How ADAR routes between the syllabus experts (test set)
+
+| Expert | mean routing weight α | predicted P(correct) | actual accuracy | AUC of P(correct) |
+|---|---|---|---|---|
+| TextCNN | 0.161 | 0.920 | 0.917 | 0.910 |
+18:30:56 INFO [done] report:ag_news (3.0s)
+18:30:56 INFO [run ] report:emotion
+18:30:58 INFO 
+# ADAR results — emotion
+
+emotion: train=16000 val=2000 test=2000 classes=6 folds=3
+
+All probabilistic models are temperature-scaled on the validation split (ECE raw = before). CPU latency = median batch-1 time on the run's CPU. Test rows are identical for every model.
+
+| Model | Family | Syllabus unit | Accuracy | Macro-F1 | NLL | Brier | ECE (TS) | ECE (raw) | AURC | CPU ms/sample | Params |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| Laya zero-shot (typed choice) | System One | III | 0.5805 | 0.4704 | 1.2109 | 0.5898 | 0.0877 | 0.2397 | 0.3082 | 653.23 | 394.78M |
+| Laya encoder + Logistic Regression | System One + sklearn | III | 0.5915 | 0.5056 | 1.0845 | 0.5437 | 0.0321 | 0.2638 | 0.2514 | 375.44 | 394.78M |
+| Naive Bayes (TF-IDF) | scikit-learn | - | 0.7605 | 0.6301 | 0.6771 | 0.3366 | 0.0251 | 0.0880 | 0.0828 | 1.27 | - |
+| sklearn MLPClassifier (TF-IDF) | scikit-learn | - | 0.8460 | 0.7750 | 0.4251 | 0.2219 | 0.0268 | 0.0345 | 0.0411 | 5.45 | - |
+| Random Forest (TF-IDF) | scikit-learn | - | 0.8650 | 0.8000 | 0.3596 | 0.1934 | 0.0136 | 0.2037 | 0.0346 | 56.97 | - |
+| Logistic Regression (TF-IDF) | scikit-learn | - | 0.8675 | 0.8039 | 0.3562 | 0.1951 | 0.0307 | 0.0899 | 0.0304 | 1.81 | - |
+| Stacking LogReg (Laya emb + experts) | Ensemble | I-III | 0.8795 | 0.8155 | 0.3430 | 0.1789 | 0.0177 | 0.0740 | 0.0294 | 384.63 | - |
+| Linear SVM (TF-IDF) | scikit-learn | - | 0.8815 | 0.8222 | 0.2878 | 0.1611 | 0.0230 | 0.0523 | 0.0204 | 3.58 | - |
+| TextCNN | Deep learning (syllabus) | I-II | 0.9055 | 0.8567 | 0.2149 | 0.1231 | 0.0153 | 0.0154 | 0.0122 | 1.06 | 1.15M |
+| Bi-RNN | Deep learning (syllabus) | III | 0.9080 | 0.8619 | 0.2122 | 0.1194 | 0.0187 | 0.0302 | 0.0112 | 1.82 | 1.02M |
+| Bi-GRU | Deep learning (syllabus) | III | 0.9220 | 0.8823 | 0.1740 | 0.1028 | 0.0184 | 0.0184 | 0.0081 | 3.02 | 1.15M |
+| Average of syllabus experts | Ensemble | I-III | 0.9220 | 0.8810 | 0.1777 | 0.1052 | 0.0162 | 0.0200 | 0.0084 | 9.18 | 4.53M |
+| Bi-LSTM | Deep learning (syllabus) | III | 0.9225 | 0.8816 | 0.1919 | 0.1100 | 0.0163 | 0.0168 | 0.0092 | 3.28 | 1.21M |
+| ADAR ablation: laya only | Ablation | - | 0.6495 | 0.4771 | 0.9751 | 0.4860 | 0.0271 | 0.0197 | 0.1940 | 377.32 | 2.33M |
+| **ADAR (ours, mean of 3 seeds)** | ADAR (ours) | I-IV | 0.9200 ± 0.0019 | 0.8790 ± 0.0054 | 0.1704 ± 0.0005 | 0.1014 ± 0.0005 | 0.0150 ± 0.0007 | 0.0181 | 0.0080 | 387.64 | 2.33M |
+| ADAR ablation: experts only | Ablation | - | 0.9200 | 0.8802 | 0.1647 | 0.0970 | 0.0097 | 0.0124 | 0.0076 | 11.75 | 2.33M |
+| ADAR ablation: no attention | Ablation | - | 0.9205 | 0.8732 | 0.1708 | 0.1004 | 0.0112 | 0.0139 | 0.0082 | 386.23 | 1.28M |
+| **ADAR cascade (escalates 0%)** | ADAR (ours) | I-IV | 0.9220 | 0.8809 | 0.1777 | 0.1054 | 0.0162 | 0.0162 | 0.0084 | 9.56 | - |
+
+## QC gates (paired bootstrap, 95% CI)
+
+- PASS — ADAR accuracy > best scikit-learn model (Linear SVM (TF-IDF)): delta=+4.10pp, 95% CI [+2.90, +5.40]
+- FAIL — ADAR accuracy > best syllabus deep model (Bi-LSTM): delta=+0.00pp, 95% CI [-0.75, +0.75]
+- FAIL — ADAR accuracy > best expert ensemble (Average of syllabus experts): delta=+0.05pp, 95% CI [-0.75, +0.85]
+- PASS — ADAR accuracy > best Laya zero-shot (Laya zero-shot (typed choice)): delta=+34.20pp, 95% CI [+31.80, +36.65]
+- PASS — ADAR accuracy > best Laya linear probe (Laya encoder + Logistic Regression): delta=+33.10pp, 95% CI [+30.80, +35.35]
+- PASS — ADAR accuracy > best stacking baseline (Stacking LogReg (Laya emb + experts)): delta=+4.30pp, 95% CI [+2.90, +5.65]
+- PASS — ADAR NLL lower than every baseline (best: Bi-GRU): ADAR 0.1711 vs 0.1740
+- PASS — ADAR BRIER lower than every baseline (best: Bi-GRU): ADAR 0.1018 vs 0.1028
+- PASS — ADAR ECE (after TS) <= best baseline ECE + 0.005 (best: Random Forest (TF-IDF)): ADAR 0.0150 vs 0.0136
+- PASS — full ADAR >= ADAR ablation: laya only (accuracy; NLL lower): delta=+27.30pp CI [+25.10, +29.60], NLL 0.1711 vs 0.9751
+- FAIL — full ADAR >= ADAR ablation: experts only (accuracy; NLL lower): delta=+0.25pp CI [-0.65, +1.20], NLL 0.1711 vs 0.1647
+- FAIL — full ADAR >= ADAR ablation: no attention (accuracy; NLL lower): delta=+0.20pp CI [-0.80, +1.20], NLL 0.1711 vs 0.1708
+- PASS — ADAR stable across seeds (accuracy std < 0.5pp): std=0.19pp over 3 seeds
+- PASS — Cascade keeps accuracy within 0.5pp of always-Laya while skipping Laya calls: acc 0.9220 vs 0.9225; Laya called on 0% of inputs; mean cost 9.6 vs 387.6 ms
+
+## How ADAR routes between the syllabus experts (test set)
+
+| Expert | mean routing weight α | predicted P(correct) | actual accuracy | AUC of P(correct) |
+|---|---|---|---|---|
+| TextCNN | 0.395 | 0.866 | 0.905 | 0.920 |
+18:30:58 INFO [done] report:emotion (1.7s)
+18:30:58 INFO [run ] typed_decisions:convaiinnovations/laya-typed-decisions
+18:31:14 INFO   typed-decisions train 100/1200 (8s)
+18:31:23 INFO   typed-decisions train 200/1200 (17s)
+18:31:32 INFO   typed-decisions train 300/1200 (26s)
+18:31:50 INFO   typed-decisions train 400/1200 (44s)
+18:32:07 INFO   typed-decisions train 500/1200 (61s)
+18:32:24 INFO   typed-decisions train 600/1200 (78s)
+18:32:40 INFO   typed-decisions train 700/1200 (94s)
+18:32:57 INFO   typed-decisions train 800/1200 (111s)
+18:33:14 INFO   typed-decisions train 900/1200 (128s)
+18:33:29 INFO   typed-decisions train 1000/1200 (143s)
+18:33:43 INFO   typed-decisions train 1100/1200 (157s)
+18:33:57 INFO   typed-decisions train 1200/1200 (171s)
+18:34:06 INFO   typed-decisions test 100/400 (9s)
+18:34:23 INFO   typed-decisions test 200/400 (26s)
+18:34:40 INFO   typed-decisions test 300/400 (42s)
+18:34:54 INFO   typed-decisions test 400/400 (57s)
+18:35:03 INFO typed-decisions convaiinnovations/laya-typed-decisions shipped test: {'decisions': 2000, 'accuracy': 0.7665, 'brier_soft': 0.061465647879173455, 'brier_onehot': 0.4009051452924595, 'ece': 0.21373871909500325, 'kl': 0.11703209456558442}
+18:35:03 INFO typed-decisions convaiinnovations/laya-typed-decisions ADAR-Cal(hard) test: {'decisions': 2000, 'accuracy': 0.7665, 'brier_soft': 0.1475596614608763, 'brier_onehot': 0.3276439425222756, 'ece': 0.06258043730569984, 'kl': 0.5263828732863857}
+18:35:03 INFO [done] typed_decisions:convaiinnovations/laya-typed-decisions (245.3s)
+18:35:03 INFO [run ] typed_decisions:convaiinnovations/laya
+18:35:13 INFO   typed-decisions train 100/1200 (8s)
+18:35:22 INFO   typed-decisions train 200/1200 (17s)
+18:35:31 INFO   typed-decisions train 300/1200 (26s)
+18:35:48 INFO   typed-decisions train 400/1200 (44s)
+18:36:04 INFO   typed-decisions train 500/1200 (60s)
+18:36:22 INFO   typed-decisions train 600/1200 (77s)
+18:36:38 INFO   typed-decisions train 700/1200 (93s)
+18:36:55 INFO   typed-decisions train 800/1200 (110s)
+18:37:12 INFO   typed-decisions train 900/1200 (127s)
+18:37:26 INFO   typed-decisions train 1000/1200 (141s)
+18:37:41 INFO   typed-decisions train 1100/1200 (156s)
+18:37:55 INFO   typed-decisions train 1200/1200 (170s)
+18:38:04 INFO   typed-decisions test 100/400 (9s)
+18:38:21 INFO   typed-decisions test 200/400 (25s)
+18:38:37 INFO   typed-decisions test 300/400 (42s)
+18:38:52 INFO   typed-decisions test 400/400 (57s)
+18:39:03 INFO typed-decisions convaiinnovations/laya shipped test: {'decisions': 2000, 'accuracy': 0.363, 'brier_soft': 0.315443289981106, 'brier_onehot': 0.7509415466493138, 'ece': 0.17310380979496323, 'kl': 0.5686516766209087}
+18:39:03 INFO typed-decisions convaiinnovations/laya ADAR-Cal(soft) test: {'decisions': 2000, 'accuracy': 0.363, 'brier_soft': 0.23648588983009347, 'brier_onehot': 0.6782588795545635, 'ece': 0.021371298445262987, 'kl': 0.4325095485555131}
+18:39:03 INFO [done] typed_decisions:convaiinnovations/laya (240.1s)
+18:39:03 INFO [run ] bundle

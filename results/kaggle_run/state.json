@@ -1,0 +1,280 @@
+{
+  "stages": {
+    "experts:ag_news": {
+      "status": "done",
+      "seconds": 631.4,
+      "result": {
+        "textcnn": {
+          "oof_acc": 0.9111315789473684,
+          "val_acc": 0.9238333333333333
+        },
+        "rnn": {
+          "oof_acc": 0.9081929824561403,
+          "val_acc": 0.921
+        },
+        "lstm": {
+          "oof_acc": 0.9137631578947368,
+          "val_acc": 0.9285
+        },
+        "gru": {
+          "oof_acc": 0.9137982456140351,
+          "val_acc": 0.9275
+        }
+      }
+    },
+    "sklearn:ag_news": {
+      "status": "done",
+      "seconds": 573.0,
+      "result": {
+        "sk_naive_bayes": 0.916,
+        "sk_logreg": 0.9293333333333333,
+        "sk_linear_svm": 0.9308333333333333,
+        "sk_random_forest": 0.8696666666666667,
+        "sk_mlp": 0.9168333333333333
+      }
+    },
+    "experts:emotion": {
+      "status": "done",
+      "seconds": 95.3,
+      "result": {
+        "textcnn": {
+          "oof_acc": 0.894125,
+          "val_acc": 0.9105
+        },
+        "rnn": {
+          "oof_acc": 0.8934375,
+          "val_acc": 0.913
+        },
+        "lstm": {
+          "oof_acc": 0.90075,
+          "val_acc": 0.92
+        },
+        "gru": {
+          "oof_acc": 0.9069375,
+          "val_acc": 0.916
+        }
+      }
+    },
+    "sklearn:emotion": {
+      "status": "done",
+      "seconds": 331.3,
+      "result": {
+        "sk_naive_bayes": 0.77,
+        "sk_logreg": 0.8835,
+        "sk_linear_svm": 0.899,
+        "sk_random_forest": 0.878,
+        "sk_mlp": 0.8625
+      }
+    },
+    "embed:ag_news": {
+      "status": "done",
+      "seconds": 394.6,
+      "result": {
+        "dims": {
+          "train": [
+            114000,
+            2048
+          ],
+          "val": [
+            6000,
+            2048
+          ],
+          "test": [
+            7600,
+            2048
+          ]
+        },
+        "encoder_dim": 2048,
+        "encoder_params": 394781696,
+        "encoder_cpu_latency_ms": 472.15370200001416,
+        "zero_shot_cpu_latency_ms": 706.2684775000889
+      }
+    },
+    "probe:ag_news": {
+      "status": "done",
+      "seconds": 323.5,
+      "result": {
+        "probe": {
+          "name": "laya_linear_probe",
+          "fit_seconds": 149.9,
+          "cpu_latency_ms_head_only": 0.4453494998415408,
+          "val_acc": 0.913
+        },
+        "stacking_val_acc": 0.933
+      }
+    },
+    "zeroshot:ag_news": {
+      "status": "done",
+      "seconds": 163.1,
+      "result": {
+        "val_acc": 0.9468333333333333,
+        "test_acc": 0.9252631578947368
+      }
+    },
+    "embed:emotion": {
+      "status": "done",
+      "seconds": 44.6,
+      "result": {
+        "dims": {
+          "train": [
+            16000,
+            2048
+          ],
+          "val": [
+            2000,
+            2048
+          ],
+          "test": [
+            2000,
+            2048
+          ]
+        },
+        "encoder_dim": 2048,
+        "encoder_params": 394781696,
+        "encoder_cpu_latency_ms": 375.44150400003673,
+        "zero_shot_cpu_latency_ms": 653.2349905000956
+      }
+    },
+    "probe:emotion": {
+      "status": "done",
+      "seconds": 144.3,
+      "result": {
+        "probe": {
+          "name": "laya_linear_probe",
+          "fit_seconds": 111.5,
+          "cpu_latency_ms_head_only": 0.4689694999342464,
+          "val_acc": 0.6105
+        },
+        "stacking_val_acc": 0.881
+      }
+    },
+    "zeroshot:emotion": {
+      "status": "done",
+      "seconds": 39.6,
+      "result": {
+        "val_acc": 0.5965,
+        "test_acc": 0.5805
+      }
+    },
+    "head:ag_news": {
+      "status": "done",
+      "seconds": 488.0,
+      "result": {
+        "adar_s0": 0.9346052631578947,
+        "adar_s1": 0.9330263157894737,
+        "adar_s2": 0.9307894736842105,
+        "laya_only_s0": 0.9181578947368421,
+        "experts_only_s0": 0.9263157894736842,
+        "no_attention_s0": 0.9319736842105263
+      }
+    },
+    "router:ag_news": {
+      "status": "done",
+      "seconds": 4.0,
+      "result": {
+        "tau": 0.9626609128912135,
+        "escalation_rate": 0.3626315789473684,
+        "accuracy": 0.9331578947368421,
+        "mean_cost_ms": 189.18917674260814,
+        "always_tier1_accuracy": 0.9346052631578947,
+        "always_tier1_cost_ms": 491.7338159999076,
+        "tier0_accuracy": 0.9247368421052632,
+        "oracle_escalation_rate": 0.07526315789473684,
+        "oracle_accuracy": 0.9486842105263158
+      }
+    },
+    "head:emotion": {
+      "status": "done",
+      "seconds": 38.5,
+      "result": {
+        "adar_s0": 0.9225,
+        "adar_s1": 0.9195,
+        "adar_s2": 0.918,
+        "laya_only_s0": 0.6495,
+        "experts_only_s0": 0.92,
+        "no_attention_s0": 0.9205
+      }
+    },
+    "router:emotion": {
+      "status": "done",
+      "seconds": 3.4,
+      "result": {
+        "tau": 0.17649176472960856,
+        "escalation_rate": 0.001,
+        "accuracy": 0.922,
+        "mean_cost_ms": 9.561989992951794,
+        "always_tier1_accuracy": 0.9225,
+        "always_tier1_cost_ms": 387.6415249999354,
+        "tier0_accuracy": 0.922,
+        "oracle_escalation_rate": 0.078,
+        "oracle_accuracy": 0.9395
+      }
+    },
+    "report:ag_news": {
+      "status": "done",
+      "seconds": 3.0,
+      "result": {
+        "qc_pass": 14,
+        "qc_total": 14,
+        "adar_accuracy": 0.9346052631578947
+      }
+    },
+    "report:emotion": {
+      "status": "done",
+      "seconds": 1.7,
+      "result": {
+        "qc_pass": 10,
+        "qc_total": 14,
+        "adar_accuracy": 0.9225
+      }
+    },
+    "typed_decisions:convaiinnovations/laya-typed-decisions": {
+      "status": "done",
+      "seconds": 245.3,
+      "result": {
+        "shipped_test": {
+          "decisions": 2000,
+          "accuracy": 0.7665,
+          "brier_soft": 0.061465647879173455,
+          "brier_onehot": 0.4009051452924595,
+          "ece": 0.21373871909500325,
+          "kl": 0.11703209456558442
+        },
+        "adar_cal_test": {
+          "decisions": 2000,
+          "accuracy": 0.7665,
+          "brier_soft": 0.1475596614608763,
+          "brier_onehot": 0.3276439425222756,
+          "ece": 0.06258043730569984,
+          "kl": 0.5263828732863857
+        }
+      }
+    },
+    "typed_decisions:convaiinnovations/laya": {
+      "status": "done",
+      "seconds": 240.1,
+      "result": {
+        "shipped_test": {
+          "decisions": 2000,
+          "accuracy": 0.363,
+          "brier_soft": 0.315443289981106,
+          "brier_onehot": 0.7509415466493138,
+          "ece": 0.17310380979496323,
+          "kl": 0.5686516766209087
+        },
+        "adar_cal_test": {
+          "decisions": 2000,
+          "accuracy": 0.363,
+          "brier_soft": 0.23648588983009347,
+          "brier_onehot": 0.6782588795545635,
+          "ece": 0.021371298445262987,
+          "kl": 0.4325095485555131
+        }
+      }
+    },
+    "bundle": {
+      "status": "running",
+      "started": 1793039943.872463
+    }
+  }
+}

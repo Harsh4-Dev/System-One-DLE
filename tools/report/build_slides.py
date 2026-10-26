@@ -81,6 +81,11 @@ def pct(v, d=1):
     return f"{v * 100:.{d}f}%"
 
 
+def epct(v):
+    """escalation share: whole percent, one decimal below 1%"""
+    return f"{v * 100:.1f}%" if 0 < v < 0.01 or 0.99 < v < 1 else f"{v * 100:.0f}%"
+
+
 def pts(d, nd=2):
     return f"{d:+.{nd}f} pts"
 
@@ -339,10 +344,10 @@ def s_architecture():
     o.append(f'<x-shape kind="diamond" style="position:absolute;left:928px;top:320px;width:240px;height:140px;background:{CARD};border:2px solid {INK}" data-build-in="pop order 3 auto"></x-shape>')
     o.append(f'<p style="position:absolute;left:928px;top:373px;width:240px;font-size:28px;line-height:34px;font-weight:700;text-align:center;white-space:nowrap" data-build-in="pop order 3 auto">Sure?</p>')
     o.append(conn(1168, 390, 1352, 390, 4))
-    o.append(f'<p style="position:absolute;left:1180px;top:334px;width:170px;font-size:22px;font-weight:700;color:{MUTED}" data-build-in="fade order 4 auto">yes · {pct(1 - e_ag, 0)}</p>')
+    o.append(f'<p style="position:absolute;left:1180px;top:334px;width:170px;font-size:22px;font-weight:700;color:{MUTED}" data-build-in="fade order 4 auto">yes · {epct(1 - e_ag)}</p>')
     o.append(box(1352, 330, 440, 120, t("Answer from the experts") + t("fast path", 22, 400, MUTED), TAUPE, order=4))
     o.append(conn(1048, 460, 1048, 640, 5))
-    o.append(f'<p style="position:absolute;left:1064px;top:528px;width:170px;font-size:22px;font-weight:700;color:{MUTED}" data-build-in="fade order 5 auto">no · {pct(e_ag, 0)}</p>')
+    o.append(f'<p style="position:absolute;left:1064px;top:528px;width:170px;font-size:22px;font-weight:700;color:{MUTED}" data-build-in="fade order 5 auto">no · {epct(e_ag)}</p>')
     o.append(box(898, 640, 300, 150, t("Laya encoder") + t(f"frozen · {lp:.0f}M", 22, 400, MUTED), SLATE, order=5))
     o.append(conn(1198, 715, 1352, 715, 6))
     o.append(box(1352, 620, 440, 190, t("ADAR head", 32, 800) + t(f"answer · P(answer right)", 22, 400, BODY) + t(f"P(each expert right) · {hp:.1f}M params", 22, 400, BODY),
@@ -352,10 +357,10 @@ def s_architecture():
     o.append(f'<x-connector x1="648" y1="860" x2="1572" y2="860" head="none" {dash}></x-connector>')
     o.append(f'<x-connector x1="1572" y1="860" x2="1572" y2="810" {dash}></x-connector>')
     o.append(f'<p style="position:absolute;left:664px;top:872px;width:420px;font-size:22px;font-weight:700;color:{MUTED}" data-build-in="fade order 7 auto">expert votes + confidence</p>')
-    o.append(takeaway_abs(f"on AG News, {pct(1 - e_ag, 0)} of inputs never touch the {lp:.0f}M-parameter model; the rest get both views, combined by the head."))
+    o.append(takeaway_abs(f"on AG News, {epct(1 - e_ag)} of inputs never touch the {lp:.0f}M-parameter model; the rest get both views, combined by the head."))
     notes = (f"Here is the full system. Text comes in on the left. Four small networks from our syllabus, TextCNN, RNN, LSTM and "
              f"GRU, answer first; together they take {ms(c0)} on a CPU. A router looks only at those experts and asks: are they sure? "
-             f"On AG News, {pct(1 - e_ag, 0)} of the time they are, and we answer immediately. The other {pct(e_ag, 0)} escalate: the frozen "
+             f"On AG News, {epct(1 - e_ag)} of the time they are, and we answer immediately. The other {epct(e_ag)} escalate: the frozen "
              "Laya encoder reads the text, and the ADAR head combines Laya's view with the experts' votes, shown by the dashed line, "
              "to give the final answer plus calibrated probabilities. Let's zoom into the head.")
     return section("architecture", header("How ADAR works", "System Architecture") + "\n" + "\n".join(o), notes, transition="magic", layout="abs")
@@ -455,18 +460,18 @@ def s_router():
            + rcard(label("Threshold router") + para("Escalate when P(experts right) &lt; τ; τ is picked on validation data.", 24, INK))
            + rcard(label("REINFORCE router · Unit IV") + f'<p style="{MONO};font-size:24px;font-weight:600">r = 1[correct] − λ·cost</p>'
                    + para("A small policy learns the same decision by policy gradient.", 24, INK))
-           + rcard(para(f"<b>AG News:</b> Laya on {pct(ra['escalation_rate'], 0)} of inputs · {fa} cheaper · {pct(ra['accuracy'])} vs {pct(ra['always_tier1_accuracy'])} always-Laya", 24, INK)
-                   + para(f"<b>Emotion:</b> Laya on {pct(re_['escalation_rate'], 0)} · {fe} cheaper · {pct(re_['accuracy'])} vs {pct(re_['always_tier1_accuracy'])}", 24, INK), ACC)
-           + para(f"Headroom: a perfect router would reach {pct(ra['oracle_accuracy'])} on AG News escalating only {pct(ra['oracle_escalation_rate'], 0)}.", 22, MUTED)
+           + rcard(para(f"<b>AG News:</b> Laya on {epct(ra['escalation_rate'])} of inputs · {fa} cheaper · {pct(ra['accuracy'])} vs {pct(ra['always_tier1_accuracy'])} always-Laya", 24, INK)
+                   + para(f"<b>Emotion:</b> Laya on {epct(re_['escalation_rate'])} · {fe} cheaper · {pct(re_['accuracy'])} vs {pct(re_['always_tier1_accuracy'])}", 24, INK), ACC)
+           + para(f"Headroom: a perfect router would reach {pct(ra['oracle_accuracy'])} on AG News escalating only {epct(ra['oracle_escalation_rate'])}.", 22, MUTED)
            + '</div>')
     o = [router_sim(ra["escalation_rate"]), col,
-         takeaway_abs(f"the router learns per dataset how often the big model is worth its cost: {pct(ra['escalation_rate'], 0)} of news articles, {pct(re_['escalation_rate'], 0)} of tweets.")]
+         takeaway_abs(f"the router learns per dataset how often the big model is worth its cost: {epct(ra['escalation_rate'])} of news articles, {epct(re_['escalation_rate'])} of tweets.")]
     notes = (f"This is the cascade as a simulation. Every dot is an input. The experts answer first, and the router decides: "
              f"taupe dots are answered right away, coral dots go to Laya plus ADAR. The split matches our AG News run, where "
-             f"{pct(ra['escalation_rate'], 0)} escalate. We trained two routers: a threshold on the predicted probability that the experts "
+             f"{epct(ra['escalation_rate'])} escalate. We trained two routers: a threshold on the predicted probability that the experts "
              "are right, with the cut-off chosen on validation data, and a REINFORCE policy from Unit IV with reward one for a correct "
              f"answer minus lambda times the cost. On AG News the cascade is {fa} cheaper than always running Laya plus ADAR, at "
-             f"{pct(ra['accuracy'])} instead of {pct(ra['always_tier1_accuracy'])}. On Emotion it calls Laya for {pct(re_['escalation_rate'], 0)} of inputs and is "
+             f"{pct(ra['accuracy'])} instead of {pct(ra['always_tier1_accuracy'])}. On Emotion it calls Laya for {epct(re_['escalation_rate'])} of inputs and is "
              f"{fe} cheaper. A perfect router would reach {pct(ra['oracle_accuracy'])} on AG News, so there is still room to improve the router.")
     return section("router", header("How ADAR works", "The Cascade Router") + "\n" + "\n".join(o), notes, layout="abs")
 
@@ -555,7 +560,7 @@ def s_honesty():
                 f'<div style="position:absolute;left:{x + 310}px;top:{y}px;width:{w}px;height:44px;background:{col};border-radius:0 6px 6px 0" data-build-in="left order {order} auto"></div>'
                 f'<p style="position:absolute;left:{x + 322 + w}px;top:{y}px;width:120px;height:44px;line-height:44px;font-size:22px;{fw}" data-build-in="fade order {order} auto">{txt}</p>')
     o.append(f'<p style="position:absolute;left:168px;top:316px;width:720px;font-size:22px;letter-spacing:2px;text-transform:uppercase;font-weight:700;color:{MUTED}">Honest probabilities · log-loss (lower is better)</p>')
-    o.append(f'<p style="position:absolute;left:168px;top:360px;width:720px;{HEAD};font-size:110px;font-weight:800;line-height:1;color:{ACCT}" data-build-in="pop order 1 auto">{-red * 100:+.0f}%</p>')
+    o.append(f'<p style="position:absolute;left:168px;top:360px;width:720px;{HEAD};font-size:110px;font-weight:800;line-height:1;color:{ACCT}" data-build-in="pop order 1 auto">{abs(red) * 100:.0f}%</p>')
     o.append(f'<p style="position:absolute;left:168px;top:490px;width:720px;font-size:26px;line-height:1.4">{"lower" if red > 0 else "higher"} log-loss than the best baseline ({e(short(best["model"]))})</p>')
     trio = [("ADAR", a, ACC, True), (short(best["model"]), best, colour(best["model"]), False)]
     if best is not lz:
@@ -565,13 +570,15 @@ def s_honesty():
     o.append(f'<p style="position:absolute;left:168px;top:842px;width:720px;font-size:20px;color:{MUTED}">ECE after calibration: ADAR {a["ece_ts"]:.4f} · best baseline {best_ece["ece_ts"]:.4f} ({e(short(best_ece["model"]))})</p>')
     o.append(f'<p style="position:absolute;left:1032px;top:316px;width:720px;font-size:22px;letter-spacing:2px;text-transform:uppercase;font-weight:700;color:{MUTED}">Cost · CPU time per input</p>')
     o.append(f'<p style="position:absolute;left:1032px;top:360px;width:720px;{HEAD};font-size:110px;font-weight:800;line-height:1;color:{SLATE}" data-build-in="pop order 3 auto">{times(a["cpu_ms"], cas["cpu_ms"])}</p>')
-    o.append(f'<p style="position:absolute;left:1032px;top:490px;width:720px;font-size:26px;line-height:1.4">cheaper than always running Laya + ADAR, at {pct(cas["accuracy"])} vs {pct(a["accuracy"])} accuracy</p>')
+    o.append(f'<p style="position:absolute;left:1032px;top:490px;width:720px;font-size:26px;line-height:1.4">cheaper than always running Laya + ADAR, at {pct(cas["accuracy"], 2)} vs {pct(a["accuracy"], 2)} accuracy</p>')
     for i, (n, r, c, b) in enumerate((("Laya zero-shot", lz, SLATE, False), ("Always Laya + ADAR", a, ACC, False), ("ADAR cascade", cas, ACCL, True))):
         o.append(hbar(1032, 610 + 76 * i, n, r["cpu_ms"], mx_c, c, ms(r["cpu_ms"]), b, 4))
     drop = (a["accuracy"] - cas["accuracy"]) * 100
     hon = ("ADAR has the lowest log-loss of every model, so its probabilities are the most honest" if red > 0 else
            f"ADAR’s log-loss is {-red * 100:.0f}% higher than the best baseline’s")
-    o.append(takeaway_abs(f"{hon}; the cascade trades {drop:.2f} pts of accuracy for {times(a['cpu_ms'], cas['cpu_ms'])} less compute."))
+    trade = (f"the cascade matches its accuracy ({pct(cas['accuracy'], 2)} vs {pct(a['accuracy'], 2)}) with {times(a['cpu_ms'], cas['cpu_ms'])} less compute" if drop <= 0.05 else
+             f"the cascade trades {drop:.2f} pts of accuracy for {times(a['cpu_ms'], cas['cpu_ms'])} less compute")
+    o.append(takeaway_abs(f"{hon}; {trade}."))
     notes = (f"Accuracy is not the whole story. On the left is log-loss, which punishes confident mistakes; lower is better. ADAR's is "
              f"{a['nll']:.3f}, {abs(red) * 100:.0f} percent {'lower' if red > 0 else 'higher'} than the best baseline, {short(best['model'])}, at {best['nll']:.3f}, and Laya zero-shot is at "
              f"{lz['nll']:.3f}. On the right is cost, CPU time per input. Laya on its own takes {ms(lz['cpu_ms'])}. Running Laya plus ADAR on everything "
@@ -588,8 +595,8 @@ def s_results_em():
              f"{pct(lp['accuracy'])} with a trained probe on its embeddings. Our small syllabus networks do far better; the best, "
              f"{be['model']}, reaches {pct(be['accuracy'])}. ADAR reaches {pct(a['accuracy'])}. " + verdict("emotion")
              + f" {S['tasks']['emotion']['qc_pass']} of {S['tasks']['emotion']['qc_total']} checks passed. The router learned on its own that Laya rarely helps here: "
-             f"it calls Laya for {pct(re_['escalation_rate'], 0)} of tweets, giving {pct(re_['accuracy'])} at {ms(re_['mean_cost_ms'])} per input instead of {ms(re_['always_tier1_cost_ms'])}.")
-    o[-1] = takeaway_abs(verdict("emotion") + f" Laya alone gets {pct(lz['accuracy'])}; the router calls it for only {pct(re_['escalation_rate'], 0)} of tweets.")
+             f"it calls Laya for {epct(re_['escalation_rate'])} of tweets, giving {pct(re_['accuracy'])} at {ms(re_['mean_cost_ms'])} per input instead of {ms(re_['always_tier1_cost_ms'])}.")
+    o[-1] = takeaway_abs(verdict("emotion") + f" Laya alone gets {pct(lz['accuracy'])}; the router calls it for only {epct(re_['escalation_rate'])} of tweets.")
     return section("results-emotion", header("Results · test accuracy", "Emotion Results") + "\n" + "\n".join(o), notes, layout="abs")
 
 
@@ -766,20 +773,21 @@ def s_demo():
     step = lambda n, t, b: (f'<div style="flex:1;display:flex;flex-direction:column;gap:12px;border-top:2px solid {b};padding:20px 0 0 0">'
                             f'<p style="{HEAD};font-size:40px;font-weight:800">{n}</p>{para(t)}</div>')
     steps = (step("1 · Run", f"Kaggle notebook on GPU T4 ×2: trains, tests and writes the report in {S['total_minutes']:.0f} minutes", INK)
-             + step("2 · Publish", "Both heads on Hugging Face: DEV-HV/adar-head-ag-news and DEV-HV/adar-head-emotion", INK)
+             + step("2 · Publish", ("Both heads on Hugging Face: " + " and ".join(S["hf_uploads"])) if S.get("hf_uploads") else
+                    "Both trained heads, with model cards generated from this run, ready for DEV-HV/adar-head-ag-news and -emotion", INK)
              + step("3 · Use", "Load the head and classify any sentence, with honest confidence", ACC))
     code = ('from adar.inference import ADARClassifier<br>clf = ADARClassifier.from_pretrained("adar-head-ag-news")<br>'
-            'clf.predict(["NASA\'s new telescope captured images of a distant galaxy cluster."])')
+            'clf.predict(["NASA\'s new telescope captured images of a distant galaxy cluster.",<br>'
+            '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Real Madrid beat Barcelona 3-1 in the Champions League semi-final on Tuesday."])')
     out = ""
     if DEMO:
-        d = DEMO[0]
-        out = (f'<p style="{MONO};font-size:24px;line-height:1.6;color:{ACCL}">→ {e(d["label"])} {d["p"]:.3f} · P(answer right) {d["act"]:.3f} · '
-               f'escalate: {"yes" if d["escalate"] else "no"}</p>')
+        out = "".join(f'<p style="{MONO};font-size:24px;line-height:1.6;color:{ACCL}">→ {e(d["label"])} {d["p"]:.3f} · P(answer right) {d["act"]:.3f} · '
+                      f'escalate: {"yes" if d["escalate"] else "no"}</p>' for d in DEMO[:2])
     box = f'<div style="display:flex;flex-direction:column;gap:12px;background:{INK};border-radius:16px;padding:36px"><p style="{MONO};font-size:24px;line-height:1.6;color:{BG}">{code}</p>{out}</div>'
     inner = header("Wrap-up", "Live Demo") + f'\n<div style="display:flex;gap:32px">{steps}</div>\n' + box
     notes = (f"Now the demo, in three steps. One: the Kaggle notebook runs the whole pipeline on free GPUs and writes the report; "
              f"it took {S['total_minutes']:.0f} minutes. Two: both trained heads are published on Hugging Face. Three: anyone can load a head "
-             "and classify a sentence in three lines.")
+             "and classify a sentence in three lines." + ("" if S.get("hf_uploads") else " The heads are packaged with model cards from this run, ready to upload."))
     if DEMO:
         d = DEMO[0]
         notes += (f" This is the real output from our run: the NASA sentence is classified as {d['label']} with {d['p'] * 100:.1f} percent "
@@ -792,8 +800,8 @@ def s_closing():
     inner = (f'<div style="width:1100px;display:flex;flex-direction:column;gap:32px">'
              f'<h2 style="{HEAD};font-size:150px;font-weight:800;line-height:1;letter-spacing:-4px;color:{INK}">Thank You</h2>'
              f'<p style="{HEAD};font-size:44px;font-weight:600;color:{ACCT}">Questions?</p>'
-             f'<p style="{MONO};font-size:24px;line-height:1.7;color:{BODY}">github.com/Harsh4-Dev/System-One-DLE<br>huggingface.co/DEV-HV/adar-head-ag-news</p></div>')
-    notes = "Thank you. The code, the notebook and every result are on GitHub, and the trained heads are on Hugging Face. We are happy to take questions."
+             f'<p style="{MONO};font-size:24px;line-height:1.7;color:{BODY}">github.com/Harsh4-Dev/System-One-DLE' + "".join(f"<br>huggingface.co/{r}" for r in S.get("hf_uploads") or []) + '</p></div>')
+    notes = "Thank you. The code, the notebook and every result from this run are on GitHub. We are happy to take questions."
     return section("closing", inner, notes).replace("justify-content:space-between", "justify-content:center")
 
 

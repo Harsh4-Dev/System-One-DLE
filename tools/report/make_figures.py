@@ -95,8 +95,10 @@ def auto_bars(task, fname, title):
     accs = [r["accuracy"] * 100 for r in rs]
     lo = max(0, int((min(accs) - 2) // 5 * 5))
     hi = min(100, int(-(-(max(accs) + 1) // 1)))
+    er = ((S["tasks"][task].get("router") or {}).get("chosen") or {}).get("escalation_rate")
+    esc = "?" if er is None else (f"{er * 100:.1f}" if 0 < er < 0.01 else f"{er * 100:.0f}")
     names = [(r["model"].replace("ours, ", "") if r["model"].startswith("ADAR (ours") else
-              re.sub(r"ADAR cascade \(escalates (\d+)%\)", r"ADAR cascade (Laya on \1%)", r["model"]), r["model"]) for r in rs]
+              re.sub(r"ADAR cascade \(escalates (\d+)%\)", f"ADAR cascade (Laya on {esc}%)", r["model"]), r["model"]) for r in rs]
     bars(task, names, lo, hi, fname, title)
 
 sp = S.get("splits", {})

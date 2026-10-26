@@ -1,0 +1,82 @@
+{
+  "run_dir": "/kaggle/working/adar_run",
+  "tasks": [
+    "ag_news",
+    "emotion"
+  ],
+  "task_sizes": {
+    "ag_news": {
+      "n_train": null,
+      "n_val": 6000,
+      "n_test": null,
+      "max_len": 128,
+      "expert_max_len": 64
+    },
+    "emotion": {
+      "n_train": null,
+      "n_val": null,
+      "n_test": null,
+      "max_len": 64,
+      "expert_max_len": 48
+    }
+  },
+  "data_source": "auto",
+  "local_data_dir": null,
+  "n_folds": 3,
+  "seed": 0,
+  "encoder": {
+    "backend": "laya",
+    "model_id": "convaiinnovations/laya",
+    "subfolder": null,
+    "batch_size": 128,
+    "shard_size": 4096
+  },
+  "experts": [
+    "textcnn",
+    "rnn",
+    "lstm",
+    "gru"
+  ],
+  "expert_epochs": 10,
+  "sklearn_models": [
+    "sk_naive_bayes",
+    "sk_logreg",
+    "sk_linear_svm",
+    "sk_random_forest",
+    "sk_mlp"
+  ],
+  "head_seeds": [
+    0,
+    1,
+    2
+  ],
+  "head_epochs": 30,
+  "ablations": {
+    "laya_only": {
+      "use_experts": false
+    },
+    "experts_only": {
+      "use_state": false
+    },
+    "no_attention": {
+      "use_transformer": false
+    }
+  },
+  "laya_zero_shot": true,
+  "typed_decisions": {
+    "enabled": true,
+    "models": [
+      "convaiinnovations/laya-typed-decisions",
+      "convaiinnovations/laya"
+    ],
+    "train_limit": null,
+    "test_limit": null
+  },
+  "publish": {
+    "hf_repo_prefix": null,
+    "private": true
+  },
+  "measure_cpu_latency": true,
+  "continue_on_error": true,
+  "time_budget_h": 11.5
+}

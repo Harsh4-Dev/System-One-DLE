@@ -5,8 +5,8 @@
   "kl": 0.117,
   "brier": 0.0615,
   "ece": 0.2137,
-  "latency_ms_p50": null,
-  "latency_note": "see metrics.json",
+  "latency_ms_p50": 148.3,
+  "latency_note": "batch 1, 5 questions per case, Kaggle GPU T4",
   "matches_published_accuracy": true,
   "calibration_study": {
     "laya-typed-decisions": {

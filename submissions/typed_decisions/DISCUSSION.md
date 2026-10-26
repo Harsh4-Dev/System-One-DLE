@@ -4,7 +4,7 @@ Hi! The leaderboard lists **Laya typed-decisions** (fitted on `train`) with accu
 
 | Model | Mode | Accuracy | KL from gold | Brier | ECE | p50 latency |
 |---|---|---|---|---|---|---|
-| [Laya typed-decisions](https://huggingface.co/convaiinnovations/laya-typed-decisions) | fitted on `train` | 0.7665 | 0.117 | 0.0615 | 0.2137 | – |
+| [Laya typed-decisions](https://huggingface.co/convaiinnovations/laya-typed-decisions) | fitted on `train` | 0.7665 | 0.117 | 0.0615 | 0.2137 | 148.3 ms (batch 1, 5 questions per case, Kaggle GPU T4) |
 
 Our accuracy matches the published 0.766, so the scorer agrees with the card (accuracy = argmax vs gold argmax; Brier = sum over the label set against the gold distribution; ECE = top-label confidence, 10 equal-width bins).
 

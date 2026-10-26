@@ -108,6 +108,8 @@ def main():
         shutil.copy2(max(logs, key=os.path.getsize), kernel_log)
     sh(["node", os.path.join(ROOT, "tools", "report", "build_report.js"), summary, figs,
         os.path.join(ROOT, "docs", "ADAR_Project_Report.docx")] + ([kernel_log] if logs else []), check=False)
+    sh([sys.executable, os.path.join(ROOT, "tools", "report", "readme_results.py"), summary], check=False)
+    sh([sys.executable, os.path.join(ROOT, "tools", "report", "update_explainer.py"), summary], check=False)
     if a.deck:
         sh([sys.executable, os.path.join(ROOT, "tools", "report", "build_slides.py"), summary, a.deck]
            + (["--log", kernel_log] if logs else []), check=False)

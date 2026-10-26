@@ -132,29 +132,30 @@ ul.clean li { margin: 6px 0; }
   <section>
     <h2>1 · The problem</h2>
     <div class="col"><p>Four things go wrong when you train one deep-learning model and ship it.</p></div>
+<!-- gen:problems -->
     <div class="problems">
       <div class="problem">
-        <h3>Models say "I'm sure" when they are not</h3>
-        <span class="big">21–23%</span>
-        <p>of the wrong answers from TextCNN, LSTM and GRU on our AG News test came with more than 90% confidence.</p>
+        <h3>The biggest model is not always right</h3>
+        <span class="big">58.1% vs 92.2%</span>
+        <p>Laya zero-shot on Emotion tweets, versus a 1.2M-parameter Bi-LSTM from our syllabus.</p>
       </div>
       <div class="problem">
-        <h3>Picking one architecture throws accuracy away</h3>
-        <span class="big">89.5% → 92.7%</span>
-        <p>Best single expert, versus how often at least one of the four experts is right. They are good on different inputs.</p>
+        <h3>Picking one route for every input wastes accuracy</h3>
+        <span class="big">92.5% → 94.9%</span>
+        <p>AG News: the cheap experts alone, versus a perfect per-input choice that calls Laya on only 8% of inputs.</p>
       </div>
       <div class="problem">
         <h3>Strong models are expensive</h3>
-        <span class="big">0.4 ms vs 20+ ms</span>
-        <p>A TextCNN versus a transformer encoder per input on a laptop CPU. Laya-large is slower still.</p>
+        <span class="big">1.1 ms vs 706 ms</span>
+        <p>A TextCNN versus Laya, per news article on a CPU.</p>
       </div>
       <div class="problem">
         <h3>Even System-One models drift</h3>
-        <span class="big">ECE 0.213</span>
-        <p>Laya's fine-tuned checkpoint on the public typed-decisions leaderboard: its probabilities are often off by about 20 points.</p>
+        <span class="big">ECE 0.214</span>
+        <p>Laya's fine-tuned checkpoint on the public typed-decisions benchmark: its confidence is off by about 21 points on average.</p>
       </div>
     </div>
-  </section>
+<!-- /gen:problems -->  </section>
 
   <!-- 2. FIX -->
   <section>
@@ -165,16 +166,17 @@ ul.clean li { margin: 6px 0; }
       <div class="flow-row">
         <div class="node">Input text</div>
         <div class="arrow">→</div>
-        <div class="node">TextCNN · RNN · LSTM · GRU<small>syllabus experts, ~5 ms together</small></div>
+        <div class="node">TextCNN · RNN · LSTM · GRU<small>syllabus experts<!-- gen:cost0 -->, 17 ms together<!-- /gen:cost0 --></small></div>
         <div class="arrow">→</div>
         <div class="node">Router<small>"are the experts sure?"</small></div>
       </div>
-      <div class="branch"><b>Yes</b> (about 9 in 10 inputs): answer immediately from the experts.</div>
-      <div class="branch"><b>No</b> (about 1 in 10): escalate ↓</div>
-      <div class="flow-row">
+<!-- gen:branches -->
+      <div class="branch"><b>Yes</b> (64% of news articles, 99.9% of tweets): answer immediately from the experts.</div>
+      <div class="branch"><b>No</b> (36% of articles, 0.1% of tweets): escalate ↓</div>
+<!-- /gen:branches -->      <div class="flow-row">
         <div class="node">Laya encoder<small>frozen System-One model</small></div>
         <div class="arrow">→</div>
-        <div class="node hot">ADAR head<small>~2M trained parameters</small></div>
+        <div class="node hot">ADAR head<small><!-- gen:params -->2.3M<!-- /gen:params --> trained parameters</small></div>
         <div class="arrow">→</div>
         <div class="node">Answer<small>+ P(answer right) + P(each expert right)</small></div>
       </div>
@@ -214,27 +216,30 @@ ul.clean li { margin: 6px 0; }
   <!-- 3. RESULTS -->
   <section>
     <h2>3 · The improvement</h2>
-    <div class="note col"><strong>Where these numbers come from.</strong> Laya's weights could not be downloaded where the code was built, so this check used <b>DistilBERT as a stand-in encoder</b>, with 30,000 AG News training rows and the full 7,600-row test set. The Kaggle notebook produces the same tables with the real Laya encoder; those are the numbers to report. Every model is temperature-scaled on validation data, and a claim counts only when its 95% bootstrap confidence interval excludes zero.</div>
+<!-- gen:results-top -->
+    <div class="note col"><strong>Where these numbers come from.</strong> One full run of our Kaggle notebook (GPU T4 ×2, 63 minutes) with the real Laya encoder, on the full AG News data (7,600 test articles). Every number is read from <code>results/kaggle_run/summary.json</code>. Every model is temperature-scaled on validation data, and a claim counts only when its 95% bootstrap confidence interval excludes zero.</div>
 
     <div class="stats">
-      <div class="stat"><div class="v">91.7%</div><div class="l">ADAR accuracy, +0.8 points over the best scikit-learn model (CI +0.3 to +1.3)</div></div>
+      <div class="stat"><div class="v">93.28%</div><div class="l">ADAR accuracy, +0.93 points over Laya zero-shot (CI +0.42 to +1.47). ADAR significantly beats Laya zero-shot, the best syllabus network and the best scikit-learn model.</div></div>
       <div class="stat"><div class="v">−15%</div><div class="l">log-loss (NLL) versus the best baseline: more honest probabilities</div></div>
-      <div class="stat"><div class="v">9%</div><div class="l">of inputs needed the expensive path in the cascade, which still beat every baseline</div></div>
+      <div class="stat"><div class="v">36%</div><div class="l">of inputs needed Laya in the cascade: 93.32% accuracy at 2.6× less CPU time</div></div>
     </div>
 
-    <figure id="fig-acc">
+<!-- /gen:results-top -->    <figure id="fig-acc">
       <div class="fig-title">Test accuracy by model (AG News, 7,600 articles)</div>
       <div class="legend"><span style="--c: var(--neutral-mark)">baseline</span><span style="--c: var(--accent)">ADAR (ours)</span></div>
       <div class="chart-wrap"><svg id="acc" width="100%" height="460" role="img" aria-label="Dot plot of test accuracy per model"></svg></div>
+<!-- gen:acc-caption -->
       <figcaption>Axis starts at 85% so the differences are visible. Hover a dot for exact values.</figcaption>
-    </figure>
+<!-- /gen:acc-caption -->    </figure>
 
     <figure id="fig-cost">
       <div class="fig-title">Accuracy for the cost: CPU time per input (log scale)</div>
       <div class="legend"><span style="--c: var(--neutral-mark)">baseline</span><span style="--c: var(--accent)">ADAR, always using Laya</span><span class="line" style="--c: var(--accent)">ADAR cascade, sweeping the escalation threshold</span></div>
       <div class="chart-wrap"><svg id="cost" width="100%" height="380" role="img" aria-label="Scatter of accuracy versus CPU latency with the ADAR cascade curve"></svg></div>
-      <figcaption>Up and to the left is better. From about 7 ms per input, the cascade curve sits above every baseline.</figcaption>
-    </figure>
+<!-- gen:cost-caption -->
+      <figcaption>Up and to the left is better. The line is the cascade with every escalation threshold; the router picked 36% escalation on validation data.</figcaption>
+<!-- /gen:cost-caption -->    </figure>
 
     <details>
       <summary>Show the full table</summary>
@@ -246,15 +251,16 @@ ul.clean li { margin: 6px 0; }
       </div>
     </details>
 
+<!-- gen:ablation-routing -->
     <h3>Which parts matter</h3>
     <div class="table-wrap">
       <table>
-        <thead><tr><th>Variant</th><th class="n">Accuracy</th><th class="n">NLL</th><th>What it tells us</th></tr></thead>
+        <thead><tr><th>Variant (seed 0)</th><th class="n">Accuracy</th><th class="n">NLL</th><th>Change when removed</th></tr></thead>
         <tbody>
-          <tr class="ours"><td>Full ADAR</td><td class="n">91.7%</td><td class="n">0.244</td><td></td></tr>
-          <tr><td>Without the experts</td><td class="n">90.8%</td><td class="n">0.276</td><td>Experts add +0.9 points (significant)</td></tr>
-          <tr><td>Without the encoder</td><td class="n">89.7%</td><td class="n">0.303</td><td>Encoder adds +2.0 points (significant)</td></tr>
-          <tr><td>Without attention</td><td class="n">91.5%</td><td class="n">0.255</td><td>+0.2 points, not significant; attention mainly helps the probabilities</td></tr>
+          <tr class="ours"><td>Full ADAR (mean of seeds)</td><td class="n">93.28%</td><td class="n">0.197</td><td></td></tr>
+          <tr><td>Without the experts (Laya only)</td><td class="n">91.82%</td><td class="n">0.238</td><td>-1.64 points (CI -2.12 to -1.18), significant</td></tr>
+          <tr><td>Without Laya (experts only)</td><td class="n">92.63%</td><td class="n">0.227</td><td>-0.83 points (CI -1.28 to -0.41), significant</td></tr>
+          <tr><td>Without attention</td><td class="n">93.20%</td><td class="n">0.202</td><td>-0.26 points (CI -0.57 to -0.00), not significant</td></tr>
         </tbody>
       </table>
     </div>
@@ -263,31 +269,31 @@ ul.clean li { margin: 6px 0; }
     <div class="col"><p>Nobody told the head which expert is better. It worked out a routing weight for each one, per input:</p></div>
     <div class="table-wrap">
       <table>
-        <thead><tr><th>Expert</th><th class="n">Avg routing weight</th><th class="n">Real accuracy</th></tr></thead>
+        <thead><tr><th>Expert</th><th class="n">Avg routing weight</th><th class="n">Real accuracy</th><th class="n">AUC of “is it right?”</th></tr></thead>
         <tbody>
-          <tr><td>Bi-GRU</td><td class="n">0.187</td><td class="n">89.4%</td></tr>
-          <tr><td>TextCNN</td><td class="n">0.184</td><td class="n">89.5%</td></tr>
-          <tr><td>Bi-LSTM</td><td class="n">0.117</td><td class="n">89.3%</td></tr>
-          <tr><td>Bi-RNN</td><td class="n">0.065</td><td class="n">88.4%</td></tr>
+          <tr><td>TextCNN</td><td class="n">0.161</td><td class="n">91.7%</td><td class="n">0.910</td></tr>
+          <tr><td>Bi-GRU</td><td class="n">0.160</td><td class="n">92.4%</td><td class="n">0.899</td></tr>
+          <tr><td>Bi-LSTM</td><td class="n">0.150</td><td class="n">92.3%</td><td class="n">0.900</td></tr>
+          <tr><td>Bi-RNN</td><td class="n">0.067</td><td class="n">91.5%</td><td class="n">0.913</td></tr>
         </tbody>
       </table>
     </div>
-    <div class="col"><p>It trusts the plain RNN least: the weakest expert here, and the architecture the syllabus flags for vanishing gradients. Its per-input "is this expert right?" predictions separate right from wrong with an AUC of about 0.89.</p></div>
-  </section>
+    <div class="col"><p>It gives Bi-RNN the lowest weight, the plain RNN, which the syllabus flags for vanishing gradients. Its per-input “is this expert right?” predictions separate right from wrong answers with AUCs between 0.90 and 0.91.</p></div>
+<!-- /gen:ablation-routing -->  </section>
 
   <!-- 4. LIMITS -->
   <section>
     <h2>4 · Limits, stated plainly</h2>
+<!-- gen:limits -->
     <ul class="clean col">
-      <li>The numbers on this page use a stand-in encoder. The Laya numbers come from the Kaggle run.</li>
       <li>Laya is frozen; ADAR trains only the head.</li>
-      <li>Attention's accuracy gain is not significant at this scale.</li>
-      <li>The cascade threshold chosen on validation lost 0.47 points on test against always using the expensive path (the target was at most 0.5).</li>
-      <li>The REINFORCE router stops escalating altogether once the cost weight λ reaches 0.4.</li>
-      <li>On typed-decisions, ADAR-Cal re-calibrates Laya's probabilities; it does not change Laya's answers.</li>
       <li>Only text classification is covered so far.</li>
+      <li>On Emotion tweets, ADAR ties the best syllabus network (+0.00 points, CI -0.75 to +0.75).</li>
+      <li>Attention's accuracy gain is not significant; it mainly helps the probabilities.</li>
+      <li>The cascade threshold chosen on validation gives 93.32% on test against 93.46% when always escalating.</li>
+      <li>On typed-decisions, ADAR-Cal re-calibrates Laya's probabilities; it does not change Laya's answers.</li>
     </ul>
-  </section>
+<!-- /gen:limits -->  </section>
 
   <!-- 5. SYLLABUS -->
   <section>
@@ -312,31 +318,36 @@ ul.clean li { margin: 6px 0; }
       <div class="doc"><code>docs/KAGGLE_SETUP.md</code><p>Run the notebook on Kaggle GPU T4 ×2, resume after failures, read the results.</p></div>
       <div class="doc"><code>docs/LEADERBOARD_SUBMISSION.md</code><p>Checklist for the typed-decisions leaderboard; the RouterArena plan.</p></div>
       <div class="doc"><code>docs/GITHUB_AND_HF_UPLOAD.md</code><p>Make the repo public and publish the trained heads on Hugging Face.</p></div>
-      <div class="doc"><code>docs/qc/ag_news_standin/</code><p>The full local QC report, CSV and figures behind this page.</p></div>
+      <div class="doc"><code>results/kaggle_run/</code><p>The full Kaggle-run reports, CSVs and figures behind this page.</p></div>
     </div>
   </section>
 </div>
 
 <script>
 (function () {
+  /* gen:data */
   var rows = [
-    ["Random Forest (TF-IDF)", 0.8620, 0.399, 0.202, 0.016, 68.3, 0],
-    ["Bi-RNN", 0.8836, 0.354, 0.177, 0.024, 1.31, 0],
-    ["Encoder + Logistic Regression", 0.8903, 0.319, 0.163, 0.014, 19.7, 0],
-    ["Bi-LSTM", 0.8930, 0.329, 0.167, 0.025, 0.99, 0],
-    ["Stacking (encoder + experts)", 0.8930, 0.311, 0.160, 0.016, 24.8, 0],
-    ["Bi-GRU", 0.8938, 0.323, 0.164, 0.030, 2.38, 0],
-    ["TextCNN", 0.8951, 0.332, 0.164, 0.028, 0.42, 0],
-    ["Average of the 4 experts", 0.8970, 0.318, 0.159, 0.026, 5.10, 0],
-    ["Naive Bayes (TF-IDF)", 0.8980, 0.328, 0.159, 0.025, 1.76, 0],
-    ["Logistic Regression (TF-IDF)", 0.9057, 0.298, 0.147, 0.020, 0.77, 0],
-    ["Linear SVM (TF-IDF)", 0.9071, 0.287, 0.143, 0.009, 3.41, 0],
-    ["sklearn MLP (TF-IDF)", 0.9089, 0.289, 0.144, 0.019, 18.1, 0],
-    ["ADAR cascade (9% escalated)", 0.9121, 0.295, 0.144, 0.021, 7.02, 1],
-    ["ADAR (mean of 3 seeds)", 0.9165, 0.244, 0.127, 0.007, 26.1, 1]
+    ["Random Forest (TF-IDF)", 0.8689, 0.384, 0.198, 0.014, 66.9, 0],
+    ["Laya + linear probe", 0.9053, 0.278, 0.145, 0.012, 472, 0],
+    ["Naive Bayes (TF-IDF)", 0.9076, 0.301, 0.147, 0.026, 2.95, 0],
+    ["MLP (TF-IDF)", 0.9124, 0.275, 0.138, 0.018, 27.2, 0],
+    ["Bi-RNN", 0.9150, 0.263, 0.133, 0.019, 3.39, 0],
+    ["TextCNN", 0.9171, 0.258, 0.128, 0.019, 1.11, 0],
+    ["Stacking (Laya + experts)", 0.9204, 0.232, 0.120, 0.009, 489, 0],
+    ["Bi-LSTM", 0.9230, 0.232, 0.121, 0.014, 6.4, 0],
+    ["Bi-GRU", 0.9241, 0.237, 0.122, 0.017, 6.16, 0],
+    ["Average of 4 experts", 0.9247, 0.235, 0.120, 0.016, 17.1, 0],
+    ["Logistic Regression (TF-IDF)", 0.9251, 0.241, 0.120, 0.015, 2.79, 0],
+    ["Linear SVM (TF-IDF)", 0.9251, 0.237, 0.118, 0.008, 2.76, 0],
+    ["Laya zero-shot", 0.9253, 0.237, 0.120, 0.021, 706, 0],
+    ["ADAR (mean of 3 seeds)", 0.9328, 0.197, 0.103, 0.009, 492, 1],
+    ["ADAR cascade (36% escalated)", 0.9332, 0.208, 0.106, 0.011, 189, 1]
   ];
-  // cascade threshold sweep, test set (docs/qc/ag_news_standin/router.json): [mean ms, accuracy]
-  var curve = [[5.1,0.897],[5.63,0.9033],[6.16,0.9078],[6.68,0.9109],[7.21,0.9126],[7.73,0.9136],[8.26,0.9153],[8.79,0.9146],[9.31,0.9151],[9.84,0.9153],[10.36,0.9154],[10.89,0.9155],[11.42,0.9158],[11.94,0.9155],[12.47,0.9158],[12.99,0.9158],[13.52,0.9159],[14.05,0.9155],[14.57,0.9158],[15.1,0.9159],[15.62,0.9158],[16.15,0.9158],[16.68,0.9159],[17.2,0.9159],[17.73,0.9159],[18.25,0.9162],[18.78,0.9163],[19.31,0.9162],[19.83,0.9163],[20.36,0.9163],[20.88,0.9163],[21.41,0.9164],[21.94,0.9166],[22.46,0.9166],[22.99,0.9166],[23.51,0.9166],[24.04,0.9166],[24.57,0.9166],[25.09,0.9167],[25.62,0.9168],[26.14,0.9168]];
+  // cascade threshold sweep on the test set (results/kaggle_run/summary.json): [mean ms, accuracy]
+  var curve = [[17.06, 0.9247], [17.06, 0.9247], [28.92, 0.927], [40.79, 0.93], [52.66, 0.9313], [64.52, 0.9309], [76.39, 0.9309], [88.26, 0.932], [100.12, 0.9321], [111.99, 0.9324], [123.86, 0.9322], [135.73, 0.9325], [147.59, 0.9328], [159.46, 0.9329], [171.33, 0.933], [183.19, 0.9332], [195.06, 0.9333], [206.93, 0.9333], [218.79, 0.9334], [230.66, 0.9334], [242.53, 0.9336], [254.39, 0.9336], [266.26, 0.9337], [278.13, 0.9338], [290.0, 0.9342], [301.86, 0.9343], [313.73, 0.9343], [325.6, 0.9343], [337.46, 0.9343], [349.33, 0.9343], [361.2, 0.9345], [373.06, 0.9345], [384.93, 0.9346], [396.8, 0.9346], [408.67, 0.9346], [420.53, 0.9346], [432.4, 0.9346], [444.27, 0.9346], [456.13, 0.9346], [468.0, 0.9346], [479.87, 0.9346], [491.67, 0.9346], [491.73, 0.9346]];
+  var AX = {"x0": 0.85, "x1": 0.94, "step": 0.01, "c0": 1, "c1": 1000, "cticks": [1, 3, 10, 30, 100, 300, 1000], "y0": 0.86, "y1": 0.94, "yticks": [0.86, 0.87, 0.88, 0.89, 0.9, 0.91, 0.92, 0.93, 0.94]};
+  var LABELLED = {"TextCNN": 1, "Bi-GRU": 1, "Linear SVM (TF-IDF)": 1, "Laya zero-shot": 1, "Random Forest (TF-IDF)": 1, "MLP (TF-IDF)": 1, "ADAR (mean of 3 seeds)": 1, "ADAR cascade (36% escalated)": 1};
+  /* /gen:data */
   var SVGNS = "http://www.w3.org/2000/svg";
   function el(tag, attrs, parent) { var e = document.createElementNS(SVGNS, tag); for (var k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; }
   function css(name) { return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
@@ -357,13 +368,13 @@ ul.clean li { margin: 6px 0; }
   function drawAcc() {
     var svg = document.getElementById("acc"), fig = document.getElementById("fig-acc");
     svg.innerHTML = "";
-    var W = Math.max(svg.clientWidth, 560), H = 460, L = 210, R = 56, T = 12, B = 34;
+    var W = Math.max(svg.clientWidth, 560), H = 460, L = 240, R = 56, T = 12, B = 34;
     svg.setAttribute("viewBox", "0 0 " + W + " " + H);
-    var x0 = 0.85, x1 = 0.925, n = rows.length, rowH = (H - T - B) / n;
+    var x0 = AX.x0, x1 = AX.x1, n = rows.length, rowH = (H - T - B) / n;
     var X = function (v) { return L + (v - x0) / (x1 - x0) * (W - L - R); };
     var ink = css("--muted"), rule = css("--rule"), fg = css("--fg"), acc = css("--accent"), neu = css("--neutral-mark"), surf = css("--surface");
     var tip = tipFor(fig);
-    for (var g = 0.85; g <= 0.9201; g += 0.01) {
+    for (var g = AX.x0; g <= AX.x1 + 1e-9; g += AX.step) {
       el("line", { x1: X(g), x2: X(g), y1: T, y2: H - B, stroke: rule, "stroke-width": 1 }, svg);
       var tx = el("text", { x: X(g), y: H - B + 18, "text-anchor": "middle", "font-size": 11, fill: ink }, svg); tx.textContent = Math.round(g * 100) + "%";
     }
@@ -384,29 +395,30 @@ ul.clean li { margin: 6px 0; }
     svg.innerHTML = "";
     var W = Math.max(svg.clientWidth, 560), H = 380, L = 56, R = 24, T = 16, B = 44;
     svg.setAttribute("viewBox", "0 0 " + W + " " + H);
-    var lx0 = Math.log10(0.3), lx1 = Math.log10(100), y0 = 0.855, y1 = 0.92;
+    var lx0 = Math.log10(AX.c0), lx1 = Math.log10(AX.c1), y0 = AX.y0, y1 = AX.y1;
     var X = function (v) { return L + (Math.log10(v) - lx0) / (lx1 - lx0) * (W - L - R); };
     var Y = function (v) { return T + (1 - (v - y0) / (y1 - y0)) * (H - T - B); };
     var ink = css("--muted"), rule = css("--rule"), fg = css("--fg"), acc = css("--accent"), neu = css("--neutral-mark"), surf = css("--surface");
     var tip = tipFor(fig);
-    [0.3, 1, 3, 10, 30, 100].forEach(function (v) {
+    AX.cticks.forEach(function (v) {
       el("line", { x1: X(v), x2: X(v), y1: T, y2: H - B, stroke: rule }, svg);
       var t = el("text", { x: X(v), y: H - B + 18, "text-anchor": "middle", "font-size": 11, fill: ink }, svg); t.textContent = v + " ms";
     });
-    [0.86, 0.88, 0.90, 0.92].forEach(function (v) {
+    AX.yticks.forEach(function (v) {
       el("line", { x1: L, x2: W - R, y1: Y(v), y2: Y(v), stroke: rule }, svg);
       var t = el("text", { x: L - 8, y: Y(v) + 4, "text-anchor": "end", "font-size": 11, fill: ink }, svg); t.textContent = Math.round(v * 100) + "%";
     });
     var d = curve.map(function (p, i) { return (i ? "L" : "M") + X(p[0]).toFixed(1) + "," + Y(p[1]).toFixed(1); }).join("");
     el("path", { d: d, fill: "none", stroke: acc, "stroke-width": 2 }, svg);
-    var labelled = { "TextCNN": 1, "Linear SVM (TF-IDF)": 1, "Logistic Regression (TF-IDF)": 1, "sklearn MLP (TF-IDF)": 1, "Random Forest (TF-IDF)": 1, "ADAR (mean of 3 seeds)": 1, "ADAR cascade (9% escalated)": 1 };
+    var labelled = LABELLED;
     rows.forEach(function (r) {
       var ours = r[6] === 1, cx = X(r[5]), cy = Y(r[1]);
       el("circle", { cx: cx, cy: cy, r: ours ? 7 : 5.5, fill: ours ? acc : neu, stroke: surf, "stroke-width": 2 }, svg);
       if (labelled[r[0]]) {
         var right = cx < W - 170;
-        var t = el("text", { x: right ? cx + 10 : cx - 10, y: cy - 9, "text-anchor": right ? "start" : "end", "font-size": 11, fill: ours ? fg : ink, "font-weight": ours ? 700 : 500 }, svg);
-        t.textContent = r[0].replace(" (mean of 3 seeds)", "").replace(" (9% escalated)", "");
+        var cas = /cascade/.test(r[0]), low = /Laya zero-shot/.test(r[0]);
+        var t = el("text", { x: cas ? cx - 12 : right ? cx + 10 : cx - 10, y: cas ? cy + 4 : low ? cy + 20 : cy - 9, "text-anchor": cas ? "end" : right ? "start" : "end", "font-size": 11, fill: ours ? fg : ink, "font-weight": ours ? 700 : 500 }, svg);
+        t.textContent = r[0].replace(/ \(.*\)$/, "");
       }
       var hit = el("circle", { cx: cx, cy: cy, r: 14, fill: "transparent" }, svg);
       hit.addEventListener("mousemove", function () { var p = place(fig, svg, cx * svg.clientWidth / W, cy * svg.clientHeight / H); tip.show("<b>" + r[0] + "</b><br>" + pct(r[1]) + " at " + r[5] + " ms per input", p[0], p[1]); });

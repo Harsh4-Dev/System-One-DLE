@@ -1,613 +1,1346 @@
 {
- "source": "Kaggle notebook run, GPU T4 x2, profile=full (log adar01.log)",
+ "source": "fresh Kaggle run (proof bundle adar_results_small.zip)",
+ "collected_at": "2026-10-26T18:41:20+00:00",
+ "encoder": {
+  "backend": "laya",
+  "model_id": "convaiinnovations/laya",
+  "subfolder": null,
+  "batch_size": 128,
+  "shard_size": 4096
+ },
+ "standin_encoder": false,
+ "stage_status": {
+  "experts:ag_news": "done",
+  "sklearn:ag_news": "done",
+  "experts:emotion": "done",
+  "sklearn:emotion": "done",
+  "embed:ag_news": "done",
+  "probe:ag_news": "done",
+  "zeroshot:ag_news": "done",
+  "embed:emotion": "done",
+  "probe:emotion": "done",
+  "zeroshot:emotion": "done",
+  "head:ag_news": "done",
+  "router:ag_news": "done",
+  "head:emotion": "done",
+  "router:emotion": "done",
+  "report:ag_news": "done",
+  "report:emotion": "done",
+  "typed_decisions:convaiinnovations/laya-typed-decisions": "done",
+  "typed_decisions:convaiinnovations/laya": "done",
+  "bundle": "done"
+ },
+ "stage_seconds": {
+  "experts:ag_news": 631.4,
+  "sklearn:ag_news": 573.0,
+  "experts:emotion": 95.3,
+  "sklearn:emotion": 331.3,
+  "embed:ag_news": 394.6,
+  "probe:ag_news": 323.5,
+  "zeroshot:ag_news": 163.1,
+  "embed:emotion": 44.6,
+  "probe:emotion": 144.3,
+  "zeroshot:emotion": 39.6,
+  "head:ag_news": 488.0,
+  "router:ag_news": 4.0,
+  "head:emotion": 38.5,
+  "router:emotion": 3.4,
+  "report:ag_news": 3.0,
+  "report:emotion": 1.7,
+  "typed_decisions:convaiinnovations/laya-typed-decisions": 245.3,
+  "typed_decisions:convaiinnovations/laya": 240.1
+ },
  "tasks": {
   "ag_news": {
    "rows": [
     {
-     "model": "Random Forest (TF-IDF)",
-     "family": "scikit-learn",
-     "unit": "-",
-     "accuracy": 0.8689,
-     "macro_f1": 0.8681,
-     "nll": 0.3842,
-     "brier": 0.198,
-     "ece_ts": 0.0137,
-     "ece_raw": 0.2183,
-     "aurc": 0.0382,
-     "cpu_ms": 57.04,
-     "params_M": null
-    },
-    {
-     "model": "Laya encoder + Logistic Regression",
-     "family": "System One + sklearn",
-     "unit": "III",
-     "accuracy": 0.9053,
-     "macro_f1": 0.9052,
-     "nll": 0.2778,
-     "brier": 0.145,
-     "ece_ts": 0.0123,
-     "ece_raw": 0.0207,
-     "aurc": 0.0215,
-     "cpu_ms": 464.53,
-     "params_M": 394.78
-    },
-    {
      "model": "Naive Bayes (TF-IDF)",
      "family": "scikit-learn",
      "unit": "-",
-     "accuracy": 0.9076,
-     "macro_f1": 0.9073,
-     "nll": 0.3011,
-     "brier": 0.1471,
-     "ece_ts": 0.0259,
-     "ece_raw": 0.0455,
-     "aurc": 0.0285,
-     "cpu_ms": 2.6,
-     "params_M": null
+     "accuracy": 0.9076315789473685,
+     "macro_f1": 0.9073357320376572,
+     "nll": 0.3011421859264374,
+     "brier": 0.14706663874538106,
+     "ece_ts": 0.025901677620254103,
+     "ece_raw": 0.04545693015189545,
+     "aurc": 0.028545582172686164,
+     "cpu_ms": 2.9536525000253278,
+     "params_M": null,
+     "key": "sk_naive_bayes"
+    },
+    {
+     "model": "Logistic Regression (TF-IDF)",
+     "family": "scikit-learn",
+     "unit": "-",
+     "accuracy": 0.9251315789473684,
+     "macro_f1": 0.925013175989167,
+     "nll": 0.24097774922847748,
+     "brier": 0.12024175836611452,
+     "ece_ts": 0.01489568923256901,
+     "ece_raw": 0.01489909216761592,
+     "aurc": 0.018410538679248172,
+     "cpu_ms": 2.7917175000311545,
+     "params_M": null,
+     "key": "sk_logreg"
+    },
+    {
+     "model": "Linear SVM (TF-IDF)",
+     "family": "scikit-learn",
+     "unit": "-",
+     "accuracy": 0.9251315789473684,
+     "macro_f1": 0.9249832093881103,
+     "nll": 0.23660573363304138,
+     "brier": 0.11786414561929309,
+     "ece_ts": 0.007627630002404493,
+     "ece_raw": 0.022784193150307008,
+     "aurc": 0.01939279727270264,
+     "cpu_ms": 2.7627784999140204,
+     "params_M": null,
+     "key": "sk_linear_svm"
+    },
+    {
+     "model": "Random Forest (TF-IDF)",
+     "family": "scikit-learn",
+     "unit": "-",
+     "accuracy": 0.8689473684210526,
+     "macro_f1": 0.8681071047916177,
+     "nll": 0.38422080874443054,
+     "brier": 0.19801930642178747,
+     "ece_ts": 0.013743741802479061,
+     "ece_raw": 0.21829670162969514,
+     "aurc": 0.03815346584029753,
+     "cpu_ms": 66.88590400005978,
+     "params_M": null,
+     "key": "sk_random_forest"
     },
     {
      "model": "sklearn MLPClassifier (TF-IDF)",
      "family": "scikit-learn",
      "unit": "-",
-     "accuracy": 0.9124,
-     "macro_f1": 0.9122,
-     "nll": 0.275,
-     "brier": 0.1383,
-     "ece_ts": 0.0178,
-     "ece_raw": 0.0183,
-     "aurc": 0.0232,
-     "cpu_ms": 26.73,
-     "params_M": null
+     "accuracy": 0.9123684210526316,
+     "macro_f1": 0.9122100626244518,
+     "nll": 0.2749670445919037,
+     "brier": 0.13834355486178004,
+     "ece_ts": 0.017816205683507384,
+     "ece_raw": 0.01832094816392974,
+     "aurc": 0.0232410804443073,
+     "cpu_ms": 27.23549549989457,
+     "params_M": null,
+     "key": "sk_mlp"
+    },
+    {
+     "model": "TextCNN",
+     "family": "Deep learning (syllabus)",
+     "unit": "I-II",
+     "accuracy": 0.9171052631578948,
+     "macro_f1": 0.9169121984915221,
+     "nll": 0.25797826051712036,
+     "brier": 0.1284419058071249,
+     "ece_ts": 0.019239296622966487,
+     "ece_raw": 0.017115341181817775,
+     "aurc": 0.020956600432813263,
+     "cpu_ms": 1.1129449999884855,
+     "params_M": 4.039556,
+     "key": "textcnn"
     },
     {
      "model": "Bi-RNN",
      "family": "Deep learning (syllabus)",
      "unit": "III",
      "accuracy": 0.915,
-     "macro_f1": 0.9149,
-     "nll": 0.2634,
-     "brier": 0.1333,
-     "ece_ts": 0.0187,
-     "ece_raw": 0.0178,
-     "aurc": 0.0209,
-     "cpu_ms": 3.12,
-     "params_M": 3.91
-    },
-    {
-     "model": "TextCNN",
-     "family": "Deep learning (syllabus)",
-     "unit": "I-II",
-     "accuracy": 0.9174,
-     "macro_f1": 0.9171,
-     "nll": 0.2588,
-     "brier": 0.1286,
-     "ece_ts": 0.0206,
-     "ece_raw": 0.0188,
-     "aurc": 0.021,
-     "cpu_ms": 1.16,
-     "params_M": 4.04
-    },
-    {
-     "model": "Stacking LogReg (Laya emb + experts)",
-     "family": "Ensemble",
-     "unit": "I-III",
-     "accuracy": 0.9212,
-     "macro_f1": 0.9211,
-     "nll": 0.2317,
-     "brier": 0.1201,
-     "ece_ts": 0.0104,
-     "ece_raw": 0.0179,
-     "aurc": 0.0153,
-     "cpu_ms": 480.56,
-     "params_M": null
+     "macro_f1": 0.9149224372762469,
+     "nll": 0.2633969783782959,
+     "brier": 0.13327763012903893,
+     "ece_ts": 0.01872935673516046,
+     "ece_raw": 0.017792853987530687,
+     "aurc": 0.02093330970298391,
+     "cpu_ms": 3.3869620000359646,
+     "params_M": 3.908356,
+     "key": "rnn"
     },
     {
      "model": "Bi-LSTM",
      "family": "Deep learning (syllabus)",
      "unit": "III",
-     "accuracy": 0.923,
-     "macro_f1": 0.9228,
-     "nll": 0.2324,
-     "brier": 0.1211,
-     "ece_ts": 0.014,
-     "ece_raw": 0.0159,
-     "aurc": 0.0157,
-     "cpu_ms": 6.08,
-     "params_M": 4.11
+     "accuracy": 0.9230263157894737,
+     "macro_f1": 0.9227674212439768,
+     "nll": 0.23244208097457886,
+     "brier": 0.12112803001714018,
+     "ece_ts": 0.014041148573160155,
+     "ece_raw": 0.0159008258816443,
+     "aurc": 0.015721586308593865,
+     "cpu_ms": 6.395614999973986,
+     "params_M": 4.1065,
+     "key": "lstm"
     },
     {
      "model": "Bi-GRU",
      "family": "Deep learning (syllabus)",
      "unit": "III",
-     "accuracy": 0.9241,
-     "macro_f1": 0.9239,
-     "nll": 0.2365,
-     "brier": 0.1218,
-     "ece_ts": 0.0175,
-     "ece_raw": 0.0179,
-     "aurc": 0.0164,
-     "cpu_ms": 5.66,
-     "params_M": 4.04
+     "accuracy": 0.924078947368421,
+     "macro_f1": 0.9238928475815757,
+     "nll": 0.23654960095882416,
+     "brier": 0.12175605919120647,
+     "ece_ts": 0.01748907133152613,
+     "ece_raw": 0.017903746115533914,
+     "aurc": 0.016351153747188953,
+     "cpu_ms": 6.160495000017363,
+     "params_M": 4.040452,
+     "key": "gru"
     },
     {
      "model": "Average of syllabus experts",
      "family": "Ensemble",
      "unit": "I-III",
-     "accuracy": 0.9246,
-     "macro_f1": 0.9244,
-     "nll": 0.235,
-     "brier": 0.1201,
-     "ece_ts": 0.0163,
-     "ece_raw": 0.0157,
-     "aurc": 0.0166,
-     "cpu_ms": 16.03,
-     "params_M": 16.09
-    },
-    {
-     "model": "Logistic Regression (TF-IDF)",
-     "family": "scikit-learn",
-     "unit": "-",
-     "accuracy": 0.9251,
-     "macro_f1": 0.925,
-     "nll": 0.241,
-     "brier": 0.1202,
-     "ece_ts": 0.0149,
-     "ece_raw": 0.0149,
-     "aurc": 0.0184,
-     "cpu_ms": 2.41,
-     "params_M": null
-    },
-    {
-     "model": "Linear SVM (TF-IDF)",
-     "family": "scikit-learn",
-     "unit": "-",
-     "accuracy": 0.9251,
-     "macro_f1": 0.925,
-     "nll": 0.2366,
-     "brier": 0.1179,
-     "ece_ts": 0.0076,
-     "ece_raw": 0.0228,
-     "aurc": 0.0194,
-     "cpu_ms": 2.56,
-     "params_M": null
+     "accuracy": 0.9247368421052632,
+     "macro_f1": 0.9245618047151148,
+     "nll": 0.23487405478954315,
+     "brier": 0.12002742567448167,
+     "ece_ts": 0.016386710962182565,
+     "ece_raw": 0.017256409698411027,
+     "aurc": 0.016551638367615196,
+     "cpu_ms": 17.0560170000158,
+     "params_M": 16.094864,
+     "key": "expert_ensemble"
     },
     {
      "model": "Laya zero-shot (typed choice)",
      "family": "System One",
      "unit": "III",
-     "accuracy": 0.9253,
-     "macro_f1": 0.9252,
-     "nll": 0.2366,
-     "brier": 0.1203,
-     "ece_ts": 0.0214,
-     "ece_raw": 0.0641,
-     "aurc": 0.0167,
-     "cpu_ms": 721.17,
-     "params_M": 394.78
+     "accuracy": 0.9252631578947368,
+     "macro_f1": 0.9251723332204744,
+     "nll": 0.23655040562152863,
+     "brier": 0.12027983354788573,
+     "ece_ts": 0.02143211679631158,
+     "ece_raw": 0.06411033188826158,
+     "aurc": 0.016666754721747428,
+     "cpu_ms": 706.2684775000889,
+     "params_M": 394.781696,
+     "key": "laya_zero_shot"
     },
     {
-     "model": "ADAR ablation: laya only",
-     "family": "Ablation",
-     "unit": "-",
-     "accuracy": 0.9182,
-     "macro_f1": 0.9182,
-     "nll": 0.238,
-     "brier": 0.1255,
-     "ece_ts": 0.0084,
-     "ece_raw": 0.0142,
-     "aurc": 0.0158,
-     "cpu_ms": 466.43,
-     "params_M": 2.33
+     "model": "Laya encoder + Logistic Regression",
+     "family": "System One + sklearn",
+     "unit": "III",
+     "accuracy": 0.9052631578947369,
+     "macro_f1": 0.9052156440346514,
+     "nll": 0.2778294086456299,
+     "brier": 0.14498486385071982,
+     "ece_ts": 0.01229032819992616,
+     "ece_raw": 0.02068591838604528,
+     "aurc": 0.021508335740440313,
+     "cpu_ms": 472.15370200001416,
+     "params_M": 394.781696,
+     "key": "laya_linear_probe"
     },
     {
-     "model": "ADAR ablation: experts only",
-     "family": "Ablation",
-     "unit": "-",
-     "accuracy": 0.9251,
-     "macro_f1": 0.925,
-     "nll": 0.227,
-     "brier": 0.1176,
-     "ece_ts": 0.0112,
-     "ece_raw": 0.0105,
-     "aurc": 0.0152,
-     "cpu_ms": 18.49,
-     "params_M": 2.33
-    },
-    {
-     "model": "ADAR cascade (escalates 36%)",
-     "family": "ADAR (ours)",
-     "unit": "I-IV",
-     "accuracy": 0.9314,
-     "macro_f1": 0.9314,
-     "nll": 0.209,
-     "brier": 0.1064,
-     "ece_ts": 0.0114,
-     "ece_raw": 0.0114,
-     "aurc": 0.0142,
-     "cpu_ms": 185.65,
-     "params_M": null
-    },
-    {
-     "model": "ADAR ablation: no attention",
-     "family": "Ablation",
-     "unit": "-",
-     "accuracy": 0.9318,
-     "macro_f1": 0.9318,
-     "nll": 0.2047,
-     "brier": 0.1056,
-     "ece_ts": 0.0103,
-     "ece_raw": 0.0082,
-     "aurc": 0.0124,
-     "cpu_ms": 482.26,
-     "params_M": 1.28
+     "model": "Stacking LogReg (Laya emb + experts)",
+     "family": "Ensemble",
+     "unit": "I-III",
+     "accuracy": 0.9203947368421053,
+     "macro_f1": 0.9203427277195523,
+     "nll": 0.23230043053627014,
+     "brier": 0.12027653045929568,
+     "ece_ts": 0.009149893067384996,
+     "ece_raw": 0.018835448787400556,
+     "aurc": 0.015387596883113152,
+     "cpu_ms": 489.20971900002996,
+     "params_M": null,
+     "key": "stacking_logreg"
     },
     {
      "model": "ADAR (ours, mean of 3 seeds)",
      "family": "ADAR (ours)",
      "unit": "I-IV",
-     "accuracy": 0.9324,
-     "macro_f1": 0.9324,
-     "nll": 0.1976,
-     "brier": 0.1035,
-     "ece_ts": 0.0084,
-     "ece_raw": 0.0078,
-     "aurc": 0.0116,
-     "cpu_ms": 483.27,
-     "params_M": 2.33,
-     "accuracy_std": 0.001,
-     "nll_std": 0.0016
+     "accuracy": 0.9328070175438596,
+     "macro_f1": 0.9328426630694778,
+     "nll": 0.19728398819764456,
+     "brier": 0.10331284238862955,
+     "ece_ts": 0.009158831060978416,
+     "ece_raw": 0.009326779399263223,
+     "aurc": 0.011518821691651249,
+     "cpu_ms": 491.7338159999076,
+     "params_M": 2.332743,
+     "key": "adar",
+     "accuracy_std": 0.001565488447155684,
+     "nll_std": 0.003046196501044541,
+     "brier_std": 0.0018309827143396398,
+     "macro_f1_std": 0.001577972369899121,
+     "ece_std": 0.0008395450999133257
+    },
+    {
+     "model": "ADAR ablation: laya only",
+     "family": "Ablation",
+     "unit": "-",
+     "accuracy": 0.9181578947368421,
+     "macro_f1": 0.9181700059745084,
+     "nll": 0.2379818856716156,
+     "brier": 0.125515137311408,
+     "ece_ts": 0.008414824781449198,
+     "ece_raw": 0.01415620153671818,
+     "aurc": 0.015826173987679864,
+     "cpu_ms": 473.9159360001395,
+     "params_M": 2.329668,
+     "key": "ablation_laya_only"
+    },
+    {
+     "model": "ADAR ablation: experts only",
+     "family": "Ablation",
+     "unit": "-",
+     "accuracy": 0.9263157894736842,
+     "macro_f1": 0.926159579977891,
+     "nll": 0.22656947374343872,
+     "brier": 0.1173130435573021,
+     "ece_ts": 0.011945473210591983,
+     "ece_raw": 0.01125320309086847,
+     "aurc": 0.015179456551798835,
+     "cpu_ms": 19.398429999966993,
+     "params_M": 2.332743,
+     "key": "ablation_experts_only"
+    },
+    {
+     "model": "ADAR ablation: no attention",
+     "family": "Ablation",
+     "unit": "-",
+     "accuracy": 0.9319736842105263,
+     "macro_f1": 0.9319899408102071,
+     "nll": 0.20200318098068237,
+     "brier": 0.10484510233857083,
+     "ece_ts": 0.009091214129799317,
+     "ece_raw": 0.009957006659946921,
+     "aurc": 0.01200446842421841,
+     "cpu_ms": 490.7968250000181,
+     "params_M": 1.278535,
+     "key": "ablation_no_attention"
+    },
+    {
+     "model": "ADAR cascade (escalates 36%)",
+     "family": "ADAR (ours)",
+     "unit": "I-IV",
+     "accuracy": 0.9331578947368421,
+     "macro_f1": 0.933205638887217,
+     "nll": 0.2077290564775467,
+     "brier": 0.10574295907344342,
+     "ece_ts": 0.011084997908849505,
+     "ece_raw": 0.011084997908849505,
+     "aurc": 0.014057548438964902,
+     "cpu_ms": 189.18917674260814,
+     "params_M": null,
+     "key": "adar_cascade"
     }
    ],
    "qc": [
-    "PASS \u2014 ADAR accuracy > best scikit-learn model (Logistic Regression (TF-IDF)): delta=+0.78pp, 95% CI [+0.29, +1.26]",
-    "PASS \u2014 ADAR accuracy > best syllabus deep model (Bi-GRU): delta=+0.88pp, 95% CI [+0.43, +1.34]",
-    "PASS \u2014 ADAR accuracy > best expert ensemble (Average of syllabus experts): delta=+0.83pp, 95% CI [+0.38, +1.26]",
-    "PASS \u2014 ADAR accuracy > best Laya zero-shot (Laya zero-shot (typed choice)): delta=+0.76pp, 95% CI [+0.24, +1.28]",
-    "PASS \u2014 ADAR accuracy > best Laya linear probe (Laya encoder + Logistic Regression): delta=+2.76pp, 95% CI [+2.26, +3.25]",
-    "PASS \u2014 ADAR accuracy > best stacking baseline (Stacking LogReg (Laya emb + experts)): delta=+1.17pp, 95% CI [+0.75, +1.57]",
-    "PASS \u2014 ADAR NLL lower than every baseline (best: Stacking LogReg (Laya emb + experts)): ADAR 0.1968 vs 0.2317",
-    "PASS \u2014 ADAR BRIER lower than every baseline (best: Linear SVM (TF-IDF)): ADAR 0.1032 vs 0.1179",
-    "PASS \u2014 ADAR ECE (after TS) <= best baseline ECE + 0.005 (best: Linear SVM (TF-IDF)): ADAR 0.0086 vs 0.0076",
-    "PASS \u2014 full ADAR >= ADAR ablation: laya only (accuracy; NLL lower): delta=+1.47pp CI [+1.01, +1.93], NLL 0.1968 vs 0.2380",
-    "PASS \u2014 full ADAR >= ADAR ablation: experts only (accuracy; NLL lower): delta=+0.78pp CI [+0.34, +1.20], NLL 0.1968 vs 0.2270",
-    "PASS \u2014 full ADAR >= ADAR ablation: no attention (accuracy; NLL lower): delta=+0.11pp CI [-0.13, +0.36], NLL 0.1968 vs 0.2047",
-    "PASS \u2014 ADAR stable across seeds (accuracy std < 0.5pp): std=0.10pp over 3 seeds",
-    "PASS \u2014 Cascade keeps accuracy within 0.5pp of always-Laya while skipping Laya calls: acc 0.9314 vs 0.9329; Laya called on 36% of inputs; mean cost 185.6 vs 483.3 ms"
+    "PASS \u2014 ADAR accuracy > best scikit-learn model (Logistic Regression (TF-IDF)): delta=+0.95pp, 95% CI [+0.47, +1.43]",
+    "PASS \u2014 ADAR accuracy > best syllabus deep model (Bi-GRU): delta=+1.05pp, 95% CI [+0.63, +1.51]",
+    "PASS \u2014 ADAR accuracy > best expert ensemble (Average of syllabus experts): delta=+0.99pp, 95% CI [+0.57, +1.42]",
+    "PASS \u2014 ADAR accuracy > best Laya zero-shot (Laya zero-shot (typed choice)): delta=+0.93pp, 95% CI [+0.42, +1.47]",
+    "PASS \u2014 ADAR accuracy > best Laya linear probe (Laya encoder + Logistic Regression): delta=+2.93pp, 95% CI [+2.43, +3.46]",
+    "PASS \u2014 ADAR accuracy > best stacking baseline (Stacking LogReg (Laya emb + experts)): delta=+1.42pp, 95% CI [+1.00, +1.84]",
+    "PASS \u2014 ADAR NLL lower than every baseline (best: Stacking LogReg (Laya emb + experts)): ADAR 0.1949 vs 0.2323",
+    "PASS \u2014 ADAR BRIER lower than every baseline (best: Linear SVM (TF-IDF)): ADAR 0.1023 vs 0.1179",
+    "PASS \u2014 ADAR ECE (after TS) <= best baseline ECE + 0.005 (best: Linear SVM (TF-IDF)): ADAR 0.0088 vs 0.0076",
+    "PASS \u2014 full ADAR >= ADAR ablation: laya only (accuracy; NLL lower): delta=+1.64pp CI [+1.18, +2.12], NLL 0.1949 vs 0.2380",
+    "PASS \u2014 full ADAR >= ADAR ablation: experts only (accuracy; NLL lower): delta=+0.83pp CI [+0.41, +1.28], NLL 0.1949 vs 0.2266",
+    "PASS \u2014 full ADAR >= ADAR ablation: no attention (accuracy; NLL lower): delta=+0.26pp CI [+0.00, +0.57], NLL 0.1949 vs 0.2020",
+    "PASS \u2014 ADAR stable across seeds (accuracy std < 0.5pp): std=0.16pp over 3 seeds",
+    "PASS \u2014 Cascade keeps accuracy within 0.5pp of always-Laya while skipping Laya calls: acc 0.9332 vs 0.9346; Laya called on 36% of inputs; mean cost 189.2 vs 491.7 ms"
    ],
+   "routing": {
+    "textcnn": {
+     "mean_alpha": 0.1614532470703125,
+     "predicted_p_correct": 0.9201152324676514,
+     "actual_accuracy": 0.9171052631578948,
+     "noul_auc": 0.9101566805584023
+    },
+    "rnn": {
+     "mean_alpha": 0.06680091470479965,
+     "predicted_p_correct": 0.9187081456184387,
+     "actual_accuracy": 0.915,
+     "noul_auc": 0.9127360380599266
+    },
+    "lstm": {
+     "mean_alpha": 0.15035036206245422,
+     "predicted_p_correct": 0.9245136380195618,
+     "actual_accuracy": 0.9230263157894737,
+     "noul_auc": 0.899946512662122
+    },
+    "gru": {
+     "mean_alpha": 0.15979504585266113,
+     "predicted_p_correct": 0.925272524356842,
+     "actual_accuracy": 0.924078947368421,
+     "noul_auc": 0.8985768720798782
+    }
+   },
+   "router": {
+    "tier0_temperature": 1.0501453996564094,
+    "chosen": {
+     "tau": 0.9626609128912135,
+     "escalation_rate": 0.3626315789473684,
+     "accuracy": 0.9331578947368421,
+     "mean_cost_ms": 189.18917674260814,
+     "always_tier1_accuracy": 0.9346052631578947,
+     "always_tier1_cost_ms": 491.7338159999076,
+     "tier0_accuracy": 0.9247368421052632,
+     "oracle_escalation_rate": 0.07526315789473684,
+     "oracle_accuracy": 0.9486842105263158
+    },
+    "curve": [
+     {
+      "tau": -1.0,
+      "escalation_rate": 0.0,
+      "accuracy": 0.9247368421052632,
+      "mean_cost_ms": 17.0560170000158
+     },
+     {
+      "tau": 0.3030019341220876,
+      "escalation_rate": 0.0,
+      "accuracy": 0.9247368421052632,
+      "mean_cost_ms": 17.0560170000158
+     },
+     {
+      "tau": 0.48605394793590434,
+      "escalation_rate": 0.025,
+      "accuracy": 0.9269736842105263,
+      "mean_cost_ms": 28.922961975013095
+     },
+     {
+      "tau": 0.5535320935426239,
+      "escalation_rate": 0.05,
+      "accuracy": 0.93,
+      "mean_cost_ms": 40.78990695001039
+     },
+     {
+      "tau": 0.6156362306290774,
+      "escalation_rate": 0.075,
+      "accuracy": 0.9313157894736842,
+      "mean_cost_ms": 52.656851925007686
+     },
+     {
+      "tau": 0.678162141891867,
+      "escalation_rate": 0.1,
+      "accuracy": 0.930921052631579,
+      "mean_cost_ms": 64.52379690000498
+     },
+     {
+      "tau": 0.7495176014536871,
+      "escalation_rate": 0.125,
+      "accuracy": 0.930921052631579,
+      "mean_cost_ms": 76.39074187500228
+     },
+     {
+      "tau": 0.8044976470160531,
+      "escalation_rate": 0.15,
+      "accuracy": 0.9319736842105263,
+      "mean_cost_ms": 88.25768684999957
+     },
+     {
+      "tau": 0.8525952814654134,
+      "escalation_rate": 0.175,
+      "accuracy": 0.9321052631578948,
+      "mean_cost_ms": 100.12463182499687
+     },
+     {
+      "tau": 0.883233969171809,
+      "escalation_rate": 0.2,
+      "accuracy": 0.9323684210526316,
+      "mean_cost_ms": 111.99157679999416
+     },
+     {
+      "tau": 0.9087263831037902,
+      "escalation_rate": 0.225,
+      "accuracy": 0.9322368421052631,
+      "mean_cost_ms": 123.85852177499146
+     },
+     {
+      "tau": 0.9253035386121206,
+      "escalation_rate": 0.25,
+      "accuracy": 0.9325,
+      "mean_cost_ms": 135.72546674998875
+     },
+     {
+      "tau": 0.938827234315687,
+      "escalation_rate": 0.275,
+      "accuracy": 0.9327631578947368,
+      "mean_cost_ms": 147.59241172498605
+     },
+     {
+      "tau": 0.9487678551509858,
+      "escalation_rate": 0.3,
+      "accuracy": 0.9328947368421052,
+      "mean_cost_ms": 159.45935669998335
+     },
+     {
+      "tau": 0.9553334501630734,
+      "escalation_rate": 0.325,
+      "accuracy": 0.9330263157894737,
+      "mean_cost_ms": 171.32630167498064
+     },
+     {
+      "tau": 0.9603502042091469,
+      "escalation_rate": 0.35,
+      "accuracy": 0.9331578947368421,
+      "mean_cost_ms": 183.19324664997794
+     },
+     {
+      "tau": 0.9643369802879388,
+      "escalation_rate": 0.375,
+      "accuracy": 0.9332894736842106,
+      "mean_cost_ms": 195.06019162497523
+     },
+     {
+      "tau": 0.9675697790173626,
+      "escalation_rate": 0.4,
+      "accuracy": 0.9332894736842106,
+      "mean_cost_ms": 206.92713659997253
+     },
+     {
+      "tau": 0.9698031081577142,
+      "escalation_rate": 0.425,
+      "accuracy": 0.9334210526315789,
+      "mean_cost_ms": 218.79408157496982
+     },
+     {
+      "tau": 0.9718530418216574,
+      "escalation_rate": 0.45,
+      "accuracy": 0.9334210526315789,
+      "mean_cost_ms": 230.66102654996712
+     },
+     {
+      "tau": 0.9735395769736968,
+      "escalation_rate": 0.475,
+      "accuracy": 0.9335526315789474,
+      "mean_cost_ms": 242.5279715249644
+     },
+     {
+      "tau": 0.9751754420586876,
+      "escalation_rate": 0.5,
+      "accuracy": 0.9335526315789474,
+      "mean_cost_ms": 254.3949164999617
+     },
+     {
+      "tau": 0.9762808714413341,
+      "escalation_rate": 0.525,
+      "accuracy": 0.9336842105263158,
+      "mean_cost_ms": 266.261861474959
+     },
+     {
+      "tau": 0.9770964301655416,
+      "escalation_rate": 0.55,
+      "accuracy": 0.9338157894736843,
+      "mean_cost_ms": 278.1288064499563
+     },
+     {
+      "tau": 0.9779211974660337,
+      "escalation_rate": 0.575,
+      "accuracy": 0.9342105263157895,
+      "mean_cost_ms": 289.9957514249536
+     },
+     {
+      "tau": 0.9786053870121498,
+      "escalation_rate": 0.6,
+      "accuracy": 0.9343421052631579,
+      "mean_cost_ms": 301.8626963999509
+     },
+     {
+      "tau": 0.9792087302957769,
+      "escalation_rate": 0.625,
+      "accuracy": 0.9343421052631579,
+      "mean_cost_ms": 313.7296413749482
+     },
+     {
+      "tau": 0.9797679133590369,
+      "escalation_rate": 0.65,
+      "accuracy": 0.9343421052631579,
+      "mean_cost_ms": 325.5965863499455
+     },
+     {
+      "tau": 0.9802448784789414,
+      "escalation_rate": 0.675,
+      "accuracy": 0.9343421052631579,
+      "mean_cost_ms": 337.4635313249428
+     },
+     {
+      "tau": 0.9806527684264518,
+      "escalation_rate": 0.7,
+      "accuracy": 0.9343421052631579,
+      "mean_cost_ms": 349.3304762999401
+     },
+     {
+      "tau": 0.9810325957136334,
+      "escalation_rate": 0.725,
+      "accuracy": 0.9344736842105263,
+      "mean_cost_ms": 361.19742127493737
+     },
+     {
+      "tau": 0.981340595682903,
+      "escalation_rate": 0.75,
+      "accuracy": 0.9344736842105263,
+      "mean_cost_ms": 373.06436624993466
+     },
+     {
+      "tau": 0.9816349792240736,
+      "escalation_rate": 0.775,
+      "accuracy": 0.9346052631578947,
+      "mean_cost_ms": 384.93131122493196
+     },
+     {
+      "tau": 0.9819047545799097,
+      "escalation_rate": 0.8,
+      "accuracy": 0.9346052631578947,
+      "mean_cost_ms": 396.79825619992926
+     },
+     {
+      "tau": 0.9821263456637356,
+      "escalation_rate": 0.825,
+      "accuracy": 0.9346052631578947,
+      "mean_cost_ms": 408.66520117492655
+     },
+     {
+      "tau": 0.9823494137016723,
+      "escalation_rate": 0.85,
+      "accuracy": 0.9346052631578947,
+      "mean_cost_ms": 420.53214614992385
+     },
+     {
+      "tau": 0.9825164949409786,
+      "escalation_rate": 0.875,
+      "accuracy": 0.9346052631578947,
+      "mean_cost_ms": 432.39909112492114
+     },
+     {
+      "tau": 0.982657495934249,
+      "escalation_rate": 0.9,
+      "accuracy": 0.9346052631578947,
+      "mean_cost_ms": 444.26603609991844
+     },
+     {
+      "tau": 0.9827818921872082,
+      "escalation_rate": 0.925,
+      "accuracy": 0.9346052631578947,
+      "mean_cost_ms": 456.13298107491573
+     },
+     {
+      "tau": 0.9828872031717903,
+      "escalation_rate": 0.95,
+      "accuracy": 0.9346052631578947,
+      "mean_cost_ms": 467.99992604991303
+     },
+     {
+      "tau": 0.9829829298713384,
+      "escalation_rate": 0.975,
+      "accuracy": 0.9346052631578947,
+      "mean_cost_ms": 479.8668710249103
+     },
+     {
+      "tau": 0.9830601572276607,
+      "escalation_rate": 0.9998684210526316,
+      "accuracy": 0.9346052631578947,
+      "mean_cost_ms": 491.67135839477606
+     },
+     {
+      "tau": 2.0,
+      "escalation_rate": 1.0,
+      "accuracy": 0.9346052631578947,
+      "mean_cost_ms": 491.7338159999076
+     }
+    ],
+    "reinforce": [
+     {
+      "lambda": 0.05,
+      "escalation_rate": 0.15723684210526315,
+      "accuracy": 0.9325,
+      "mean_cost_ms": 91.69285513223562
+     },
+     {
+      "lambda": 0.1,
+      "escalation_rate": 0.018157894736842106,
+      "accuracy": 0.9273684210526316,
+      "mean_cost_ms": 25.675166508171728
+     },
+     {
+      "lambda": 0.2,
+      "escalation_rate": 0.0,
+      "accuracy": 0.9247368421052632,
+      "mean_cost_ms": 17.0560170000158
+     },
+     {
+      "lambda": 0.4,
+      "escalation_rate": 0.0,
+      "accuracy": 0.9247368421052632,
+      "mean_cost_ms": 17.0560170000158
+     },
+     {
+      "lambda": 0.8,
+      "escalation_rate": 0.0,
+      "accuracy": 0.9247368421052632,
+      "mean_cost_ms": 17.0560170000158
+     },
+     {
+      "lambda": 1.6,
+      "escalation_rate": 0.0,
+      "accuracy": 0.9247368421052632,
+      "mean_cost_ms": 17.0560170000158
+     }
+    ],
+    "cost0_ms": 17.0560170000158,
+    "cost1_ms": 474.6777989998918
+   },
    "qc_pass": 14,
    "qc_total": 14
   },
   "emotion": {
    "rows": [
     {
-     "model": "Laya zero-shot (typed choice)",
-     "family": "System One",
-     "unit": "III",
-     "accuracy": 0.5805,
-     "macro_f1": 0.4704,
-     "nll": 1.2109,
-     "brier": 0.5898,
-     "ece_ts": 0.0877,
-     "ece_raw": 0.2397,
-     "aurc": 0.3082,
-     "cpu_ms": 652.25,
-     "params_M": 394.78
-    },
-    {
-     "model": "Laya encoder + Logistic Regression",
-     "family": "System One + sklearn",
-     "unit": "III",
-     "accuracy": 0.5915,
-     "macro_f1": 0.5056,
-     "nll": 1.0845,
-     "brier": 0.5437,
-     "ece_ts": 0.0321,
-     "ece_raw": 0.2638,
-     "aurc": 0.2514,
-     "cpu_ms": 382.8,
-     "params_M": 394.78
-    },
-    {
      "model": "Naive Bayes (TF-IDF)",
      "family": "scikit-learn",
      "unit": "-",
      "accuracy": 0.7605,
-     "macro_f1": 0.6301,
-     "nll": 0.6771,
-     "brier": 0.3366,
-     "ece_ts": 0.0251,
-     "ece_raw": 0.088,
-     "aurc": 0.0828,
-     "cpu_ms": 1.22,
-     "params_M": null
-    },
-    {
-     "model": "sklearn MLPClassifier (TF-IDF)",
-     "family": "scikit-learn",
-     "unit": "-",
-     "accuracy": 0.846,
-     "macro_f1": 0.775,
-     "nll": 0.4251,
-     "brier": 0.2219,
-     "ece_ts": 0.0268,
-     "ece_raw": 0.0345,
-     "aurc": 0.0411,
-     "cpu_ms": 5.45,
-     "params_M": null
-    },
-    {
-     "model": "Random Forest (TF-IDF)",
-     "family": "scikit-learn",
-     "unit": "-",
-     "accuracy": 0.865,
-     "macro_f1": 0.8,
-     "nll": 0.3596,
-     "brier": 0.1934,
-     "ece_ts": 0.0136,
-     "ece_raw": 0.2037,
-     "aurc": 0.0346,
-     "cpu_ms": 56.04,
-     "params_M": null
+     "macro_f1": 0.6300996641267194,
+     "nll": 0.6771419644355774,
+     "brier": 0.33664124442797916,
+     "ece_ts": 0.02507846201956271,
+     "ece_raw": 0.0880124897956848,
+     "aurc": 0.08283142677120518,
+     "cpu_ms": 1.269248999960837,
+     "params_M": null,
+     "key": "sk_naive_bayes"
     },
     {
      "model": "Logistic Regression (TF-IDF)",
      "family": "scikit-learn",
      "unit": "-",
      "accuracy": 0.8675,
-     "macro_f1": 0.8039,
-     "nll": 0.3562,
-     "brier": 0.1951,
-     "ece_ts": 0.0307,
-     "ece_raw": 0.0899,
-     "aurc": 0.0304,
-     "cpu_ms": 1.48,
-     "params_M": null
-    },
-    {
-     "model": "Stacking LogReg (Laya emb + experts)",
-     "family": "Ensemble",
-     "unit": "I-III",
-     "accuracy": 0.8775,
-     "macro_f1": 0.812,
-     "nll": 0.3431,
-     "brier": 0.1789,
-     "ece_ts": 0.0105,
-     "ece_raw": 0.0793,
-     "aurc": 0.0295,
-     "cpu_ms": 391.93,
-     "params_M": null
+     "macro_f1": 0.8039092133029776,
+     "nll": 0.3561818599700928,
+     "brier": 0.19514428342730217,
+     "ece_ts": 0.03072738908231256,
+     "ece_raw": 0.08992911848425866,
+     "aurc": 0.030388646824489544,
+     "cpu_ms": 1.8058535000591291,
+     "params_M": null,
+     "key": "sk_logreg"
     },
     {
      "model": "Linear SVM (TF-IDF)",
      "family": "scikit-learn",
      "unit": "-",
      "accuracy": 0.8815,
-     "macro_f1": 0.8222,
-     "nll": 0.2878,
-     "brier": 0.1611,
-     "ece_ts": 0.023,
-     "ece_raw": 0.0523,
-     "aurc": 0.0204,
-     "cpu_ms": 3.5,
-     "params_M": null
+     "macro_f1": 0.8222342854750341,
+     "nll": 0.2878358066082001,
+     "brier": 0.1610557955150046,
+     "ece_ts": 0.023006462663412056,
+     "ece_raw": 0.05231893071532248,
+     "aurc": 0.020376884634863278,
+     "cpu_ms": 3.5759405000135303,
+     "params_M": null,
+     "key": "sk_linear_svm"
+    },
+    {
+     "model": "Random Forest (TF-IDF)",
+     "family": "scikit-learn",
+     "unit": "-",
+     "accuracy": 0.865,
+     "macro_f1": 0.8000346545722162,
+     "nll": 0.35962578654289246,
+     "brier": 0.1933763153596672,
+     "ece_ts": 0.01359183695912363,
+     "ece_raw": 0.20367750054597855,
+     "aurc": 0.03455278042042277,
+     "cpu_ms": 56.9722449999972,
+     "params_M": null,
+     "key": "sk_random_forest"
+    },
+    {
+     "model": "sklearn MLPClassifier (TF-IDF)",
+     "family": "scikit-learn",
+     "unit": "-",
+     "accuracy": 0.846,
+     "macro_f1": 0.7750425964096382,
+     "nll": 0.4250727593898773,
+     "brier": 0.22185450469967344,
+     "ece_ts": 0.026791910022497145,
+     "ece_raw": 0.03447424912452697,
+     "aurc": 0.04106322554053242,
+     "cpu_ms": 5.453031499996541,
+     "params_M": null,
+     "key": "sk_mlp"
     },
     {
      "model": "TextCNN",
      "family": "Deep learning (syllabus)",
      "unit": "I-II",
-     "accuracy": 0.9075,
-     "macro_f1": 0.8574,
-     "nll": 0.2118,
-     "brier": 0.1212,
-     "ece_ts": 0.0134,
-     "ece_raw": 0.0152,
-     "aurc": 0.0119,
-     "cpu_ms": 1.06,
-     "params_M": 1.15
+     "accuracy": 0.9055,
+     "macro_f1": 0.856710483198874,
+     "nll": 0.2148909866809845,
+     "brier": 0.12313880415509722,
+     "ece_ts": 0.015253280386328701,
+     "ece_raw": 0.015385033845901475,
+     "aurc": 0.012210075952208379,
+     "cpu_ms": 1.0575610001524183,
+     "params_M": 1.147398,
+     "key": "textcnn"
     },
     {
      "model": "Bi-RNN",
      "family": "Deep learning (syllabus)",
      "unit": "III",
      "accuracy": 0.908,
-     "macro_f1": 0.8619,
-     "nll": 0.2122,
-     "brier": 0.1194,
-     "ece_ts": 0.0187,
-     "ece_raw": 0.0302,
-     "aurc": 0.0112,
-     "cpu_ms": 1.8,
-     "params_M": 1.02
-    },
-    {
-     "model": "Average of syllabus experts",
-     "family": "Ensemble",
-     "unit": "I-III",
-     "accuracy": 0.9205,
-     "macro_f1": 0.8768,
-     "nll": 0.1772,
-     "brier": 0.1049,
-     "ece_ts": 0.0199,
-     "ece_raw": 0.0205,
-     "aurc": 0.0083,
-     "cpu_ms": 9.13,
-     "params_M": 4.53
-    },
-    {
-     "model": "Bi-GRU",
-     "family": "Deep learning (syllabus)",
-     "unit": "III",
-     "accuracy": 0.922,
-     "macro_f1": 0.8823,
-     "nll": 0.174,
-     "brier": 0.1028,
-     "ece_ts": 0.0184,
-     "ece_raw": 0.0184,
-     "aurc": 0.0081,
-     "cpu_ms": 3.12,
-     "params_M": 1.15
+     "macro_f1": 0.8618674703180838,
+     "nll": 0.21221205592155457,
+     "brier": 0.11943344138861035,
+     "ece_ts": 0.018670251116156562,
+     "ece_raw": 0.030153740242123615,
+     "aurc": 0.011193603780564011,
+     "cpu_ms": 1.8205210001269734,
+     "params_M": 1.016454,
+     "key": "rnn"
     },
     {
      "model": "Bi-LSTM",
      "family": "Deep learning (syllabus)",
      "unit": "III",
      "accuracy": 0.9225,
-     "macro_f1": 0.8816,
-     "nll": 0.1919,
-     "brier": 0.11,
-     "ece_ts": 0.0163,
-     "ece_raw": 0.0168,
-     "aurc": 0.0092,
-     "cpu_ms": 3.16,
-     "params_M": 1.21
+     "macro_f1": 0.8816261674543724,
+     "nll": 0.19187690317630768,
+     "brier": 0.10997898364287283,
+     "ece_ts": 0.016330805346369753,
+     "ece_raw": 0.01683245669305323,
+     "aurc": 0.009238439234823832,
+     "cpu_ms": 3.284051999798976,
+     "params_M": 1.214598,
+     "key": "lstm"
+    },
+    {
+     "model": "Bi-GRU",
+     "family": "Deep learning (syllabus)",
+     "unit": "III",
+     "accuracy": 0.922,
+     "macro_f1": 0.8823126521272712,
+     "nll": 0.17398977279663086,
+     "brier": 0.10277569680393565,
+     "ece_ts": 0.018440039783716198,
+     "ece_raw": 0.018376538753509537,
+     "aurc": 0.00812491332140155,
+     "cpu_ms": 3.021397999873443,
+     "params_M": 1.14855,
+     "key": "gru"
+    },
+    {
+     "model": "Average of syllabus experts",
+     "family": "Ensemble",
+     "unit": "I-III",
+     "accuracy": 0.922,
+     "macro_f1": 0.8809604371205412,
+     "nll": 0.1777331829071045,
+     "brier": 0.10523069695274867,
+     "ece_ts": 0.016200236827135048,
+     "ece_raw": 0.020040117174387,
+     "aurc": 0.008358299603133671,
+     "cpu_ms": 9.18353199995181,
+     "params_M": 4.527,
+     "key": "expert_ensemble"
+    },
+    {
+     "model": "Laya zero-shot (typed choice)",
+     "family": "System One",
+     "unit": "III",
+     "accuracy": 0.5805,
+     "macro_f1": 0.4704393397256513,
+     "nll": 1.2108737230300903,
+     "brier": 0.5898418364555991,
+     "ece_ts": 0.08769111820310357,
+     "ece_raw": 0.2396944800466299,
+     "aurc": 0.30824565320619185,
+     "cpu_ms": 653.2349905000956,
+     "params_M": 394.781696,
+     "key": "laya_zero_shot"
+    },
+    {
+     "model": "Laya encoder + Logistic Regression",
+     "family": "System One + sklearn",
+     "unit": "III",
+     "accuracy": 0.5915,
+     "macro_f1": 0.5056366789182983,
+     "nll": 1.0845375061035156,
+     "brier": 0.5436839258502207,
+     "ece_ts": 0.032066493451595304,
+     "ece_raw": 0.26375961768627165,
+     "aurc": 0.2514479276765698,
+     "cpu_ms": 375.44150400003673,
+     "params_M": 394.781696,
+     "key": "laya_linear_probe"
+    },
+    {
+     "model": "Stacking LogReg (Laya emb + experts)",
+     "family": "Ensemble",
+     "unit": "I-III",
+     "accuracy": 0.8795,
+     "macro_f1": 0.8155493301961062,
+     "nll": 0.34301891922950745,
+     "brier": 0.17894796027136203,
+     "ece_ts": 0.017748719632625545,
+     "ece_raw": 0.07404555942118167,
+     "aurc": 0.029363906759457586,
+     "cpu_ms": 384.62503599998854,
+     "params_M": null,
+     "key": "stacking_logreg"
+    },
+    {
+     "model": "ADAR (ours, mean of 3 seeds)",
+     "family": "ADAR (ours)",
+     "unit": "I-IV",
+     "accuracy": 0.92,
+     "macro_f1": 0.8790498611638675,
+     "nll": 0.17043295005957285,
+     "brier": 0.10139212405659447,
+     "ece_ts": 0.014960816904902455,
+     "ece_raw": 0.018146664152542766,
+     "aurc": 0.007982176656693618,
+     "cpu_ms": 387.6415249999354,
+     "params_M": 2.332743,
+     "key": "adar",
+     "accuracy_std": 0.0018708286933869526,
+     "nll_std": 0.0004602524706703046,
+     "brier_std": 0.00046070334662706063,
+     "macro_f1_std": 0.005420938711648726,
+     "ece_std": 0.0007284495282589014
     },
     {
      "model": "ADAR ablation: laya only",
      "family": "Ablation",
      "unit": "-",
      "accuracy": 0.6495,
-     "macro_f1": 0.4771,
-     "nll": 0.9751,
-     "brier": 0.486,
-     "ece_ts": 0.0271,
-     "ece_raw": 0.0197,
-     "aurc": 0.194,
-     "cpu_ms": 384.72,
-     "params_M": 2.33
-    },
-    {
-     "model": "ADAR (ours, mean of 3 seeds)",
-     "family": "ADAR (ours)",
-     "unit": "I-IV",
-     "accuracy": 0.9205,
-     "macro_f1": 0.8803,
-     "nll": 0.17,
-     "brier": 0.1009,
-     "ece_ts": 0.0149,
-     "ece_raw": 0.0141,
-     "aurc": 0.0081,
-     "cpu_ms": 394.92,
-     "params_M": 2.33,
-     "accuracy_std": 0.0012,
-     "nll_std": 0.0032
-    },
-    {
-     "model": "ADAR cascade (escalates 1%)",
-     "family": "ADAR (ours)",
-     "unit": "I-IV",
-     "accuracy": 0.922,
-     "macro_f1": 0.8795,
-     "nll": 0.1765,
-     "brier": 0.1044,
-     "ece_ts": 0.0191,
-     "ece_raw": 0.0191,
-     "aurc": 0.0083,
-     "cpu_ms": 14.53,
-     "params_M": null
+     "macro_f1": 0.47713635865305837,
+     "nll": 0.9751049876213074,
+     "brier": 0.485953785088999,
+     "ece_ts": 0.027139427646994604,
+     "ece_raw": 0.019675657853484137,
+     "aurc": 0.19395165097448136,
+     "cpu_ms": 377.32289100017624,
+     "params_M": 2.329668,
+     "key": "ablation_laya_only"
     },
     {
      "model": "ADAR ablation: experts only",
      "family": "Ablation",
      "unit": "-",
-     "accuracy": 0.9225,
-     "macro_f1": 0.8829,
-     "nll": 0.164,
-     "brier": 0.0965,
-     "ece_ts": 0.0142,
-     "ece_raw": 0.0133,
-     "aurc": 0.0076,
-     "cpu_ms": 11.93,
-     "params_M": 2.33
+     "accuracy": 0.92,
+     "macro_f1": 0.8801700544689965,
+     "nll": 0.1646910160779953,
+     "brier": 0.09701107540155092,
+     "ece_ts": 0.009704394236206984,
+     "ece_raw": 0.012395818725228262,
+     "aurc": 0.0075716095593521705,
+     "cpu_ms": 11.746581999886985,
+     "params_M": 2.332743,
+     "key": "ablation_experts_only"
     },
     {
      "model": "ADAR ablation: no attention",
      "family": "Ablation",
      "unit": "-",
-     "accuracy": 0.9245,
-     "macro_f1": 0.8826,
-     "nll": 0.17,
-     "brier": 0.0997,
-     "ece_ts": 0.0164,
-     "ece_raw": 0.0155,
-     "aurc": 0.0079,
-     "cpu_ms": 393.56,
-     "params_M": 1.28
+     "accuracy": 0.9205,
+     "macro_f1": 0.8731840276468029,
+     "nll": 0.17084594070911407,
+     "brier": 0.10042575484242452,
+     "ece_ts": 0.011162861734628696,
+     "ece_raw": 0.013923311069607779,
+     "aurc": 0.008163900453427991,
+     "cpu_ms": 386.22788099996797,
+     "params_M": 1.278535,
+     "key": "ablation_no_attention"
+    },
+    {
+     "model": "ADAR cascade (escalates 0%)",
+     "family": "ADAR (ours)",
+     "unit": "I-IV",
+     "accuracy": 0.922,
+     "macro_f1": 0.8809354618896362,
+     "nll": 0.17771460115909576,
+     "brier": 0.10535778799817318,
+     "ece_ts": 0.016222188889980275,
+     "ece_raw": 0.016222188889980275,
+     "aurc": 0.008362896998565362,
+     "cpu_ms": 9.561989992951794,
+     "params_M": null,
+     "key": "adar_cascade"
     }
    ],
    "qc": [
-    "PASS \u2014 ADAR accuracy > best scikit-learn model (Linear SVM (TF-IDF)): delta=+4.05pp, 95% CI [+2.80, +5.35]",
-    "FAIL \u2014 ADAR accuracy > best syllabus deep model (Bi-LSTM): delta=-0.05pp, 95% CI [-0.85, +0.75]",
-    "FAIL \u2014 ADAR accuracy > best expert ensemble (Average of syllabus experts): delta=+0.15pp, 95% CI [-0.75, +1.05]",
-    "PASS \u2014 ADAR accuracy > best Laya zero-shot (Laya zero-shot (typed choice)): delta=+34.15pp, 95% CI [+31.75, +36.60]",
-    "PASS \u2014 ADAR accuracy > best Laya linear probe (Laya encoder + Logistic Regression): delta=+33.05pp, 95% CI [+30.70, +35.35]",
-    "PASS \u2014 ADAR accuracy > best stacking baseline (Stacking LogReg (Laya emb + experts)): delta=+4.45pp, 95% CI [+3.10, +5.80]",
-    "PASS \u2014 ADAR NLL lower than every baseline (best: Bi-GRU): ADAR 0.1714 vs 0.1740",
-    "PASS \u2014 ADAR BRIER lower than every baseline (best: Bi-GRU): ADAR 0.1017 vs 0.1028",
-    "PASS \u2014 ADAR ECE (after TS) <= best baseline ECE + 0.005 (best: Stacking LogReg (Laya emb + experts)): ADAR 0.0140 vs 0.0105",
-    "PASS \u2014 full ADAR >= ADAR ablation: laya only (accuracy; NLL lower): delta=+27.25pp CI [+25.00, +29.60], NLL 0.1714 vs 0.9751",
-    "FAIL \u2014 full ADAR >= ADAR ablation: experts only (accuracy; NLL lower): delta=-0.05pp CI [-0.90, +0.85], NLL 0.1714 vs 0.1640",
-    "FAIL \u2014 full ADAR >= ADAR ablation: no attention (accuracy; NLL lower): delta=-0.25pp CI [-1.20, +0.70], NLL 0.1714 vs 0.1700",
-    "PASS \u2014 ADAR stable across seeds (accuracy std < 0.5pp): std=0.12pp over 3 seeds",
-    "PASS \u2014 Cascade keeps accuracy within 0.5pp of always-Laya while skipping Laya calls: acc 0.9220 vs 0.9220; Laya called on 1% of inputs; mean cost 14.5 vs 394.9 ms"
+    "PASS \u2014 ADAR accuracy > best scikit-learn model (Linear SVM (TF-IDF)): delta=+4.10pp, 95% CI [+2.90, +5.40]",
+    "FAIL \u2014 ADAR accuracy > best syllabus deep model (Bi-LSTM): delta=+0.00pp, 95% CI [-0.75, +0.75]",
+    "FAIL \u2014 ADAR accuracy > best expert ensemble (Average of syllabus experts): delta=+0.05pp, 95% CI [-0.75, +0.85]",
+    "PASS \u2014 ADAR accuracy > best Laya zero-shot (Laya zero-shot (typed choice)): delta=+34.20pp, 95% CI [+31.80, +36.65]",
+    "PASS \u2014 ADAR accuracy > best Laya linear probe (Laya encoder + Logistic Regression): delta=+33.10pp, 95% CI [+30.80, +35.35]",
+    "PASS \u2014 ADAR accuracy > best stacking baseline (Stacking LogReg (Laya emb + experts)): delta=+4.30pp, 95% CI [+2.90, +5.65]",
+    "PASS \u2014 ADAR NLL lower than every baseline (best: Bi-GRU): ADAR 0.1711 vs 0.1740",
+    "PASS \u2014 ADAR BRIER lower than every baseline (best: Bi-GRU): ADAR 0.1018 vs 0.1028",
+    "PASS \u2014 ADAR ECE (after TS) <= best baseline ECE + 0.005 (best: Random Forest (TF-IDF)): ADAR 0.0150 vs 0.0136",
+    "PASS \u2014 full ADAR >= ADAR ablation: laya only (accuracy; NLL lower): delta=+27.30pp CI [+25.10, +29.60], NLL 0.1711 vs 0.9751",
+    "FAIL \u2014 full ADAR >= ADAR ablation: experts only (accuracy; NLL lower): delta=+0.25pp CI [-0.65, +1.20], NLL 0.1711 vs 0.1647",
+    "FAIL \u2014 full ADAR >= ADAR ablation: no attention (accuracy; NLL lower): delta=+0.20pp CI [-0.80, +1.20], NLL 0.1711 vs 0.1708",
+    "PASS \u2014 ADAR stable across seeds (accuracy std < 0.5pp): std=0.19pp over 3 seeds",
+    "PASS \u2014 Cascade keeps accuracy within 0.5pp of always-Laya while skipping Laya calls: acc 0.9220 vs 0.9225; Laya called on 0% of inputs; mean cost 9.6 vs 387.6 ms"
    ],
+   "routing": {
+    "textcnn": {
+     "mean_alpha": 0.39507123827934265,
+     "predicted_p_correct": 0.86582350730896,
+     "actual_accuracy": 0.9055,
+     "noul_auc": 0.919588990268173
+    },
+    "rnn": {
+     "mean_alpha": 0.36487337946891785,
+     "predicted_p_correct": 0.8260018229484558,
+     "actual_accuracy": 0.908,
+     "noul_auc": 0.9209233144991382
+    },
+    "lstm": {
+     "mean_alpha": 0.4034000635147095,
+     "predicted_p_correct": 0.8481639623641968,
+     "actual_accuracy": 0.9225,
+     "noul_auc": 0.9063449602237957
+    },
+    "gru": {
+     "mean_alpha": 0.4348911643028259,
+     "predicted_p_correct": 0.870988667011261,
+     "actual_accuracy": 0.922,
+     "noul_auc": 0.912460370432171
+    }
+   },
+   "router": {
+    "tier0_temperature": 0.7686549017185674,
+    "chosen": {
+     "tau": 0.17649176472960856,
+     "escalation_rate": 0.001,
+     "accuracy": 0.922,
+     "mean_cost_ms": 9.561989992951794,
+     "always_tier1_accuracy": 0.9225,
+     "always_tier1_cost_ms": 387.6415249999354,
+     "tier0_accuracy": 0.922,
+     "oracle_escalation_rate": 0.078,
+     "oracle_accuracy": 0.9395
+    },
+    "curve": [
+     {
+      "tau": -1.0,
+      "escalation_rate": 0.0,
+      "accuracy": 0.922,
+      "mean_cost_ms": 9.18353199995181
+     },
+     {
+      "tau": 0.1626122077299303,
+      "escalation_rate": 0.0,
+      "accuracy": 0.922,
+      "mean_cost_ms": 9.18353199995181
+     },
+     {
+      "tau": 0.31505150933529574,
+      "escalation_rate": 0.025,
+      "accuracy": 0.9255,
+      "mean_cost_ms": 18.6449818249514
+     },
+     {
+      "tau": 0.3699872898947938,
+      "escalation_rate": 0.05,
+      "accuracy": 0.927,
+      "mean_cost_ms": 28.10643164995099
+     },
+     {
+      "tau": 0.42352728852927407,
+      "escalation_rate": 0.075,
+      "accuracy": 0.9245,
+      "mean_cost_ms": 37.56788147495058
+     },
+     {
+      "tau": 0.48968447605730736,
+      "escalation_rate": 0.1,
+      "accuracy": 0.924,
+      "mean_cost_ms": 47.02933129995017
+     },
+     {
+      "tau": 0.5898915738934523,
+      "escalation_rate": 0.125,
+      "accuracy": 0.923,
+      "mean_cost_ms": 56.49078112494976
+     },
+     {
+      "tau": 0.7028887628122319,
+      "escalation_rate": 0.15,
+      "accuracy": 0.9225,
+      "mean_cost_ms": 65.95223094994935
+     },
+     {
+      "tau": 0.7851458105104695,
+      "escalation_rate": 0.175,
+      "accuracy": 0.9225,
+      "mean_cost_ms": 75.41368077494894
+     },
+     {
+      "tau": 0.847637410544514,
+      "escalation_rate": 0.2,
+      "accuracy": 0.9225,
+      "mean_cost_ms": 84.87513059994853
+     },
+     {
+      "tau": 0.9015661827688441,
+      "escalation_rate": 0.225,
+      "accuracy": 0.9225,
+      "mean_cost_ms": 94.33658042494812
+     },
+     {
+      "tau": 0.9303326280916088,
+      "escalation_rate": 0.25,
+      "accuracy": 0.9225,
+      "mean_cost_ms": 103.79803024994771
+     },
+     {
+      "tau": 0.9457891512776524,
+      "escalation_rate": 0.275,
+      "accuracy": 0.9225,
+      "mean_cost_ms": 113.25948007494732
+     },
+     {
+      "tau": 0.9587159244069858,
+      "escalation_rate": 0.3,
+      "accuracy": 0.9225,
+      "mean_cost_ms": 122.7209298999469
+     },
+     {
+      "tau": 0.966942550861045,
+      "escalation_rate": 0.325,
+      "accuracy": 0.9225,
+      "mean_cost_ms": 132.1823797249465
+     },
+     {
+      "tau": 0.9718877758454136,
+      "escalation_rate": 0.35,
+      "accuracy": 0.9225,
+      "mean_cost_ms": 141.64382954994608
+     },
+     {
+      "tau": 0.9755612844175925,
+      "escalation_rate": 0.375,
+      "accuracy": 0.9225,
+      "mean_cost_ms": 151.10527937494567
+     },
+     {
+      "tau": 0.9781039549622007,
+      "escalation_rate": 0.4,
+      "accuracy": 0.9225,
+      "mean_cost_ms": 160.56672919994526
+     },
+     {
+      "tau": 0.9802909456389254,
+      "escalation_rate": 0.425,
+      "accuracy": 0.9225,
+      "mean_cost_ms": 170.02817902494485
+     },
+     {
+      "tau": 0.9817495032497248,
+      "escalation_rate": 0.45,
+      "accuracy": 0.9225,
+      "mean_cost_ms": 179.48962884994444
+     },
+     {
+      "tau": 0.9828958978832151,
+      "escalation_rate": 0.475,
+      "accuracy": 0.9225,
+      "mean_cost_ms": 188.95107867494403
+     },
+     {
+      "tau": 0.9838853823850253,
+      "escalation_rate": 0.5,
+      "accuracy": 0.9225,
+      "mean_cost_ms": 198.41252849994362
+     },
+     {
+      "tau": 0.98465395911381,
+      "escalation_rate": 0.525,
+      "accuracy": 0.9225,
+      "mean_cost_ms": 207.8739783249432
+     },
+     {
+      "tau": 0.9852077691504046,
+      "escalation_rate": 0.55,
+      "accuracy": 0.9225,
+      "mean_cost_ms": 217.33542814994283
+     },
+     {
+      "tau": 0.9857022479121405,
+      "escalation_rate": 0.575,
+      "accuracy": 0.9225,
+      "mean_cost_ms": 226.79687797494236
+     },
+     {
+      "tau": 0.9861153271606325,
+      "escalation_rate": 0.6,
+      "accuracy": 0.9225,
+      "mean_cost_ms": 236.25832779994198
+     },
+     {
+      "tau": 0.986481849985376,
+      "escalation_rate": 0.625,
+      "accuracy": 0.9225,
+      "mean_cost_ms": 245.71977762494157
+     },
+     {
+      "tau": 0.9868738205868186,
+      "escalation_rate": 0.65,
+      "accuracy": 0.9225,
+      "mean_cost_ms": 255.18122744994116
+     },
+     {
+      "tau": 0.9871467661324397,
+      "escalation_rate": 0.675,
+      "accuracy": 0.9225,
+      "mean_cost_ms": 264.64267727494075
+     },
+     {
+      "tau": 0.9873387131894192,
+      "escalation_rate": 0.7,
+      "accuracy": 0.9225,
+      "mean_cost_ms": 274.10412709994034
+     },
+     {
+      "tau": 0.9875858585316385,
+      "escalation_rate": 0.725,
+      "accuracy": 0.9225,
+      "mean_cost_ms": 283.56557692493993
+     },
+     {
+      "tau": 0.9877520762262483,
+      "escalation_rate": 0.75,
+      "accuracy": 0.9225,
+      "mean_cost_ms": 293.0270267499395
+     },
+     {
+      "tau": 0.9879045670852743,
+      "escalation_rate": 0.775,
+      "accuracy": 0.9225,
+      "mean_cost_ms": 302.4884765749391
+     },
+     {
+      "tau": 0.98803807910706,
+      "escalation_rate": 0.8,
+      "accuracy": 0.9225,
+      "mean_cost_ms": 311.9499263999387
+     },
+     {
+      "tau": 0.9881253302079652,
+      "escalation_rate": 0.825,
+      "accuracy": 0.9225,
+      "mean_cost_ms": 321.4113762249383
+     },
+     {
+      "tau": 0.9882253575899397,
+      "escalation_rate": 0.85,
+      "accuracy": 0.9225,
+      "mean_cost_ms": 330.8728260499379
+     },
+     {
+      "tau": 0.988326853540323,
+      "escalation_rate": 0.875,
+      "accuracy": 0.9225,
+      "mean_cost_ms": 340.3342758749375
+     },
+     {
+      "tau": 0.9884077863566536,
+      "escalation_rate": 0.9,
+      "accuracy": 0.9225,
+      "mean_cost_ms": 349.79572569993707
+     },
+     {
+      "tau": 0.9884783807569593,
+      "escalation_rate": 0.925,
+      "accuracy": 0.9225,
+      "mean_cost_ms": 359.25717552493666
+     },
+     {
+      "tau": 0.988531896167145,
+      "escalation_rate": 0.95,
+      "accuracy": 0.9225,
+      "mean_cost_ms": 368.71862534993625
+     },
+     {
+      "tau": 0.9885908106809543,
+      "escalation_rate": 0.975,
+      "accuracy": 0.9225,
+      "mean_cost_ms": 378.18007517493584
+     },
+     {
+      "tau": 0.9886600473567305,
+      "escalation_rate": 0.9995,
+      "accuracy": 0.9225,
+      "mean_cost_ms": 387.45229600343544
+     },
+     {
+      "tau": 2.0,
+      "escalation_rate": 1.0,
+      "accuracy": 0.9225,
+      "mean_cost_ms": 387.6415249999354
+     }
+    ],
+    "reinforce": [
+     {
+      "lambda": 0.05,
+      "escalation_rate": 0.016,
+      "accuracy": 0.923,
+      "mean_cost_ms": 15.238859887951548
+     },
+     {
+      "lambda": 0.1,
+      "escalation_rate": 0.043,
+      "accuracy": 0.9305,
+      "mean_cost_ms": 25.457225698951106
+     },
+     {
+      "lambda": 0.2,
+      "escalation_rate": 0.0,
+      "accuracy": 0.922,
+      "mean_cost_ms": 9.18353199995181
+     },
+     {
+      "lambda": 0.4,
+      "escalation_rate": 0.0,
+      "accuracy": 0.922,
+      "mean_cost_ms": 9.18353199995181
+     },
+     {
+      "lambda": 0.8,
+      "escalation_rate": 0.0,
+      "accuracy": 0.922,
+      "mean_cost_ms": 9.18353199995181
+     },
+     {
+      "lambda": 1.6,
+      "escalation_rate": 0.0,
+      "accuracy": 0.922,
+      "mean_cost_ms": 9.18353199995181
+     }
+    ],
+    "cost0_ms": 9.18353199995181,
+    "cost1_ms": 378.4579929999836
+   },
    "qc_pass": 10,
    "qc_total": 14
   }
  },
  "splits": {
-  "ag_news": {
-   "train": 114000,
-   "val": 6000,
-   "test": 7600,
-   "classes": 4
-  },
   "emotion": {
    "train": 16000,
    "val": 2000,
    "test": 2000,
    "classes": 6
+  },
+  "ag_news": {
+   "train": 114000,
+   "val": 6000,
+   "test": 7600,
+   "classes": 4
   }
  },
- "stage_seconds": {
-  "experts:ag_news": 628.2,
-  "sklearn:ag_news": 557.4,
-  "experts:emotion": 94.7,
-  "sklearn:emotion": 283.3,
-  "embed:ag_news": 365.6,
-  "probe:ag_news": 320.5,
-  "zeroshot:ag_news": 145.3,
-  "embed:emotion": 42.3,
-  "probe:emotion": 157.4,
-  "zeroshot:emotion": 38.2,
-  "head:ag_news": 475.3,
-  "router:ag_news": 4.2,
-  "head:emotion": 40.2,
-  "router:emotion": 3.5,
-  "report:ag_news": 3.0,
-  "report:emotion": 1.7,
-  "typed_decisions:convaiinnovations/laya-typed-decisions": 234.0,
-  "typed_decisions:convaiinnovations/laya": 224.0,
-  "bundle": 24.3
- },
  "typed_decisions": {
-  "convaiinnovations/laya-typed-decisions": {
-   "shipped": {
-    "decisions": 2000,
-    "accuracy": 0.7665,
-    "brier_soft": 0.061465647879173455,
-    "brier_onehot": 0.4009051452924595,
-    "ece": 0.21373871909500325,
-    "kl": 0.11703209456558442
-   },
-   "adar_cal_hard": {
-    "decisions": 2000,
-    "accuracy": 0.7665,
-    "brier_soft": 0.1475596614608763,
-    "brier_onehot": 0.3276439425222756,
-    "ece": 0.06258043730569984,
-    "kl": 0.5263828732863857
-   }
-  },
   "convaiinnovations/laya": {
    "shipped": {
     "decisions": 2000,
@@ -617,6 +1350,14 @@
     "ece": 0.17310380979496323,
     "kl": 0.5686516766209087
    },
+   "shipped_train": {
+    "decisions": 6000,
+    "accuracy": 0.36333333333333334,
+    "brier_soft": 0.3310824201294544,
+    "brier_onehot": 0.7480824339121861,
+    "ece": 0.1719894278748912,
+    "kl": 0.5909757258782953
+   },
    "adar_cal_soft": {
     "decisions": 2000,
     "accuracy": 0.363,
@@ -624,12 +1365,157 @@
     "brier_onehot": 0.6782588795545635,
     "ece": 0.021371298445262987,
     "kl": 0.4325095485555131
-   }
+   },
+   "adar_cal_selected": "soft",
+   "adar_cal_variants": {
+    "soft": {
+     "test": {
+      "decisions": 2000,
+      "accuracy": 0.363,
+      "brier_soft": 0.23648588983009347,
+      "brier_onehot": 0.6782588795545635,
+      "ece": 0.021371298445262987,
+      "kl": 0.4325095485555131
+     },
+     "train": {
+      "decisions": 6000,
+      "accuracy": 0.36333333333333334,
+      "brier_soft": 0.24800297923406386,
+      "brier_onehot": 0.6739416625540564,
+      "ece": 0.031810108325103635,
+      "kl": 0.4495805041308472
+     },
+     "temperatures": {
+      "choice": 4.886455283782605,
+      "score": 2.8548831828946253,
+      "noul": 4.999972270333432,
+      "choice:4": 4.999982101330515,
+      "choice:5": 1.9048532560194955,
+      "noul:2": 4.999972270333432,
+      "score:4": 3.0363138999858816,
+      "score:5": 2.076403722851584
+     }
+    },
+    "hard": {
+     "test": {
+      "decisions": 2000,
+      "accuracy": 0.363,
+      "brier_soft": 0.23951689751014782,
+      "brier_onehot": 0.6803973757223496,
+      "ece": 0.03921831086023941,
+      "kl": 0.4372431013793179
+     },
+     "train": {
+      "decisions": 6000,
+      "accuracy": 0.36333333333333334,
+      "brier_soft": 0.250216522038815,
+      "brier_onehot": 0.6729264305574043,
+      "ece": 0.03926547970671009,
+      "kl": 0.45290132084877316
+     },
+     "temperatures": {
+      "choice": 4.999970874025053,
+      "score": 1.9887778021568097,
+      "noul": 4.999972060773978,
+      "choice:4": 4.999967608275828,
+      "choice:5": 1.7507946282680547,
+      "noul:2": 4.999972060773978,
+      "score:4": 2.152874669540393,
+      "score:5": 1.2620223955860264
+     }
+    }
+   },
+   "latency_ms_p50": 147.821624500466,
+   "latency_ms_p90": 178.17566959979558
+  },
+  "convaiinnovations/laya-typed-decisions": {
+   "shipped": {
+    "decisions": 2000,
+    "accuracy": 0.7665,
+    "brier_soft": 0.061465647879173455,
+    "brier_onehot": 0.4009051452924595,
+    "ece": 0.21373871909500325,
+    "kl": 0.11703209456558442
+   },
+   "shipped_train": {
+    "decisions": 6000,
+    "accuracy": 0.8545,
+    "brier_soft": 0.04680973270541236,
+    "brier_onehot": 0.3628340671778804,
+    "ece": 0.2954254033356925,
+    "kl": 0.0932310098762731
+   },
+   "adar_cal_hard": {
+    "decisions": 2000,
+    "accuracy": 0.7665,
+    "brier_soft": 0.1475596614608763,
+    "brier_onehot": 0.3276439425222756,
+    "ece": 0.06258043730569984,
+    "kl": 0.5263828732863857
+   },
+   "adar_cal_selected": "hard",
+   "adar_cal_variants": {
+    "soft": {
+     "test": {
+      "decisions": 2000,
+      "accuracy": 0.7665,
+      "brier_soft": 0.054540560903662993,
+      "brier_onehot": 0.35289277756324783,
+      "ece": 0.13374928845605855,
+      "kl": 0.10072481660433677
+     },
+     "train": {
+      "decisions": 6000,
+      "accuracy": 0.8545,
+      "brier_soft": 0.0311680332408808,
+      "brier_onehot": 0.29756915261419664,
+      "ece": 0.21371116989572123,
+      "kl": 0.06045172197798818
+     },
+     "temperatures": {
+      "choice": 0.5773269646702871,
+      "score": 0.8334928705132217,
+      "noul": 0.512701587605999,
+      "choice:4": 0.5758242243386389,
+      "choice:5": 0.5792674464074603,
+      "noul:2": 0.512701587605999,
+      "score:4": 0.8407159905650652,
+      "score:5": 0.7907167823318018
+     }
+    },
+    "hard": {
+     "test": {
+      "decisions": 2000,
+      "accuracy": 0.7665,
+      "brier_soft": 0.1475596614608763,
+      "brier_onehot": 0.3276439425222756,
+      "ece": 0.06258043730569984,
+      "kl": 0.5263828732863857
+     },
+     "train": {
+      "decisions": 6000,
+      "accuracy": 0.8545,
+      "brier_soft": 0.10145206245951521,
+      "brier_onehot": 0.21196868600525315,
+      "ece": 0.019067568016635335,
+      "kl": 0.4001140246358926
+     },
+     "temperatures": {
+      "choice": 0.20000079433766707,
+      "score": 0.27128207996064774,
+      "noul": 0.20000079433766707,
+      "choice:4": 0.20000079433766707,
+      "choice:5": 0.21996532441508002,
+      "noul:2": 0.20000079433766707,
+      "score:4": 0.27853166516706257,
+      "score:5": 0.23185875175031537
+     }
+    }
+   },
+   "latency_ms_p50": 148.25935800013212,
+   "latency_ms_p90": 176.2411525001426
   }
  },
- "hf_uploads": [
-  "DEV-HV/adar-head-ag-news",
-  "DEV-HV/adar-head-emotion"
- ],
- "total_minutes": 60.7
+ "total_minutes": 62.7,
+ "hf_uploads": []
 }

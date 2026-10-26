@@ -11,50 +11,46 @@ improved. Setup and publishing are in the other documents:
 
 ---
 
+<!-- main-problem:start -->
 ## 1. The problem
 
-### 1.1 Models say "I'm sure" when they are not
+All numbers in this document come from one full Kaggle run with the real Laya model
+([`../results/kaggle_run/summary.json`](../results/kaggle_run/summary.json)).
 
-A classifier gives an answer and a confidence. Out of the box that confidence is often not honest:
-on our AG News test, **21–23% of the wrong answers from TextCNN, LSTM and GRU came with more than
-90% confidence**. You cannot use such a number to decide when to trust the model.
+### 1.1 The biggest model is not always the most accurate
 
-### 1.2 Choosing the architecture is guesswork
+On Emotion tweets, Laya answers **58.1%** correctly zero-shot, while a
+1.2M-parameter Bi-LSTM from our syllabus reaches **92.2%**. On AG News
+the order flips: Laya (92.5%) is level with the best syllabus network (Bi-GRU, 92.4%).
+Which architecture is right depends on the data, and the course asks us to "identify the appropriate
+deep architecture for a given application".
 
-The course asks us to "identify the appropriate deep architecture for a given application".
-In practice you train a CNN, an LSTM and a GRU, keep the best one, and throw the rest away.
-But they are good on *different* inputs:
+### 1.2 Choosing per input is worth more than choosing per dataset
 
-| On the AG News test set | |
-|---|---|
-| best single expert (TextCNN) | 89.5% correct |
-| at least one of the four experts is right | **92.7%** of inputs |
-| the experts disagree | 7.7% of inputs |
-
-Picking the right expert *for each input* is worth up to 3 points of accuracy, and keeping one
-model throws that away.
+On AG News a perfect per-input choice between the cheap experts and Laya + ADAR would reach
+**94.87%** while calling Laya on only 8% of inputs; the experts alone reach
+92.47%.
 
 ### 1.3 Strong models are expensive
 
-System-One models such as Laya (and TypeSafe's Jev) read text with a large encoder and return
-typed, calibrated decisions. They are strong, but on a laptop CPU the encoder costs tens to hundreds
-of milliseconds per input, against **under 1 ms** for a TextCNN. Running the big model on every
-input wastes most of that time on easy inputs.
+On a CPU, Laya takes **706 ms** per news article; a TextCNN takes **1.1 ms**
+(635× less). Running the big model on every input wastes most of that time on easy inputs.
 
 ### 1.4 Even System-One models are not perfectly calibrated
 
-On the public typed-decisions leaderboard, Laya's fine-tuned checkpoint has an expected
-calibration error (ECE) of **0.213**: its probabilities are often off by about 20 points.
+On the public typed-decisions benchmark, Laya's fine-tuned checkpoint has an expected calibration
+error (ECE) of **0.214**: its confidence is off by about 21 points on average.
+<!-- main-problem:end -->
 
 ---
 
 ## 2. The fix: ADAR
 
 ```
-                 ┌────────────── cheap path (~5 ms) ──────────────┐
+                 ┌──────────────────── cheap path ────────────────────┐
 input text ──►  TextCNN · RNN · LSTM · GRU  ──►  router: "are the experts sure?"
                                                      │ yes → answer now
-                                                     │ no  (about 1 in 10 inputs)
+                                                     │ no  (only when the experts are unsure)
                                                      ▼
                  Laya encoder (frozen) ──►  ADAR head  ──►  answer
                                                           + P(answer is right)
@@ -78,7 +74,7 @@ Think of a meeting chaired by one person:
     **routing weight** for that expert's vote (the *adaptive routing* in ADAR);
   * `act`: "is my own answer right?", used to abstain or escalate.
 
-The head has about **2 million parameters**. Laya (421M) is not retrained.
+The head is small (its parameter count is in section 3). Laya is not retrained.
 
 ### 2.2 Teaching the head to be honest
 
@@ -102,78 +98,105 @@ Two versions:
 
 ---
 
+<!-- main-results:start -->
 ## 3. The improvement
 
-> **Where these numbers come from.** Laya's weights could not be downloaded in the environment
-> where the code was built and checked, so this check used **DistilBERT as a stand-in encoder**,
-> on **30,000 AG News training rows** and the **full 7,600-row test set**. The Kaggle notebook
-> produces the same tables with the real Laya encoder on the full datasets. Report those.
-> All models are temperature-scaled on validation data; claims hold only where the paired-bootstrap
-> 95% confidence interval excludes zero. Full report: [`qc/ag_news_standin/REPORT.md`](qc/ag_news_standin/REPORT.md).
+> One full run on Kaggle (GPU T4 ×2, 63 minutes) with the real Laya encoder. All models are temperature-scaled on validation data; a claim holds only where the paired-bootstrap 95% confidence interval excludes zero. Full reports: [`../results/kaggle_run/ag_news/REPORT.md`](../results/kaggle_run/ag_news/REPORT.md), [`../results/kaggle_run/emotion/REPORT.md`](../results/kaggle_run/emotion/REPORT.md).
 
-### 3.1 Accuracy and honesty
+### 3.1 AG News (7,600 test articles)
 
 | Model | Accuracy | NLL ↓ | Brier ↓ | ECE ↓ | CPU ms / input |
-|---|---|---|---|---|---|
-| Random Forest (TF-IDF) | 86.2% | 0.399 | 0.202 | 0.016 | 68.3 |
-| Bi-RNN | 88.4% | 0.354 | 0.177 | 0.024 | 1.3 |
-| Stand-in encoder + Logistic Regression | 89.0% | 0.319 | 0.163 | 0.014 | 19.7 |
-| Bi-LSTM | 89.3% | 0.329 | 0.167 | 0.025 | 1.0 |
-| Stacking (encoder + experts → Logistic Regression) | 89.3% | 0.311 | 0.160 | 0.016 | 24.8 |
-| Bi-GRU | 89.4% | 0.323 | 0.164 | 0.030 | 2.4 |
-| TextCNN | 89.5% | 0.332 | 0.164 | 0.028 | 0.4 |
-| Average of the 4 experts | 89.7% | 0.318 | 0.159 | 0.026 | 5.1 |
-| Naive Bayes (TF-IDF) | 89.8% | 0.328 | 0.159 | 0.025 | 1.8 |
-| Logistic Regression (TF-IDF) | 90.6% | 0.298 | 0.147 | 0.020 | 0.8 |
-| Linear SVM (TF-IDF) | 90.7% | 0.287 | 0.143 | 0.009 | 3.4 |
-| sklearn MLPClassifier (TF-IDF) | 90.9% | 0.289 | 0.144 | 0.019 | 18.1 |
-| **ADAR cascade** (Laya-side called on 9% of inputs) | **91.2%** | 0.295 | 0.144 | 0.021 | **7.0** |
-| **ADAR** (mean of 3 seeds) | **91.7% ± 0.1** | **0.244** | **0.127** | **0.007** | 26.1 |
+|---|---:|---:|---:|---:|---:|
+| Random Forest (TF-IDF) | 86.89% | 0.384 | 0.198 | 0.014 | 66.9 |
+| Laya encoder + Logistic Regression | 90.53% | 0.278 | 0.145 | 0.012 | 472.2 |
+| Naive Bayes (TF-IDF) | 90.76% | 0.301 | 0.147 | 0.026 | 3.0 |
+| sklearn MLPClassifier (TF-IDF) | 91.24% | 0.275 | 0.138 | 0.018 | 27.2 |
+| Bi-RNN | 91.50% | 0.263 | 0.133 | 0.019 | 3.4 |
+| TextCNN | 91.71% | 0.258 | 0.128 | 0.019 | 1.1 |
+| Stacking LogReg (Laya emb + experts) | 92.04% | 0.232 | 0.120 | 0.009 | 489.2 |
+| Bi-LSTM | 92.30% | 0.232 | 0.121 | 0.014 | 6.4 |
+| Bi-GRU | 92.41% | 0.237 | 0.122 | 0.017 | 6.2 |
+| Average of syllabus experts | 92.47% | 0.235 | 0.120 | 0.016 | 17.1 |
+| Logistic Regression (TF-IDF) | 92.51% | 0.241 | 0.120 | 0.015 | 2.8 |
+| Linear SVM (TF-IDF) | 92.51% | 0.237 | 0.118 | 0.008 | 2.8 |
+| Laya zero-shot (typed choice) | 92.53% | 0.237 | 0.120 | 0.021 | 706.3 |
+| **ADAR (ours, mean of 3 seeds)** | **93.28% ± 0.16** | **0.197** | **0.103** | **0.009** | **491.7** |
+| **ADAR cascade (Laya on 36% of inputs)** | **93.32%** | **0.208** | **0.106** | **0.011** | **189.2** |
 
 What this shows:
 
-* **ADAR is the most accurate model**: +0.8 points over the best scikit-learn model
-  (95% CI +0.3 to +1.3) and +2.2 points over the best syllabus model (CI +1.6 to +2.7).
-* **ADAR's probabilities are the most honest**: NLL 15% lower and Brier 11% lower than the best
-  baseline, and the lowest calibration error (0.007).
-* **The cascade gets most of the gain for a quarter of the cost**: 91.2% at 7 ms per input,
-  more accurate than every baseline, while calling the expensive path on only 9% of inputs.
-* **It is stable**: three training seeds differ by 0.06 points.
+* ADAR significantly beats Laya zero-shot, the best syllabus network and the best scikit-learn model.
+* vs Laya zero-shot: **+0.93 points** (95% CI +0.42 to +1.47, significant)
+* vs the best syllabus network: **+1.05 points** (95% CI +0.63 to +1.51, significant)
+* vs the best scikit-learn model: **+0.95 points** (95% CI +0.47 to +1.43, significant)
+* vs stacking: **+1.42 points** (95% CI +1.00 to +1.84, significant)
+* Cascade: Laya called on **36%** of inputs, 93.32% accuracy at 189.2 ms vs 93.46% at 491.7 ms always calling it.
+* Quality checks passed: **14/14** ([report](../results/kaggle_run/ag_news/REPORT.md)).
+* **Most honest probabilities:** log-loss 0.197 vs 0.232 for the best baseline (Stacking LogReg (Laya emb + experts)), 15% lower.
+* **The cascade** reaches 93.32% at 189 ms per input, against 93.28% at 492 ms when Laya + ADAR runs on everything (2.6× cheaper).
+* **Stable:** 0.16 points standard deviation over the training seeds.
 
-### 3.2 Which parts matter (ablations)
+The REINFORCE router (Unit IV) finds a cheaper operating point: with λ = 0.05 it escalates 16% of articles and reaches 93.25% (threshold router: 36%, 93.32%).
 
-| Variant | Accuracy | NLL | Verdict |
-|---|---|---|---|
-| full ADAR | 91.7% | 0.244 | – |
-| without the experts (encoder only) | 90.8% | 0.276 | experts add +0.9 points (significant) |
-| without the encoder (experts only) | 89.7% | 0.303 | encoder adds +2.0 points (significant) |
-| without attention (no transformer layers) | 91.5% | 0.255 | +0.2 points, **not significant**; attention mainly helps the probabilities |
+### 3.2 Emotion (2,000 test tweets)
 
-### 3.3 What the head learned about the architectures
+| Model | Accuracy | NLL ↓ | Brier ↓ | ECE ↓ | CPU ms / input |
+|---|---:|---:|---:|---:|---:|
+| Laya zero-shot (typed choice) | 58.05% | 1.211 | 0.590 | 0.088 | 653.2 |
+| Laya encoder + Logistic Regression | 59.15% | 1.085 | 0.544 | 0.032 | 375.4 |
+| Naive Bayes (TF-IDF) | 76.05% | 0.677 | 0.337 | 0.025 | 1.3 |
+| sklearn MLPClassifier (TF-IDF) | 84.60% | 0.425 | 0.222 | 0.027 | 5.5 |
+| Random Forest (TF-IDF) | 86.50% | 0.360 | 0.193 | 0.014 | 57.0 |
+| Logistic Regression (TF-IDF) | 86.75% | 0.356 | 0.195 | 0.031 | 1.8 |
+| Stacking LogReg (Laya emb + experts) | 87.95% | 0.343 | 0.179 | 0.018 | 384.6 |
+| Linear SVM (TF-IDF) | 88.15% | 0.288 | 0.161 | 0.023 | 3.6 |
+| TextCNN | 90.55% | 0.215 | 0.123 | 0.015 | 1.1 |
+| Bi-RNN | 90.80% | 0.212 | 0.119 | 0.019 | 1.8 |
+| **ADAR (ours, mean of 3 seeds)** | **92.00% ± 0.19** | **0.170** | **0.101** | **0.015** | **387.6** |
+| Bi-GRU | 92.20% | 0.174 | 0.103 | 0.018 | 3.0 |
+| Average of syllabus experts | 92.20% | 0.178 | 0.105 | 0.016 | 9.2 |
+| **ADAR cascade (Laya on 0.1% of inputs)** | **92.20%** | **0.178** | **0.105** | **0.016** | **9.6** |
+| Bi-LSTM | 92.25% | 0.192 | 0.110 | 0.016 | 3.3 |
 
-| Expert | Average routing weight | Real accuracy |
+What this shows:
+
+* ADAR significantly beats Laya zero-shot and the best scikit-learn model; ties the best syllabus network (difference not significant).
+* vs Laya zero-shot: **+34.20 points** (95% CI +31.80 to +36.65, significant)
+* vs the best syllabus network: **+0.00 points** (95% CI -0.75 to +0.75, not significant)
+* vs the best scikit-learn model: **+4.10 points** (95% CI +2.90 to +5.40, significant)
+* vs stacking: **+4.30 points** (95% CI +2.90 to +5.65, significant)
+* Cascade: Laya called on **0.1%** of inputs, 92.20% accuracy at 9.6 ms vs 92.25% at 387.6 ms always calling it.
+* Quality checks passed: **10/14** ([report](../results/kaggle_run/emotion/REPORT.md)).
+* Laya is weak on tweets, and the router learned it: it calls Laya on 0.1% of inputs.
+
+### 3.3 Which parts matter (ablations, seed 0)
+
+| Variant | AG News Δ accuracy (95% CI) | Emotion Δ accuracy (95% CI) |
 |---|---|---|
-| Bi-GRU | 0.187 | 89.4% |
-| TextCNN | 0.184 | 89.5% |
-| Bi-LSTM | 0.117 | 89.3% |
-| Bi-RNN | **0.065** | 88.4% |
+| without the experts (Laya only) | -1.64 (-2.12 to -1.18) **significant** | -27.30 (-29.60 to -25.10) **significant** |
+| without Laya (experts only) | -0.83 (-1.28 to -0.41) **significant** | -0.25 (-1.20 to +0.65) |
+| without attention | -0.26 (-0.57 to -0.00) | -0.20 (-1.20 to +0.80) |
 
-Without being told, the head trusts the plain RNN least. It is the weakest expert here, and the
-architecture the syllabus flags for vanishing gradients. Its per-input "is this expert right?" predictions separate right from wrong
-with an AUC of about 0.89.
+### 3.4 What the head learned about the architectures (AG News)
 
----
+| Expert | Average routing weight α | Real accuracy | AUC of “is this expert right?” |
+|---|---:|---:|---:|
+| TextCNN | 0.161 | 91.7% | 0.910 |
+| Bi-GRU | 0.160 | 92.4% | 0.899 |
+| Bi-LSTM | 0.150 | 92.3% | 0.900 |
+| Bi-RNN | 0.067 | 91.5% | 0.913 |
+
+Without being told, the head gives Bi-RNN the lowest weight (the plain RNN, the architecture the syllabus flags for vanishing gradients).
 
 ## 4. Limits, stated plainly
 
-* The numbers above use a **stand-in encoder**. The Laya numbers come from the Kaggle run.
 * Laya is **frozen**; ADAR trains only the head.
-* Attention's accuracy gain is **not significant** at this scale.
-* The cascade threshold chosen on validation lost **0.47 points** on test against always using the
-  expensive path (the target was at most 0.5).
-* The REINFORCE router never escalates once the cost weight λ is 0.4 or higher.
-* For typed-decisions, ADAR-Cal **re-calibrates** Laya; it does not change Laya's answers.
 * Only text classification is covered so far.
+* On Emotion, ADAR **ties** the best syllabus network (+0.00 points, CI -0.75 to +0.75).
+* Attention's accuracy gain is **not significant**; it mainly helps the probabilities.
+* The cascade threshold, chosen on validation, gives 93.32% on test against 93.46% when always escalating.
+* For typed-decisions, ADAR-Cal **re-calibrates** Laya; it does not change Laya's answers or accuracy.
+<!-- main-results:end -->
 
 ## 5. How it maps to the syllabus
 
@@ -186,7 +209,6 @@ with an AUC of about 0.89.
 
 ## 6. Next steps
 
-1. Run the notebook on Kaggle (`KAGGLE_SETUP.md`) to get the real Laya numbers on AG News and Emotion.
-2. Publish the heads on Hugging Face (`GITHUB_AND_HF_UPLOAD.md`).
-3. Submit to typed-decisions if ADAR-Cal improves calibration (`LEADERBOARD_SUBMISSION.md`).
-4. Next phase: RouterArena, with LLMs as the experts.
+1. Publish both heads on Hugging Face with the generated model cards (`GITHUB_AND_HF_UPLOAD.md`, `../submissions/huggingface/`).
+2. Post the typed-decisions Discussion (`../submissions/typed_decisions/DISCUSSION.md`; why and how: `../submissions/README.md`).
+3. Next phase: RouterArena, with LLMs as the experts (`LEADERBOARD_SUBMISSION.md`, part D).

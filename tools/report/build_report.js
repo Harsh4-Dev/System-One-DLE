@@ -119,7 +119,8 @@ const tdCal = tdBase[calKey];
 const ftCal = tdFt[tdFt.adar_cal_selected ? "adar_cal_" + tdFt.adar_cal_selected : Object.keys(tdFt).find((k) => /^adar_cal_(soft|hard)$/.test(k))];
 const escRate = (task) => { const rj = T[task].router; if (rj && rj.chosen) return rj.chosen.escalation_rate;
   const m = /escalates (\d+)%/.exec(row(task, "ADAR cascade").model); return m ? Number(m[1]) / 100 : NaN; };
-const escAG = Math.round(escRate("ag_news") * 100), escEM = Math.round(escRate("emotion") * 100);
+const escFmt = (v) => (v > 0 && v < 0.01 ? (v * 100).toFixed(1) : Math.round(v * 100).toString());
+const escAG = escFmt(escRate("ag_news")), escEM = escFmt(escRate("emotion"));
 const auc = (task, k) => (T[task].routing && T[task].routing[k] && T[task].routing[k].noul_auc) || null;
 const qcAG = T.ag_news.qc, qcEM = T.emotion.qc;
 const gate = (qc, needle) => qc.find((q) => q.includes(needle)) || "";
@@ -137,7 +138,7 @@ const bestExpert = (task) => T[task].rows.filter((r) => EXPERT_NAMES.includes(r.
 const baselines = (task) => T[task].rows.filter((r) => !r.model.startsWith("ADAR"));
 const bestNll = (task) => baselines(task).slice().sort((a, b) => a.nll - b.nll)[0];
 const nSeeds = (task) => { const m = /mean of (\d+) seeds/.exec(row(task, "ADAR (ours").model); return m ? +m[1] : 1; };
-const short = (n) => n.startsWith("ADAR (ours") ? `ADAR (ours, ${nSeeds("ag_news")} seeds)` : n.replace(/ADAR cascade \(escalates (\d+)%\)/, "ADAR cascade (Laya on $1%)");
+const short = (n) => n.startsWith("ADAR (ours") ? `ADAR (ours, ${nSeeds("ag_news")} seeds)` : n.replace(/ADAR cascade \(escalates (\d+)%\)/, () => `ADAR cascade (Laya on ${n === row("emotion", "ADAR cascade").model ? escEM : escAG}%)`);
 const rankRows = (task) => T[task].rows.filter((r) => !r.model.startsWith("ADAR ablation")).slice().sort((a, b) => b.accuracy - a.accuracy);
 const axisLo = (task) => Math.max(0, Math.floor((Math.min(...rankRows(task).map((r) => r.accuracy)) * 100 - 2) / 5) * 5);
 const DEMO = (() => { const f = process.argv[5]; if (!f || !fs.existsSync(f)) return null; const t = fs.readFileSync(f, "utf8").replace(/\\"/g, '"');
@@ -295,6 +296,8 @@ const abText = (abNeeded.length === 2 ? "On AG News both information sources are
   abNeeded.length === 1 ? `On AG News removing ${abNeeded[0] === "laya only" ? "the experts" : "Laya"} costs significant accuracy; removing the other part does not. ` :
   "On AG News no single part’s removal costs significant accuracy. ") +
   (gNA ? (gNA.lo > 0 ? "Attention adds significant accuracy." : naAG && naAG.nll > adarAG.nll ? `Attention adds little accuracy but improves the probabilities (log-loss ${naAG.nll.toFixed(3)} without it, ${adarAG.nll.toFixed(3)} with it).` : "Attention adds no significant accuracy.") : "");
+const gLO = G("emotion", "ablation: laya only"), gEO = G("emotion", "ablation: experts only");
+const abTextEm = gLO && gEO ? ` On Emotion the experts carry the result: without them accuracy changes by ${(-gLO.d).toFixed(1)} points${gLO.lo > 0 ? " (significant)" : ""}, while removing Laya changes it by ${(-gEO.d).toFixed(2)} points${gEO.lo > 0 ? " (significant)" : " (not significant)"}.` : "";
 const casAG = AG("ADAR cascade"), casEM = EM("ADAR cascade");
 const fmtRow = ([n, r, hl]) => ({ hl, cells: [n, pct(r.accuracy, 2) + (r.accuracy_std ? ` ± ${(r.accuracy_std * 100).toFixed(2)}` : ""), r.nll.toFixed(3), r.brier.toFixed(3), r.ece_ts.toFixed(3), r.cpu_ms.toFixed(1)] });
 children.push(new Paragraph({ children: [new PageBreak()] }), H1("5. Results"), H2("5.1 AG News"),
@@ -318,7 +321,7 @@ children.push(new Paragraph({ children: [new PageBreak()] }), H1("5. Results"), 
     { hl: true, cells: ["Full ADAR", pct(adarAG.accuracy, 2), adarAG.nll.toFixed(3), pct(adarEM.accuracy, 2), adarEM.nll.toFixed(3)] }, ...abRows,
   ], [3230, 1800, 1100, 2400, 1100], { rightCols: true }),
   gap(),
-  P(abText),
+  P(abText + abTextEm),
   H2("5.5 typed-decisions benchmark"),
   P(`First we checked our scorer against the leaderboard, which lists the fine-tuned checkpoint with accuracy only. ${tdMatch ? "Our accuracy matches the board, so the calibration metrics we add are comparable." : "Our accuracy differs from the board’s; the scorer should be checked before the metrics are posted."}`),
   tableOf(["laya-typed-decisions", "Board", "Our run"], [
@@ -337,7 +340,7 @@ children.push(new Paragraph({ children: [new PageBreak()] }), H1("5. Results"), 
 
 // 6 Discussion
 children.push(H1("6. Discussion"),
-  Bullet({ t: "When does Laya help? ", b: true }, `On news topics the full head is ${((adarAG.accuracy - AG("ADAR ablation: experts only").accuracy) * 100).toFixed(1)} points more accurate than the experts-only head, and the router sends ${escAG}% of articles to Laya. On tweets it sends only ${escEM}%, so the same head adapts its cost to how useful Laya is on the dataset.`),
+  Bullet({ t: "When does Laya help? ", b: true }, `On news topics the full head is ${G("ag_news", "ablation: experts only").d.toFixed(2)} points more accurate than the experts-only head (seed 0, 95% CI ${G("ag_news", "ablation: experts only").lo.toFixed(2)} to ${G("ag_news", "ablation: experts only").hi.toFixed(2)}), and the router sends ${escAG}% of articles to Laya. On tweets it sends only ${escEM}%, so the same head adapts its cost to how useful Laya is on the dataset.`),
   Bullet({ t: "What attention adds. ", b: true }, gNA && gNA.lo > 0 ? `Removing attention costs ${(-gNA.d).toFixed(2)} points of accuracy on AG News, so the token interactions matter.` : `Removing attention changes AG News accuracy by ${gNA ? (-gNA.d).toFixed(2) : "?"} points (not significant). With 9–11 tokens, the bilinear path and the expert vote already capture most interactions; larger option sets or more experts may change this.`),
   Bullet({ t: "Calibration is not accuracy. ", b: true }, "On typed-decisions the gold answers are soft distributions. Making the top answer more confident lowers ECE but can move the probabilities away from the gold distribution (higher Brier). Reporting both metrics avoids over-claiming."),
   Bullet({ t: "Honest per-expert reliability. ", b: true }, T.ag_news.routing

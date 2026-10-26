@@ -1,0 +1,554 @@
+[{"stream_name":"stderr","time":7.117556755,"data":"/usr/local/lib/python3.13/dist-packages/nbformat/validator.py:434: MissingIDFieldWarning: Cell is missing an id field, this will become a hard error in future nbformat versions. You may want to use `normalize()` on your notebooks before validations (available since nbformat 5.1.4). Previous versions of nbformat are fixing this issue transparently, and will stop doing so in the future.\n"}
+,{"stream_name":"stderr","time":7.1176038,"data":"  _validate(nbdict, ref, version, version_minor, relax_add_props)\n"}
+,{"stream_name":"stderr","time":8.106639759,"data":"0.00s - Debugger warning: It seems that frozen modules are being used, which may\n"}
+,{"stream_name":"stderr","time":8.106670006,"data":"0.00s - make the debugger miss breakpoints. Please pass -Xfrozen_modules=off\n"}
+,{"stream_name":"stderr","time":8.106675813,"data":"0.00s - to python to disable frozen modules.\n"}
+,{"stream_name":"stderr","time":8.106680668,"data":"0.00s - Note: Debugging will proceed. Set PYDEVD_DISABLE_FILE_VALIDATION=1 to disable this validation.\n"}
+,{"stream_name":"stderr","time":8.759709668,"data":"0.00s - Debugger warning: It seems that frozen modules are being used, which may\n"}
+,{"stream_name":"stderr","time":8.759741379,"data":"0.00s - make the debugger miss breakpoints. Please pass -Xfrozen_modules=off\n"}
+,{"stream_name":"stderr","time":8.759746492,"data":"0.00s - to python to disable frozen modules.\n"}
+,{"stream_name":"stderr","time":8.759750415,"data":"0.00s - Note: Debugging will proceed. Set PYDEVD_DISABLE_FILE_VALIDATION=1 to disable this validation.\n"}
+,{"stream_name":"stdout","time":10.061520489,"data":"GPU 0: Tesla T4 (UUID: GPU-a9ae2d78-c5d8-9e06-4b9e-d30ad29fcbc5)\n"}
+,{"stream_name":"stdout","time":10.06155665,"data":"GPU 1: Tesla T4 (UUID: GPU-e9d43f23-0391-6560-b0ab-c038274a453a)\n"}
+,{"stream_name":"stdout","time":10.061560686,"data":"\n"}
+,{"stream_name":"stdout","time":10.061563289,"data":"disk free (GB): 20.940259328\n"}
+,{"stream_name":"stdout","time":14.048078769,"data":"Writing adar/__init__.py\n"}
+,{"stream_name":"stdout","time":14.06614951,"data":"Writing adar/utils.py\n"}
+,{"stream_name":"stdout","time":14.082792732,"data":"Writing adar/runstate.py\n"}
+,{"stream_name":"stdout","time":14.101992202,"data":"Writing adar/data.py\n"}
+,{"stream_name":"stdout","time":14.118403229,"data":"Writing adar/metrics.py\n"}
+,{"stream_name":"stdout","time":14.13941413,"data":"Writing adar/experts.py\n"}
+,{"stream_name":"stdout","time":14.15798628,"data":"Writing adar/baselines.py\n"}
+,{"stream_name":"stdout","time":14.177497078,"data":"Writing adar/encoder.py\n"}
+,{"stream_name":"stdout","time":14.199523156,"data":"Writing adar/head.py\n"}
+,{"stream_name":"stdout","time":14.21842238,"data":"Writing adar/router.py\n"}
+,{"stream_name":"stdout","time":14.23819195,"data":"Writing adar/laya_tasks.py\n"}
+,{"stream_name":"stdout","time":14.268770222,"data":"Writing adar/report.py\n"}
+,{"stream_name":"stdout","time":14.295709603,"data":"Writing adar/pipeline.py\n"}
+,{"stream_name":"stdout","time":14.314702227,"data":"Writing adar/inference.py\n"}
+,{"stream_name":"stdout","time":25.614310743,"data":"17:36:18 INFO devices: [device(type='cuda', index=0), device(type='cuda', index=1)]\n"}
+,{"stream_name":"stdout","time":25.615215612,"data":"fresh run\n"}
+,{"stream_name":"stdout","time":25.643936187,"data":"17:36:18 INFO [run ] experts:ag_news\n"}
+,{"stream_name":"stderr","time":28.572873322,"data":"Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.\n"}
+,{"stream_name":"stderr","time":28.572920859,"data":"\n"}
+,{"stream_name":"stderr","time":28.572940263,"data":"Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.\n"}
+,{"stream_name":"stdout","time":34.210363163,"data":"17:36:27 INFO loaded fancyzhx/ag_news from Hugging Face (train=120000, test=7600)\n"}
+,{"stream_name":"stdout","time":34.272071709,"data":"17:36:27 INFO ag_news: train=114000 val=6000 test=7600 classes=4 folds=3\n"}
+,{"stream_name":"stdout","time":51.127175608,"data":"17:36:44 INFO   textcnn ep1 loss=0.8092 val_nll=0.3559 val_acc=0.8862 (6s)\n"}
+,{"stream_name":"stdout","time":55.090062689,"data":"17:36:48 INFO   textcnn ep2 loss=0.3883 val_nll=0.3146 val_acc=0.9028 (4s)\n"}
+,{"stream_name":"stdout","time":59.036735917,"data":"17:36:52 INFO   textcnn ep3 loss=0.2868 val_nll=0.2711 val_acc=0.9142 (4s)\n"}
+,{"stream_name":"stdout","time":62.982063703,"data":"17:36:55 INFO   textcnn ep4 loss=0.2176 val_nll=0.2780 val_acc=0.9130 (4s)\n"}
+,{"stream_name":"stdout","time":66.944824372,"data":"17:36:59 INFO   textcnn ep5 loss=0.1660 val_nll=0.2975 val_acc=0.9152 (4s)\n"}
+,{"stream_name":"stdout","time":71.88718952,"data":"17:37:04 INFO   textcnn ep1 loss=0.8276 val_nll=0.3791 val_acc=0.8753 (4s)\n"}
+,{"stream_name":"stdout","time":75.906752746,"data":"17:37:08 INFO   textcnn ep2 loss=0.3994 val_nll=0.3160 val_acc=0.9037 (4s)\n"}
+,{"stream_name":"stdout","time":79.947938871,"data":"17:37:12 INFO   textcnn ep3 loss=0.2862 val_nll=0.2856 val_acc=0.9107 (4s)\n"}
+,{"stream_name":"stdout","time":84.006896118,"data":"17:37:17 INFO   textcnn ep4 loss=0.2208 val_nll=0.2700 val_acc=0.9177 (4s)\n"}
+,{"stream_name":"stdout","time":88.085121797,"data":"17:37:21 INFO   textcnn ep5 loss=0.1709 val_nll=0.2824 val_acc=0.9152 (4s)\n"}
+,{"stream_name":"stdout","time":92.182187458,"data":"17:37:25 INFO   textcnn ep6 loss=0.1240 val_nll=0.2983 val_acc=0.9157 (4s)\n"}
+,{"stream_name":"stdout","time":97.110155097,"data":"17:37:30 INFO   textcnn ep1 loss=0.8188 val_nll=0.3646 val_acc=0.8818 (4s)\n"}
+,{"stream_name":"stdout","time":101.268645052,"data":"17:37:34 INFO   textcnn ep2 loss=0.3912 val_nll=0.3141 val_acc=0.9008 (4s)\n"}
+,{"stream_name":"stdout","time":105.444621162,"data":"17:37:38 INFO   textcnn ep3 loss=0.2846 val_nll=0.2783 val_acc=0.9117 (4s)\n"}
+,{"stream_name":"stdout","time":109.606948347,"data":"17:37:42 INFO   textcnn ep4 loss=0.2197 val_nll=0.2862 val_acc=0.9140 (4s)\n"}
+,{"stream_name":"stdout","time":113.783029487,"data":"17:37:46 INFO   textcnn ep5 loss=0.1633 val_nll=0.2861 val_acc=0.9137 (4s)\n"}
+,{"stream_name":"stdout","time":114.628864705,"data":"17:37:47 INFO expert textcnn: oof_acc=0.9111 val_acc=0.9238 params=4039556 cpu=1.11ms\n"}
+,{"stream_name":"stdout","time":122.697211071,"data":"17:37:55 INFO   rnn ep1 loss=0.6828 val_nll=0.3849 val_acc=0.8723 (8s)\n"}
+,{"stream_name":"stdout","time":130.537286895,"data":"17:38:03 INFO   rnn ep2 loss=0.3696 val_nll=0.3120 val_acc=0.8980 (8s)\n"}
+,{"stream_name":"stdout","time":138.389626007,"data":"17:38:11 INFO   rnn ep3 loss=0.2971 val_nll=0.3025 val_acc=0.9005 (8s)\n"}
+,{"stream_name":"stdout","time":146.216888523,"data":"17:38:19 INFO   rnn ep4 loss=0.2512 val_nll=0.2896 val_acc=0.9125 (8s)\n"}
+,{"stream_name":"stdout","time":154.06078194,"data":"17:38:27 INFO   rnn ep5 loss=0.2228 val_nll=0.2878 val_acc=0.9118 (8s)\n"}
+,{"stream_name":"stdout","time":161.892043703,"data":"17:38:34 INFO   rnn ep6 loss=0.2002 val_nll=0.2867 val_acc=0.9122 (8s)\n"}
+,{"stream_name":"stdout","time":169.694520354,"data":"17:38:42 INFO   rnn ep7 loss=0.1818 val_nll=0.2939 val_acc=0.9110 (8s)\n"}
+,{"stream_name":"stdout","time":177.490543833,"data":"17:38:50 INFO   rnn ep8 loss=0.1677 val_nll=0.3016 val_acc=0.9097 (8s)\n"}
+,{"stream_name":"stdout","time":186.082455976,"data":"17:38:59 INFO   rnn ep1 loss=0.6975 val_nll=0.3741 val_acc=0.8752 (8s)\n"}
+,{"stream_name":"stdout","time":193.923816788,"data":"17:39:06 INFO   rnn ep2 loss=0.3740 val_nll=0.3200 val_acc=0.8927 (8s)\n"}
+,{"stream_name":"stdout","time":201.768620253,"data":"17:39:14 INFO   rnn ep3 loss=0.2952 val_nll=0.3164 val_acc=0.9032 (8s)\n"}
+,{"stream_name":"stdout","time":209.605081005,"data":"17:39:22 INFO   rnn ep4 loss=0.2541 val_nll=0.2894 val_acc=0.9097 (8s)\n"}
+,{"stream_name":"stdout","time":217.460595821,"data":"17:39:30 INFO   rnn ep5 loss=0.2215 val_nll=0.2907 val_acc=0.9108 (8s)\n"}
+,{"stream_name":"stdout","time":225.283577515,"data":"17:39:38 INFO   rnn ep6 loss=0.1998 val_nll=0.2988 val_acc=0.9132 (8s)\n"}
+,{"stream_name":"stdout","time":233.82616226,"data":"17:39:46 INFO   rnn ep1 loss=0.6912 val_nll=0.3965 val_acc=0.8688 (8s)\n"}
+,{"stream_name":"stdout","time":241.643668336,"data":"17:39:54 INFO   rnn ep2 loss=0.3705 val_nll=0.3228 val_acc=0.8963 (8s)\n"}
+,{"stream_name":"stdout","time":249.459746141,"data":"17:40:02 INFO   rnn ep3 loss=0.2964 val_nll=0.2998 val_acc=0.9092 (8s)\n"}
+,{"stream_name":"stdout","time":257.25702523,"data":"17:40:10 INFO   rnn ep4 loss=0.2544 val_nll=0.2946 val_acc=0.9052 (8s)\n"}
+,{"stream_name":"stdout","time":265.044414849,"data":"17:40:18 INFO   rnn ep5 loss=0.2245 val_nll=0.2861 val_acc=0.9117 (8s)\n"}
+,{"stream_name":"stdout","time":272.848885503,"data":"17:40:25 INFO   rnn ep6 loss=0.1989 val_nll=0.2960 val_acc=0.9100 (8s)\n"}
+,{"stream_name":"stdout","time":280.65757771,"data":"17:40:33 INFO   rnn ep7 loss=0.1819 val_nll=0.3043 val_acc=0.9152 (8s)\n"}
+,{"stream_name":"stdout","time":281.502508159,"data":"17:40:34 INFO expert rnn: oof_acc=0.9082 val_acc=0.9210 params=3908356 cpu=3.39ms\n"}
+,{"stream_name":"stdout","time":290.299262003,"data":"17:40:43 INFO   lstm ep1 loss=0.6039 val_nll=0.3597 val_acc=0.8858 (9s)\n"}
+,{"stream_name":"stdout","time":299.134120489,"data":"17:40:52 INFO   lstm ep2 loss=0.3230 val_nll=0.2867 val_acc=0.9080 (9s)\n"}
+,{"stream_name":"stdout","time":307.973804139,"data":"17:41:00 INFO   lstm ep3 loss=0.2586 val_nll=0.2997 val_acc=0.9027 (9s)\n"}
+,{"stream_name":"stdout","time":316.795521712,"data":"17:41:09 INFO   lstm ep4 loss=0.2176 val_nll=0.2707 val_acc=0.9155 (9s)\n"}
+,{"stream_name":"stdout","time":325.60334402,"data":"17:41:18 INFO   lstm ep5 loss=0.1905 val_nll=0.2689 val_acc=0.9198 (9s)\n"}
+,{"stream_name":"stdout","time":334.430608422,"data":"17:41:27 INFO   lstm ep6 loss=0.1664 val_nll=0.2545 val_acc=0.9218 (9s)\n"}
+,{"stream_name":"stdout","time":343.226072866,"data":"17:41:36 INFO   lstm ep7 loss=0.1472 val_nll=0.2869 val_acc=0.9168 (9s)\n"}
+,{"stream_name":"stdout","time":352.03160917,"data":"17:41:45 INFO   lstm ep8 loss=0.1312 val_nll=0.2658 val_acc=0.9222 (9s)\n"}
+,{"stream_name":"stdout","time":362.09075884,"data":"17:41:55 INFO   lstm ep1 loss=0.6175 val_nll=0.3231 val_acc=0.8932 (9s)\n"}
+,{"stream_name":"stdout","time":370.927565095,"data":"17:42:03 INFO   lstm ep2 loss=0.3249 val_nll=0.2870 val_acc=0.9082 (9s)\n"}
+,{"stream_name":"stdout","time":379.754417833,"data":"17:42:12 INFO   lstm ep3 loss=0.2567 val_nll=0.2934 val_acc=0.9122 (9s)\n"}
+,{"stream_name":"stdout","time":388.598316663,"data":"17:42:21 INFO   lstm ep4 loss=0.2184 val_nll=0.2810 val_acc=0.9155 (9s)\n"}
+,{"stream_name":"stdout","time":397.413554665,"data":"17:42:30 INFO   lstm ep5 loss=0.1863 val_nll=0.2776 val_acc=0.9160 (9s)\n"}
+,{"stream_name":"stdout","time":406.226803488,"data":"17:42:39 INFO   lstm ep6 loss=0.1646 val_nll=0.2853 val_acc=0.9168 (9s)\n"}
+,{"stream_name":"stdout","time":415.007391417,"data":"17:42:48 INFO   lstm ep7 loss=0.1449 val_nll=0.2894 val_acc=0.9202 (9s)\n"}
+,{"stream_name":"stdout","time":425.065081726,"data":"17:42:58 INFO   lstm ep1 loss=0.6105 val_nll=0.3430 val_acc=0.8898 (9s)\n"}
+,{"stream_name":"stdout","time":433.855363819,"data":"17:43:06 INFO   lstm ep2 loss=0.3202 val_nll=0.2924 val_acc=0.9043 (9s)\n"}
+,{"stream_name":"stdout","time":442.684430697,"data":"17:43:15 INFO   lstm ep3 loss=0.2591 val_nll=0.2888 val_acc=0.9122 (9s)\n"}
+,{"stream_name":"stdout","time":451.452622858,"data":"17:43:24 INFO   lstm ep4 loss=0.2183 val_nll=0.2798 val_acc=0.9147 (9s)\n"}
+,{"stream_name":"stdout","time":460.237508647,"data":"17:43:33 INFO   lstm ep5 loss=0.1893 val_nll=0.2694 val_acc=0.9165 (9s)\n"}
+,{"stream_name":"stdout","time":469.02834586,"data":"17:43:42 INFO   lstm ep6 loss=0.1645 val_nll=0.2844 val_acc=0.9162 (9s)\n"}
+,{"stream_name":"stdout","time":477.818762876,"data":"17:43:50 INFO   lstm ep7 loss=0.1461 val_nll=0.2951 val_acc=0.9170 (9s)\n"}
+,{"stream_name":"stdout","time":479.069427022,"data":"17:43:52 INFO expert lstm: oof_acc=0.9138 val_acc=0.9285 params=4106500 cpu=6.40ms\n"}
+,{"stream_name":"stdout","time":487.819976373,"data":"17:44:00 INFO   gru ep1 loss=0.5948 val_nll=0.3497 val_acc=0.8897 (9s)\n"}
+,{"stream_name":"stdout","time":496.614119996,"data":"17:44:09 INFO   gru ep2 loss=0.3209 val_nll=0.2839 val_acc=0.9102 (9s)\n"}
+,{"stream_name":"stdout","time":505.35731075,"data":"17:44:18 INFO   gru ep3 loss=0.2580 val_nll=0.3019 val_acc=0.9053 (9s)\n"}
+,{"stream_name":"stdout","time":514.108643386,"data":"17:44:27 INFO   gru ep4 loss=0.2167 val_nll=0.2708 val_acc=0.9155 (9s)\n"}
+,{"stream_name":"stdout","time":522.87360497,"data":"17:44:35 INFO   gru ep5 loss=0.1886 val_nll=0.2756 val_acc=0.9197 (9s)\n"}
+,{"stream_name":"stdout","time":531.610156338,"data":"17:44:44 INFO   gru ep6 loss=0.1647 val_nll=0.2720 val_acc=0.9188 (9s)\n"}
+,{"stream_name":"stdout","time":541.437787127,"data":"17:44:54 INFO   gru ep1 loss=0.6067 val_nll=0.3272 val_acc=0.8928 (9s)\n"}
+,{"stream_name":"stdout","time":550.19207815,"data":"17:45:03 INFO   gru ep2 loss=0.3257 val_nll=0.2908 val_acc=0.9072 (9s)\n"}
+,{"stream_name":"stdout","time":558.93084363,"data":"17:45:11 INFO   gru ep3 loss=0.2578 val_nll=0.2889 val_acc=0.9127 (9s)\n"}
+,{"stream_name":"stdout","time":567.681720274,"data":"17:45:20 INFO   gru ep4 loss=0.2181 val_nll=0.2801 val_acc=0.9147 (9s)\n"}
+,{"stream_name":"stdout","time":576.398528686,"data":"17:45:29 INFO   gru ep5 loss=0.1904 val_nll=0.2689 val_acc=0.9192 (9s)\n"}
+,{"stream_name":"stdout","time":585.135395378,"data":"17:45:38 INFO   gru ep6 loss=0.1671 val_nll=0.2801 val_acc=0.9198 (9s)\n"}
+,{"stream_name":"stdout","time":593.821092316,"data":"17:45:46 INFO   gru ep7 loss=0.1459 val_nll=0.3003 val_acc=0.9173 (9s)\n"}
+,{"stream_name":"stdout","time":603.666304092,"data":"17:45:56 INFO   gru ep1 loss=0.6020 val_nll=0.3346 val_acc=0.8922 (9s)\n"}
+,{"stream_name":"stdout","time":612.353936094,"data":"17:46:05 INFO   gru ep2 loss=0.3199 val_nll=0.2913 val_acc=0.9068 (9s)\n"}
+,{"stream_name":"stdout","time":621.07260014,"data":"17:46:14 INFO   gru ep3 loss=0.2583 val_nll=0.2817 val_acc=0.9097 (9s)\n"}
+,{"stream_name":"stdout","time":629.755596555,"data":"17:46:22 INFO   gru ep4 loss=0.2174 val_nll=0.2789 val_acc=0.9122 (9s)\n"}
+,{"stream_name":"stdout","time":638.557333367,"data":"17:46:31 INFO   gru ep5 loss=0.1877 val_nll=0.2722 val_acc=0.9170 (9s)\n"}
+,{"stream_name":"stdout","time":647.163447681,"data":"17:46:40 INFO   gru ep6 loss=0.1632 val_nll=0.2830 val_acc=0.9147 (9s)\n"}
+,{"stream_name":"stdout","time":655.880648914,"data":"17:46:48 INFO   gru ep7 loss=0.1469 val_nll=0.3008 val_acc=0.9162 (9s)\n"}
+,{"stream_name":"stdout","time":657.03234706,"data":"17:46:50 INFO expert gru: oof_acc=0.9138 val_acc=0.9275 params=4040452 cpu=6.16ms\n"}
+,{"stream_name":"stdout","time":657.040752239,"data":"17:46:50 INFO [done] experts:ag_news (631.4s)\n"}
+,{"stream_name":"stdout","time":657.041683159,"data":"17:46:50 INFO [run ] sklearn:ag_news\n"}
+,{"stream_name":"stdout","time":678.474785481,"data":"17:47:11 INFO baseline sk_naive_bayes: val_acc=0.9160 fit=0s rows=114000\n"}
+,{"stream_name":"stdout","time":743.692852335,"data":"17:48:16 INFO baseline sk_logreg: val_acc=0.9293 fit=65s rows=114000\n"}
+,{"stream_name":"stdout","time":751.869214795,"data":"17:48:24 INFO baseline sk_linear_svm: val_acc=0.9308 fit=8s rows=114000\n"}
+,{"stream_name":"stdout","time":925.087483121,"data":"17:51:18 INFO baseline sk_random_forest: val_acc=0.8697 fit=169s rows=30000\n"}
+,{"stream_name":"stdout","time":1230.009361085,"data":"17:56:22 INFO baseline sk_mlp: val_acc=0.9168 fit=303s rows=40000\n"}
+,{"stream_name":"stdout","time":1230.010233997,"data":"17:56:23 INFO [done] sklearn:ag_news (573.0s)\n"}
+,{"stream_name":"stdout","time":1230.010989703,"data":"17:56:23 INFO [run ] experts:emotion\n"}
+,{"stream_name":"stdout","time":1232.621882365,"data":"17:56:25 INFO loaded dair-ai/emotion from Hugging Face (train=16000, validation=2000, test=2000)\n"}
+,{"stream_name":"stdout","time":1232.629202057,"data":"17:56:25 INFO emotion: train=16000 val=2000 test=2000 classes=6 folds=3\n"}
+,{"stream_name":"stdout","time":1233.510033263,"data":"17:56:26 INFO   textcnn ep1 loss=2.1847 val_nll=1.4791 val_acc=0.4365 (1s)\n"}
+,{"stream_name":"stdout","time":1233.984641875,"data":"17:56:26 INFO   textcnn ep2 loss=1.4488 val_nll=1.2746 val_acc=0.5175 (0s)\n"}
+,{"stream_name":"stdout","time":1234.451243158,"data":"17:56:27 INFO   textcnn ep3 loss=1.1751 val_nll=0.9992 val_acc=0.6385 (0s)\n"}
+,{"stream_name":"stdout","time":1234.914652558,"data":"17:56:27 INFO   textcnn ep4 loss=0.8509 val_nll=0.6900 val_acc=0.7540 (0s)\n"}
+,{"stream_name":"stdout","time":1235.379239387,"data":"17:56:28 INFO   textcnn ep5 loss=0.5715 val_nll=0.4939 val_acc=0.8240 (0s)\n"}
+,{"stream_name":"stdout","time":1235.851617929,"data":"17:56:28 INFO   textcnn ep6 loss=0.3777 val_nll=0.3734 val_acc=0.8675 (0s)\n"}
+,{"stream_name":"stdout","time":1236.319627716,"data":"17:56:29 INFO   textcnn ep7 loss=0.2757 val_nll=0.3493 val_acc=0.8775 (0s)\n"}
+,{"stream_name":"stdout","time":1236.7804731,"data":"17:56:29 INFO   textcnn ep8 loss=0.1992 val_nll=0.3171 val_acc=0.8865 (0s)\n"}
+,{"stream_name":"stdout","time":1237.247675095,"data":"17:56:30 INFO   textcnn ep9 loss=0.1584 val_nll=0.3447 val_acc=0.8920 (0s)\n"}
+,{"stream_name":"stdout","time":1237.712584255,"data":"17:56:30 INFO   textcnn ep10 loss=0.1136 val_nll=0.2927 val_acc=0.9025 (0s)\n"}
+,{"stream_name":"stdout","time":1238.373393419,"data":"17:56:31 INFO   textcnn ep1 loss=2.1966 val_nll=1.4491 val_acc=0.4240 (0s)\n"}
+,{"stream_name":"stdout","time":1238.846660358,"data":"17:56:31 INFO   textcnn ep2 loss=1.4612 val_nll=1.3023 val_acc=0.5035 (0s)\n"}
+,{"stream_name":"stdout","time":1239.318671653,"data":"17:56:32 INFO   textcnn ep3 loss=1.1713 val_nll=0.9982 val_acc=0.6510 (0s)\n"}
+,{"stream_name":"stdout","time":1239.785752104,"data":"17:56:32 INFO   textcnn ep4 loss=0.8332 val_nll=0.6642 val_acc=0.7735 (0s)\n"}
+,{"stream_name":"stdout","time":1240.258406332,"data":"17:56:33 INFO   textcnn ep5 loss=0.5579 val_nll=0.4632 val_acc=0.8335 (0s)\n"}
+,{"stream_name":"stdout","time":1240.734563973,"data":"17:56:33 INFO   textcnn ep6 loss=0.3671 val_nll=0.4061 val_acc=0.8565 (0s)\n"}
+,{"stream_name":"stdout","time":1241.206748706,"data":"17:56:34 INFO   textcnn ep7 loss=0.2629 val_nll=0.3231 val_acc=0.8910 (0s)\n"}
+,{"stream_name":"stdout","time":1241.683528327,"data":"17:56:34 INFO   textcnn ep8 loss=0.1882 val_nll=0.3040 val_acc=0.9005 (0s)\n"}
+,{"stream_name":"stdout","time":1242.158984521,"data":"17:56:35 INFO   textcnn ep9 loss=0.1433 val_nll=0.2995 val_acc=0.9000 (0s)\n"}
+,{"stream_name":"stdout","time":1242.635077426,"data":"17:56:35 INFO   textcnn ep10 loss=0.1248 val_nll=0.3009 val_acc=0.9015 (0s)\n"}
+,{"stream_name":"stdout","time":1243.304730384,"data":"17:56:36 INFO   textcnn ep1 loss=2.1948 val_nll=1.4926 val_acc=0.4385 (0s)\n"}
+,{"stream_name":"stdout","time":1243.783665133,"data":"17:56:36 INFO   textcnn ep2 loss=1.4481 val_nll=1.3560 val_acc=0.4315 (0s)\n"}
+,{"stream_name":"stdout","time":1244.256729598,"data":"17:56:37 INFO   textcnn ep3 loss=1.1744 val_nll=1.0613 val_acc=0.5985 (0s)\n"}
+,{"stream_name":"stdout","time":1244.731888446,"data":"17:56:37 INFO   textcnn ep4 loss=0.8399 val_nll=0.7204 val_acc=0.7360 (0s)\n"}
+,{"stream_name":"stdout","time":1245.207426095,"data":"17:56:38 INFO   textcnn ep5 loss=0.5451 val_nll=0.4738 val_acc=0.8215 (0s)\n"}
+,{"stream_name":"stdout","time":1245.680901557,"data":"17:56:38 INFO   textcnn ep6 loss=0.3713 val_nll=0.3861 val_acc=0.8610 (0s)\n"}
+,{"stream_name":"stdout","time":1246.159397064,"data":"17:56:39 INFO   textcnn ep7 loss=0.2524 val_nll=0.3258 val_acc=0.8850 (0s)\n"}
+,{"stream_name":"stdout","time":1246.638757809,"data":"17:56:39 INFO   textcnn ep8 loss=0.1790 val_nll=0.3123 val_acc=0.8890 (0s)\n"}
+,{"stream_name":"stdout","time":1247.118399704,"data":"17:56:40 INFO   textcnn ep9 loss=0.1476 val_nll=0.2910 val_acc=0.8945 (0s)\n"}
+,{"stream_name":"stdout","time":1247.592703452,"data":"17:56:40 INFO   textcnn ep10 loss=0.1070 val_nll=0.3062 val_acc=0.9000 (0s)\n"}
+,{"stream_name":"stdout","time":1247.800801916,"data":"17:56:40 INFO expert textcnn: oof_acc=0.8941 val_acc=0.9105 params=1147398 cpu=1.06ms\n"}
+,{"stream_name":"stdout","time":1248.568898238,"data":"17:56:41 INFO   rnn ep1 loss=1.5920 val_nll=1.5088 val_acc=0.4020 (1s)\n"}
+,{"stream_name":"stdout","time":1249.342591391,"data":"17:56:42 INFO   rnn ep2 loss=1.4618 val_nll=1.3578 val_acc=0.4845 (1s)\n"}
+,{"stream_name":"stdout","time":1250.118119129,"data":"17:56:43 INFO   rnn ep3 loss=1.3300 val_nll=1.2134 val_acc=0.5440 (1s)\n"}
+,{"stream_name":"stdout","time":1250.891249275,"data":"17:56:43 INFO   rnn ep4 loss=1.1779 val_nll=1.0436 val_acc=0.6235 (1s)\n"}
+,{"stream_name":"stdout","time":1251.689635557,"data":"17:56:44 INFO   rnn ep5 loss=1.0018 val_nll=0.8238 val_acc=0.7130 (1s)\n"}
+,{"stream_name":"stdout","time":1252.462418541,"data":"17:56:45 INFO   rnn ep6 loss=0.7983 val_nll=0.6419 val_acc=0.7800 (1s)\n"}
+,{"stream_name":"stdout","time":1253.228680633,"data":"17:56:46 INFO   rnn ep7 loss=0.6150 val_nll=0.4647 val_acc=0.8420 (1s)\n"}
+,{"stream_name":"stdout","time":1254.006062917,"data":"17:56:47 INFO   rnn ep8 loss=0.4538 val_nll=0.3702 val_acc=0.8740 (1s)\n"}
+,{"stream_name":"stdout","time":1254.774657483,"data":"17:56:47 INFO   rnn ep9 loss=0.3517 val_nll=0.3234 val_acc=0.8885 (1s)\n"}
+,{"stream_name":"stdout","time":1255.539161255,"data":"17:56:48 INFO   rnn ep10 loss=0.2949 val_nll=0.2920 val_acc=0.9005 (1s)\n"}
+,{"stream_name":"stdout","time":1256.529685905,"data":"17:56:49 INFO   rnn ep1 loss=1.5890 val_nll=1.5179 val_acc=0.3870 (1s)\n"}
+,{"stream_name":"stdout","time":1257.302468763,"data":"17:56:50 INFO   rnn ep2 loss=1.4800 val_nll=1.3839 val_acc=0.4785 (1s)\n"}
+,{"stream_name":"stdout","time":1258.07653618,"data":"17:56:51 INFO   rnn ep3 loss=1.3622 val_nll=1.2476 val_acc=0.5205 (1s)\n"}
+,{"stream_name":"stdout","time":1258.849209898,"data":"17:56:51 INFO   rnn ep4 loss=1.2180 val_nll=1.1108 val_acc=0.5995 (1s)\n"}
+,{"stream_name":"stdout","time":1259.625085605,"data":"17:56:52 INFO   rnn ep5 loss=1.0518 val_nll=0.9181 val_acc=0.6580 (1s)\n"}
+,{"stream_name":"stdout","time":1260.417351482,"data":"17:56:53 INFO   rnn ep6 loss=0.8789 val_nll=0.7291 val_acc=0.7400 (1s)\n"}
+,{"stream_name":"stdout","time":1261.182006603,"data":"17:56:54 INFO   rnn ep7 loss=0.6940 val_nll=0.5888 val_acc=0.8005 (1s)\n"}
+,{"stream_name":"stdout","time":1261.96495612,"data":"17:56:54 INFO   rnn ep8 loss=0.5355 val_nll=0.4419 val_acc=0.8510 (1s)\n"}
+,{"stream_name":"stdout","time":1262.735506971,"data":"17:56:55 INFO   rnn ep9 loss=0.4024 val_nll=0.3680 val_acc=0.8650 (1s)\n"}
+,{"stream_name":"stdout","time":1263.506625817,"data":"17:56:56 INFO   rnn ep10 loss=0.3168 val_nll=0.3268 val_acc=0.8900 (1s)\n"}
+,{"stream_name":"stdout","time":1264.506358129,"data":"17:56:57 INFO   rnn ep1 loss=1.6004 val_nll=1.5097 val_acc=0.4045 (1s)\n"}
+,{"stream_name":"stdout","time":1265.271116926,"data":"17:56:58 INFO   rnn ep2 loss=1.4720 val_nll=1.3902 val_acc=0.4625 (1s)\n"}
+,{"stream_name":"stdout","time":1266.038511134,"data":"17:56:59 INFO   rnn ep3 loss=1.3467 val_nll=1.2296 val_acc=0.5390 (1s)\n"}
+,{"stream_name":"stdout","time":1266.809808698,"data":"17:56:59 INFO   rnn ep4 loss=1.2103 val_nll=1.0631 val_acc=0.6145 (1s)\n"}
+,{"stream_name":"stdout","time":1267.581781583,"data":"17:57:00 INFO   rnn ep5 loss=1.0197 val_nll=0.8389 val_acc=0.7060 (1s)\n"}
+,{"stream_name":"stdout","time":1268.355745912,"data":"17:57:01 INFO   rnn ep6 loss=0.7937 val_nll=0.6308 val_acc=0.7820 (1s)\n"}
+,{"stream_name":"stdout","time":1269.125885827,"data":"17:57:02 INFO   rnn ep7 loss=0.5846 val_nll=0.4768 val_acc=0.8310 (1s)\n"}
+,{"stream_name":"stdout","time":1269.897816048,"data":"17:57:02 INFO   rnn ep8 loss=0.4311 val_nll=0.3490 val_acc=0.8815 (1s)\n"}
+,{"stream_name":"stdout","time":1270.665940198,"data":"17:57:03 INFO   rnn ep9 loss=0.3212 val_nll=0.3010 val_acc=0.8960 (1s)\n"}
+,{"stream_name":"stdout","time":1271.446162159,"data":"17:57:04 INFO   rnn ep10 loss=0.2614 val_nll=0.2584 val_acc=0.9035 (1s)\n"}
+,{"stream_name":"stdout","time":1271.669014208,"data":"17:57:04 INFO expert rnn: oof_acc=0.8934 val_acc=0.9130 params=1016454 cpu=1.82ms\n"}
+,{"stream_name":"stdout","time":1272.528316592,"data":"17:57:05 INFO   lstm ep1 loss=1.5652 val_nll=1.4971 val_acc=0.4095 (1s)\n"}
+,{"stream_name":"stdout","time":1273.392952388,"data":"17:57:06 INFO   lstm ep2 loss=1.3820 val_nll=1.1559 val_acc=0.5890 (1s)\n"}
+,{"stream_name":"stdout","time":1274.26816242,"data":"17:57:07 INFO   lstm ep3 loss=1.0440 val_nll=0.7750 val_acc=0.7185 (1s)\n"}
+,{"stream_name":"stdout","time":1275.128087195,"data":"17:57:08 INFO   lstm ep4 loss=0.7157 val_nll=0.5473 val_acc=0.8085 (1s)\n"}
+,{"stream_name":"stdout","time":1275.985060785,"data":"17:57:08 INFO   lstm ep5 loss=0.5118 val_nll=0.4200 val_acc=0.8485 (1s)\n"}
+,{"stream_name":"stdout","time":1276.837835536,"data":"17:57:09 INFO   lstm ep6 loss=0.3733 val_nll=0.3529 val_acc=0.8730 (1s)\n"}
+,{"stream_name":"stdout","time":1277.69731775,"data":"17:57:10 INFO   lstm ep7 loss=0.2925 val_nll=0.3135 val_acc=0.8940 (1s)\n"}
+,{"stream_name":"stdout","time":1278.571890436,"data":"17:57:11 INFO   lstm ep8 loss=0.2416 val_nll=0.2911 val_acc=0.8975 (1s)\n"}
+,{"stream_name":"stdout","time":1279.437157756,"data":"17:57:12 INFO   lstm ep9 loss=0.1959 val_nll=0.2669 val_acc=0.9005 (1s)\n"}
+,{"stream_name":"stdout","time":1280.297104657,"data":"17:57:13 INFO   lstm ep10 loss=0.1624 val_nll=0.2840 val_acc=0.9100 (1s)\n"}
+,{"stream_name":"stdout","time":1281.518125227,"data":"17:57:14 INFO   lstm ep1 loss=1.5755 val_nll=1.5121 val_acc=0.4065 (1s)\n"}
+,{"stream_name":"stdout","time":1282.370037524,"data":"17:57:15 INFO   lstm ep2 loss=1.4110 val_nll=1.2146 val_acc=0.5770 (1s)\n"}
+,{"stream_name":"stdout","time":1283.230153721,"data":"17:57:16 INFO   lstm ep3 loss=1.0934 val_nll=0.8440 val_acc=0.7050 (1s)\n"}
+,{"stream_name":"stdout","time":1284.086092451,"data":"17:57:17 INFO   lstm ep4 loss=0.7458 val_nll=0.5750 val_acc=0.7925 (1s)\n"}
+,{"stream_name":"stdout","time":1284.946844669,"data":"17:57:17 INFO   lstm ep5 loss=0.5093 val_nll=0.3985 val_acc=0.8685 (1s)\n"}
+,{"stream_name":"stdout","time":1285.809289533,"data":"17:57:18 INFO   lstm ep6 loss=0.3689 val_nll=0.3475 val_acc=0.8810 (1s)\n"}
+,{"stream_name":"stdout","time":1286.666250568,"data":"17:57:19 INFO   lstm ep7 loss=0.2970 val_nll=0.3020 val_acc=0.8965 (1s)\n"}
+,{"stream_name":"stdout","time":1287.524474843,"data":"17:57:20 INFO   lstm ep8 loss=0.2344 val_nll=0.2906 val_acc=0.9020 (1s)\n"}
+,{"stream_name":"stdout","time":1288.382363125,"data":"17:57:21 INFO   lstm ep9 loss=0.1939 val_nll=0.2779 val_acc=0.9075 (1s)\n"}
+,{"stream_name":"stdout","time":1289.237752394,"data":"17:57:22 INFO   lstm ep10 loss=0.1637 val_nll=0.2674 val_acc=0.9065 (1s)\n"}
+,{"stream_name":"stdout","time":1290.45445103,"data":"17:57:23 INFO   lstm ep1 loss=1.5739 val_nll=1.5162 val_acc=0.4075 (1s)\n"}
+,{"stream_name":"stdout","time":1291.322796826,"data":"17:57:24 INFO   lstm ep2 loss=1.4063 val_nll=1.2180 val_acc=0.5565 (1s)\n"}
+,{"stream_name":"stdout","time":1292.184587065,"data":"17:57:25 INFO   lstm ep3 loss=1.0674 val_nll=0.8252 val_acc=0.7065 (1s)\n"}
+,{"stream_name":"stdout","time":1293.039065175,"data":"17:57:26 INFO   lstm ep4 loss=0.7390 val_nll=0.5493 val_acc=0.8095 (1s)\n"}
+,{"stream_name":"stdout","time":1293.892126658,"data":"17:57:26 INFO   lstm ep5 loss=0.5200 val_nll=0.3969 val_acc=0.8625 (1s)\n"}
+,{"stream_name":"stdout","time":1294.74742963,"data":"17:57:27 INFO   lstm ep6 loss=0.3696 val_nll=0.3288 val_acc=0.8815 (1s)\n"}
+,{"stream_name":"stdout","time":1295.607376791,"data":"17:57:28 INFO   lstm ep7 loss=0.2795 val_nll=0.3278 val_acc=0.8870 (1s)\n"}
+,{"stream_name":"stdout","time":1296.466584503,"data":"17:57:29 INFO   lstm ep8 loss=0.2344 val_nll=0.2885 val_acc=0.8965 (1s)\n"}
+,{"stream_name":"stdout","time":1297.318292291,"data":"17:57:30 INFO   lstm ep9 loss=0.1876 val_nll=0.2490 val_acc=0.9130 (1s)\n"}
+,{"stream_name":"stdout","time":1298.175348219,"data":"17:57:31 INFO   lstm ep10 loss=0.1618 val_nll=0.2627 val_acc=0.9145 (1s)\n"}
+,{"stream_name":"stdout","time":1298.525498662,"data":"17:57:31 INFO expert lstm: oof_acc=0.9008 val_acc=0.9200 params=1214598 cpu=3.28ms\n"}
+,{"stream_name":"stdout","time":1299.379298532,"data":"17:57:32 INFO   gru ep1 loss=1.5552 val_nll=1.4792 val_acc=0.4210 (1s)\n"}
+,{"stream_name":"stdout","time":1300.24479461,"data":"17:57:33 INFO   gru ep2 loss=1.3879 val_nll=1.2035 val_acc=0.5565 (1s)\n"}
+,{"stream_name":"stdout","time":1301.114643107,"data":"17:57:34 INFO   gru ep3 loss=1.0759 val_nll=0.7865 val_acc=0.7190 (1s)\n"}
+,{"stream_name":"stdout","time":1301.989264076,"data":"17:57:35 INFO   gru ep4 loss=0.7236 val_nll=0.5014 val_acc=0.8295 (1s)\n"}
+,{"stream_name":"stdout","time":1302.854123842,"data":"17:57:35 INFO   gru ep5 loss=0.4726 val_nll=0.3475 val_acc=0.8780 (1s)\n"}
+,{"stream_name":"stdout","time":1303.706868551,"data":"17:57:36 INFO   gru ep6 loss=0.3319 val_nll=0.2813 val_acc=0.8955 (1s)\n"}
+,{"stream_name":"stdout","time":1304.56473694,"data":"17:57:37 INFO   gru ep7 loss=0.2497 val_nll=0.2651 val_acc=0.9045 (1s)\n"}
+,{"stream_name":"stdout","time":1305.430151995,"data":"17:57:38 INFO   gru ep8 loss=0.2024 val_nll=0.2595 val_acc=0.9060 (1s)\n"}
+,{"stream_name":"stdout","time":1306.29023071,"data":"17:57:39 INFO   gru ep9 loss=0.1626 val_nll=0.2444 val_acc=0.9110 (1s)\n"}
+,{"stream_name":"stdout","time":1307.141585149,"data":"17:57:40 INFO   gru ep10 loss=0.1416 val_nll=0.2375 val_acc=0.9140 (1s)\n"}
+,{"stream_name":"stdout","time":1308.308547528,"data":"17:57:41 INFO   gru ep1 loss=1.5636 val_nll=1.4829 val_acc=0.4065 (1s)\n"}
+,{"stream_name":"stdout","time":1309.166517441,"data":"17:57:42 INFO   gru ep2 loss=1.4021 val_nll=1.2450 val_acc=0.5425 (1s)\n"}
+,{"stream_name":"stdout","time":1310.020115118,"data":"17:57:43 INFO   gru ep3 loss=1.1063 val_nll=0.8277 val_acc=0.7065 (1s)\n"}
+,{"stream_name":"stdout","time":1310.876981743,"data":"17:57:43 INFO   gru ep4 loss=0.6996 val_nll=0.4961 val_acc=0.8285 (1s)\n"}
+,{"stream_name":"stdout","time":1311.762034388,"data":"17:57:44 INFO   gru ep5 loss=0.4512 val_nll=0.3636 val_acc=0.8650 (1s)\n"}
+,{"stream_name":"stdout","time":1312.624646372,"data":"17:57:45 INFO   gru ep6 loss=0.3140 val_nll=0.3222 val_acc=0.8890 (1s)\n"}
+,{"stream_name":"stdout","time":1313.483166304,"data":"17:57:46 INFO   gru ep7 loss=0.2441 val_nll=0.2760 val_acc=0.8990 (1s)\n"}
+,{"stream_name":"stdout","time":1314.342020329,"data":"17:57:47 INFO   gru ep8 loss=0.1952 val_nll=0.2726 val_acc=0.8955 (1s)\n"}
+,{"stream_name":"stdout","time":1315.20098577,"data":"17:57:48 INFO   gru ep9 loss=0.1628 val_nll=0.2615 val_acc=0.9045 (1s)\n"}
+,{"stream_name":"stdout","time":1316.052925983,"data":"17:57:49 INFO   gru ep10 loss=0.1420 val_nll=0.2568 val_acc=0.9100 (1s)\n"}
+,{"stream_name":"stdout","time":1317.229040573,"data":"17:57:50 INFO   gru ep1 loss=1.5742 val_nll=1.4821 val_acc=0.4240 (1s)\n"}
+,{"stream_name":"stdout","time":1318.081724652,"data":"17:57:51 INFO   gru ep2 loss=1.3996 val_nll=1.2273 val_acc=0.5415 (1s)\n"}
+,{"stream_name":"stdout","time":1318.934426023,"data":"17:57:51 INFO   gru ep3 loss=1.0886 val_nll=0.7865 val_acc=0.7310 (1s)\n"}
+,{"stream_name":"stdout","time":1319.793275164,"data":"17:57:52 INFO   gru ep4 loss=0.7079 val_nll=0.4606 val_acc=0.8365 (1s)\n"}
+,{"stream_name":"stdout","time":1320.681999819,"data":"17:57:53 INFO   gru ep5 loss=0.4477 val_nll=0.3524 val_acc=0.8740 (1s)\n"}
+,{"stream_name":"stdout","time":1321.547590629,"data":"17:57:54 INFO   gru ep6 loss=0.3197 val_nll=0.2904 val_acc=0.8940 (1s)\n"}
+,{"stream_name":"stdout","time":1322.407244855,"data":"17:57:55 INFO   gru ep7 loss=0.2358 val_nll=0.2668 val_acc=0.8985 (1s)\n"}
+,{"stream_name":"stdout","time":1323.272873081,"data":"17:57:56 INFO   gru ep8 loss=0.1949 val_nll=0.2673 val_acc=0.8980 (1s)\n"}
+,{"stream_name":"stdout","time":1324.131045508,"data":"17:57:57 INFO   gru ep9 loss=0.1622 val_nll=0.2578 val_acc=0.9060 (1s)\n"}
+,{"stream_name":"stdout","time":1324.994972482,"data":"17:57:58 INFO   gru ep10 loss=0.1332 val_nll=0.2580 val_acc=0.9095 (1s)\n"}
+,{"stream_name":"stdout","time":1325.314646925,"data":"17:57:58 INFO expert gru: oof_acc=0.9069 val_acc=0.9160 params=1148550 cpu=3.02ms\n"}
+,{"stream_name":"stdout","time":1325.317054407,"data":"17:57:58 INFO [done] experts:emotion (95.3s)\n"}
+,{"stream_name":"stdout","time":1325.318140725,"data":"17:57:58 INFO [run ] sklearn:emotion\n"}
+,{"stream_name":"stdout","time":1326.677811468,"data":"17:57:59 INFO baseline sk_naive_bayes: val_acc=0.7700 fit=0s rows=16000\n"}
+,{"stream_name":"stdout","time":1343.56031237,"data":"17:58:16 INFO baseline sk_logreg: val_acc=0.8835 fit=17s rows=16000\n"}
+,{"stream_name":"stdout","time":1344.569432846,"data":"17:58:17 INFO baseline sk_linear_svm: val_acc=0.8990 fit=1s rows=16000\n"}
+,{"stream_name":"stdout","time":1379.844645552,"data":"17:58:52 INFO baseline sk_random_forest: val_acc=0.8780 fit=32s rows=16000\n"}
+,{"stream_name":"stdout","time":1656.613059194,"data":"18:03:29 INFO baseline sk_mlp: val_acc=0.8625 fit=276s rows=16000\n"}
+,{"stream_name":"stdout","time":1656.613978581,"data":"18:03:29 INFO [done] sklearn:emotion (331.3s)\n"}
+,{"stream_name":"stdout","time":1656.670511997,"data":"18:03:29 INFO [run ] embed:ag_news\n"}
+,{"stream_name":"stdout","time":1656.671330824,"data":"18:03:29 INFO loading laya encoder (convaiinnovations/laya) on [device(type='cuda', index=0), device(type='cuda', index=1)]\n"}
+,{"stream_name":"stderr","time":1687.004186242,"data":"/usr/local/lib/python3.13/dist-packages/laya/agent.py:2157: RuntimeWarning: laya: this checkpoint ships invalid temperatures or values outside [0.5, 5]; using choice:11+=0.10058280825614929 -\u003e 0.5. Treat confidence from the affected entries as uncalibrated.\n"}
+,{"stream_name":"stderr","time":1687.00421832,"data":"  return Agent(model_id_or_path, device=device, token=token, subfolder=subfolder, fast=fast,\n"}
+,{"stream_name":"stderr","time":1687.00422508,"data":"\n"}
+,{"stream_name":"stderr","time":1687.004233046,"data":"/usr/local/lib/python3.13/dist-packages/laya/agent.py:2157: RuntimeWarning: laya: this checkpoint ships invalid temperatures or values outside [0.5, 5]; using choice:11+=0.10058280825614929 -\u003e 0.5. Treat confidence from the affected entries as uncalibrated.\n"}
+,{"stream_name":"stderr","time":1687.004237693,"data":"  return Agent(model_id_or_path, device=device, token=token, subfolder=subfolder, fast=fast,\n"}
+,{"stream_name":"stdout","time":1688.508621143,"data":"18:04:01 INFO embedding train: 28/28 shards to do on 2 device(s)\n"}
+,{"stream_name":"stdout","time":1705.946785987,"data":"18:04:18 INFO   train shard 1 done on cuda:1 (2/28, 17s)\n"}
+,{"stream_name":"stdout","time":1711.567048454,"data":"18:04:24 INFO   train shard 0 done on cuda:0 (3/28, 23s)\n"}
+,{"stream_name":"stdout","time":1723.336793821,"data":"18:04:36 INFO   train shard 2 done on cuda:1 (4/28, 35s)\n"}
+,{"stream_name":"stdout","time":1734.703024501,"data":"18:04:47 INFO   train shard 3 done on cuda:0 (5/28, 46s)\n"}
+,{"stream_name":"stdout","time":1741.026523328,"data":"18:04:54 INFO   train shard 4 done on cuda:1 (6/28, 53s)\n"}
+,{"stream_name":"stdout","time":1756.802148065,"data":"18:05:09 INFO   train shard 5 done on cuda:0 (7/28, 68s)\n"}
+,{"stream_name":"stdout","time":1759.34066796,"data":"18:05:12 INFO   train shard 6 done on cuda:1 (8/28, 71s)\n"}
+,{"stream_name":"stdout","time":1778.221049481,"data":"18:05:31 INFO   train shard 8 done on cuda:1 (9/28, 90s)\n"}
+,{"stream_name":"stdout","time":1779.250235355,"data":"18:05:32 INFO   train shard 7 done on cuda:0 (10/28, 91s)\n"}
+,{"stream_name":"stdout","time":1798.273857281,"data":"18:05:51 INFO   train shard 9 done on cuda:1 (11/28, 110s)\n"}
+,{"stream_name":"stdout","time":1802.277284193,"data":"18:05:55 INFO   train shard 10 done on cuda:0 (12/28, 114s)\n"}
+,{"stream_name":"stdout","time":1818.916613581,"data":"18:06:11 INFO   train shard 11 done on cuda:1 (13/28, 130s)\n"}
+,{"stream_name":"stdout","time":1824.474057357,"data":"18:06:17 INFO   train shard 12 done on cuda:0 (14/28, 136s)\n"}
+,{"stream_name":"stdout","time":1838.57876504,"data":"18:06:31 INFO   train shard 13 done on cuda:1 (15/28, 150s)\n"}
+,{"stream_name":"stdout","time":1845.949435101,"data":"18:06:38 INFO   train shard 14 done on cuda:0 (16/28, 157s)\n"}
+,{"stream_name":"stdout","time":1858.52319042,"data":"18:06:51 INFO   train shard 15 done on cuda:1 (17/28, 170s)\n"}
+,{"stream_name":"stdout","time":1868.267077079,"data":"18:07:01 INFO   train shard 16 done on cuda:0 (18/28, 180s)\n"}
+,{"stream_name":"stdout","time":1878.093655444,"data":"18:07:11 INFO   train shard 17 done on cuda:1 (19/28, 190s)\n"}
+,{"stream_name":"stdout","time":1890.057242179,"data":"18:07:23 INFO   train shard 18 done on cuda:0 (20/28, 202s)\n"}
+,{"stream_name":"stdout","time":1897.814815453,"data":"18:07:30 INFO   train shard 19 done on cuda:1 (21/28, 209s)\n"}
+,{"stream_name":"stdout","time":1912.698832072,"data":"18:07:45 INFO   train shard 20 done on cuda:0 (22/28, 224s)\n"}
+,{"stream_name":"stdout","time":1917.544076798,"data":"18:07:50 INFO   train shard 21 done on cuda:1 (23/28, 229s)\n"}
+,{"stream_name":"stdout","time":1934.98125952,"data":"18:08:07 INFO   train shard 22 done on cuda:0 (24/28, 246s)\n"}
+,{"stream_name":"stdout","time":1937.731124228,"data":"18:08:10 INFO   train shard 23 done on cuda:1 (25/28, 249s)\n"}
+,{"stream_name":"stdout","time":1957.008830707,"data":"18:08:29 INFO   train shard 24 done on cuda:0 (26/28, 268s)\n"}
+,{"stream_name":"stdout","time":1957.672364426,"data":"18:08:30 INFO   train shard 25 done on cuda:1 (27/28, 269s)\n"}
+,{"stream_name":"stdout","time":1974.020168697,"data":"18:08:47 INFO   train shard 27 done on cuda:1 (28/28, 286s)\n"}
+,{"stream_name":"stdout","time":1979.171396893,"data":"18:08:52 INFO   train shard 26 done on cuda:0 (28/28, 291s)\n"}
+,{"stream_name":"stdout","time":1980.246877365,"data":"18:08:53 INFO embedding val: 2/2 shards to do on 2 device(s)\n"}
+,{"stream_name":"stdout","time":1989.554674624,"data":"18:09:02 INFO   val shard 1 done on cuda:1 (2/2, 9s)\n"}
+,{"stream_name":"stdout","time":2002.43343608,"data":"18:09:15 INFO   val shard 0 done on cuda:0 (2/2, 22s)\n"}
+,{"stream_name":"stdout","time":2002.492798236,"data":"18:09:15 INFO embedding test: 2/2 shards to do on 2 device(s)\n"}
+,{"stream_name":"stdout","time":2019.625561781,"data":"18:09:32 INFO   test shard 1 done on cuda:1 (2/2, 17s)\n"}
+,{"stream_name":"stdout","time":2025.433732431,"data":"18:09:38 INFO   test shard 0 done on cuda:0 (2/2, 23s)\n"}
+,{"stream_name":"stdout","time":2051.274576856,"data":"18:10:04 INFO [done] embed:ag_news (394.6s)\n"}
+,{"stream_name":"stdout","time":2051.276167885,"data":"18:10:04 INFO [run ] probe:ag_news\n"}
+,{"stream_name":"stdout","time":2204.267189899,"data":"18:12:37 INFO laya_linear_probe: val_acc=0.9130\n"}
+,{"stream_name":"stdout","time":2374.801605239,"data":"18:15:27 INFO [done] probe:ag_news (323.5s)\n"}
+,{"stream_name":"stdout","time":2374.802681257,"data":"18:15:27 INFO [run ] zeroshot:ag_news\n"}
+,{"stream_name":"stdout","time":2401.612013724,"data":"18:15:54 INFO   laya zero-shot val shard 1/3 (27s)\n"}
+,{"stream_name":"stdout","time":2426.336781626,"data":"18:16:19 INFO   laya zero-shot val shard 2/3 (52s)\n"}
+,{"stream_name":"stdout","time":2447.593686829,"data":"18:16:40 INFO   laya zero-shot val shard 3/3 (73s)\n"}
+,{"stream_name":"stdout","time":2471.731424635,"data":"18:17:04 INFO   laya zero-shot test shard 1/4 (24s)\n"}
+,{"stream_name":"stdout","time":2496.337595865,"data":"18:17:29 INFO   laya zero-shot test shard 2/4 (49s)\n"}
+,{"stream_name":"stdout","time":2520.637043589,"data":"18:17:53 INFO   laya zero-shot test shard 3/4 (73s)\n"}
+,{"stream_name":"stdout","time":2537.912750799,"data":"18:18:10 INFO   laya zero-shot test shard 4/4 (90s)\n"}
+,{"stream_name":"stdout","time":2537.917642104,"data":"18:18:10 INFO [done] zeroshot:ag_news (163.1s)\n"}
+,{"stream_name":"stdout","time":2537.918703057,"data":"18:18:10 INFO [run ] embed:emotion\n"}
+,{"stream_name":"stdout","time":2537.936742258,"data":"18:18:10 INFO embedding train: 4/4 shards to do on 2 device(s)\n"}
+,{"stream_name":"stdout","time":2545.762040815,"data":"18:18:18 INFO   train shard 1 done on cuda:1 (2/4, 8s)\n"}
+,{"stream_name":"stdout","time":2546.095591393,"data":"18:18:19 INFO   train shard 0 done on cuda:0 (3/4, 8s)\n"}
+,{"stream_name":"stdout","time":2553.731820129,"data":"18:18:26 INFO   train shard 3 done on cuda:0 (4/4, 16s)\n"}
+,{"stream_name":"stdout","time":2553.803298021,"data":"18:18:26 INFO   train shard 2 done on cuda:1 (4/4, 16s)\n"}
+,{"stream_name":"stdout","time":2553.946364686,"data":"18:18:26 INFO embedding val: 1/1 shards to do on 2 device(s)\n"}
+,{"stream_name":"stdout","time":2558.105987063,"data":"18:18:31 INFO   val shard 0 done on cuda:0 (1/1, 4s)\n"}
+,{"stream_name":"stdout","time":2558.122412926,"data":"18:18:31 INFO embedding test: 1/1 shards to do on 2 device(s)\n"}
+,{"stream_name":"stdout","time":2562.205438199,"data":"18:18:35 INFO   test shard 0 done on cuda:0 (1/1, 4s)\n"}
+,{"stream_name":"stderr","time":2562.911924623,"data":"/usr/local/lib/python3.13/dist-packages/laya/agent.py:2157: RuntimeWarning: laya: this checkpoint ships invalid temperatures or values outside [0.5, 5]; using choice:11+=0.10058280825614929 -\u003e 0.5. Treat confidence from the affected entries as uncalibrated.\n"}
+,{"stream_name":"stderr","time":2562.911965869,"data":"  return Agent(model_id_or_path, device=device, token=token, subfolder=subfolder, fast=fast,\n"}
+,{"stream_name":"stderr","time":2562.911971523,"data":"\n"}
+,{"stream_name":"stderr","time":2562.911976055,"data":"/usr/local/lib/python3.13/dist-packages/laya/agent.py:2157: RuntimeWarning: laya: this checkpoint ships invalid temperatures or values outside [0.5, 5]; using choice:11+=0.10058280825614929 -\u003e 0.5. Treat confidence from the affected entries as uncalibrated.\n"}
+,{"stream_name":"stderr","time":2562.91198136,"data":"  return Agent(model_id_or_path, device=device, token=token, subfolder=subfolder, fast=fast,\n"}
+,{"stream_name":"stdout","time":2582.4969927,"data":"18:18:55 INFO [done] embed:emotion (44.6s)\n"}
+,{"stream_name":"stdout","time":2582.497809848,"data":"18:18:55 INFO [run ] probe:emotion\n"}
+,{"stream_name":"stdout","time":2694.428856507,"data":"18:20:47 INFO laya_linear_probe: val_acc=0.6105\n"}
+,{"stream_name":"stdout","time":2726.812143413,"data":"18:21:19 INFO [done] probe:emotion (144.3s)\n"}
+,{"stream_name":"stdout","time":2726.813386558,"data":"18:21:19 INFO [run ] zeroshot:emotion\n"}
+,{"stream_name":"stdout","time":2746.783573996,"data":"18:21:39 INFO   laya zero-shot val shard 1/1 (20s)\n"}
+,{"stream_name":"stdout","time":2766.360330509,"data":"18:21:59 INFO   laya zero-shot test shard 1/1 (20s)\n"}
+,{"stream_name":"stdout","time":2766.361378633,"data":"18:21:59 INFO [done] zeroshot:emotion (39.6s)\n"}
+,{"stream_name":"stdout","time":2766.430547522,"data":"18:21:59 INFO [run ] head:ag_news\n"}
+,{"stream_name":"stdout","time":2904.313416284,"data":"18:24:17 INFO   head full seed 0: best val_nll=0.1774 val_acc=0.9415 epochs=25\n"}
+,{"stream_name":"stdout","time":2904.778597843,"data":"18:24:17 INFO publishable head written to /kaggle/working/adar_run/publish/adar-head-ag_news\n"}
+,{"stream_name":"stdout","time":3009.097528604,"data":"18:26:02 INFO   head full seed 1: best val_nll=0.1772 val_acc=0.9408 epochs=19\n"}
+,{"stream_name":"stdout","time":3058.828562359,"data":"18:26:51 INFO   head full seed 2: best val_nll=0.1859 val_acc=0.9370 epochs=9\n"}
+,{"stream_name":"stdout","time":3165.944964096,"data":"18:28:38 INFO   head {'use_experts': False} seed 0: best val_nll=0.2195 val_acc=0.9253 epochs=30\n"}
+,{"stream_name":"stdout","time":3228.941245948,"data":"18:29:41 INFO   head {'use_state': False} seed 0: best val_nll=0.2173 val_acc=0.9302 epochs=12\n"}
+,{"stream_name":"stdout","time":3254.249274329,"data":"18:30:07 INFO   head {'use_transformer': False} seed 0: best val_nll=0.1845 val_acc=0.9390 epochs=14\n"}
+,{"stream_name":"stdout","time":3254.429779956,"data":"18:30:07 INFO [done] head:ag_news (488.0s)\n"}
+,{"stream_name":"stdout","time":3254.430847849,"data":"18:30:07 INFO [run ] router:ag_news\n"}
+,{"stream_name":"stdout","time":3258.449070375,"data":"18:30:11 INFO [done] router:ag_news (4.0s)\n"}
+,{"stream_name":"stdout","time":3258.449843485,"data":"18:30:11 INFO [run ] head:emotion\n"}
+,{"stream_name":"stdout","time":3264.350627626,"data":"18:30:17 INFO   head full seed 0: best val_nll=0.1760 val_acc=0.9225 epochs=6\n"}
+,{"stream_name":"stdout","time":3264.629414465,"data":"18:30:17 INFO publishable head written to /kaggle/working/adar_run/publish/adar-head-emotion\n"}
+,{"stream_name":"stdout","time":3271.20921956,"data":"18:30:24 INFO   head full seed 1: best val_nll=0.1751 val_acc=0.9185 epochs=7\n"}
+,{"stream_name":"stdout","time":3277.174240935,"data":"18:30:30 INFO   head full seed 2: best val_nll=0.1771 val_acc=0.9195 epochs=6\n"}
+,{"stream_name":"stdout","time":3283.742327297,"data":"18:30:36 INFO   head {'use_experts': False} seed 0: best val_nll=0.9930 val_acc=0.6530 epochs=9\n"}
+,{"stream_name":"stdout","time":3294.121591878,"data":"18:30:47 INFO   head {'use_state': False} seed 0: best val_nll=0.1678 val_acc=0.9230 epochs=11\n"}
+,{"stream_name":"stdout","time":3296.794147548,"data":"18:30:49 INFO   head {'use_transformer': False} seed 0: best val_nll=0.1775 val_acc=0.9240 epochs=8\n"}
+,{"stream_name":"stdout","time":3296.904113313,"data":"18:30:49 INFO [done] head:emotion (38.5s)\n"}
+,{"stream_name":"stdout","time":3296.904750169,"data":"18:30:49 INFO [run ] router:emotion\n"}
+,{"stream_name":"stdout","time":3300.272952245,"data":"18:30:53 INFO [done] router:emotion (3.4s)\n"}
+,{"stream_name":"stdout","time":3300.572758978,"data":"18:30:53 INFO [run ] report:ag_news\n"}
+,{"stream_name":"stdout","time":3303.597265307,"data":"18:30:56 INFO \n"}
+,{"stream_name":"stdout","time":3303.597292865,"data":"# ADAR results — ag_news\n"}
+,{"stream_name":"stdout","time":3303.597299749,"data":"\n"}
+,{"stream_name":"stdout","time":3303.597305389,"data":"ag_news: train=114000 val=6000 test=7600 classes=4 folds=3\n"}
+,{"stream_name":"stdout","time":3303.597310814,"data":"\n"}
+,{"stream_name":"stdout","time":3303.597315398,"data":"All probabilistic models are temperature-scaled on the validation split (ECE raw = before). CPU latency = median batch-1 time on the run's CPU. Test rows are identical for every model.\n"}
+,{"stream_name":"stdout","time":3303.597321104,"data":"\n"}
+,{"stream_name":"stdout","time":3303.597326063,"data":"| Model | Family | Syllabus unit | Accuracy | Macro-F1 | NLL | Brier | ECE (TS) | ECE (raw) | AURC | CPU ms/sample | Params |\n"}
+,{"stream_name":"stdout","time":3303.597331764,"data":"|---|---|---|---|---|---|---|---|---|---|---|---|\n"}
+,{"stream_name":"stdout","time":3303.597337731,"data":"| Random Forest (TF-IDF) | scikit-learn | - | 0.8689 | 0.8681 | 0.3842 | 0.1980 | 0.0137 | 0.2183 | 0.0382 | 66.89 | - |\n"}
+,{"stream_name":"stdout","time":3303.597342953,"data":"| Laya encoder + Logistic Regression | System One + sklearn | III | 0.9053 | 0.9052 | 0.2778 | 0.1450 | 0.0123 | 0.0207 | 0.0215 | 472.15 | 394.78M |\n"}
+,{"stream_name":"stdout","time":3303.597348079,"data":"| Naive Bayes (TF-IDF) | scikit-learn | - | 0.9076 | 0.9073 | 0.3011 | 0.1471 | 0.0259 | 0.0455 | 0.0285 | 2.95 | - |\n"}
+,{"stream_name":"stdout","time":3303.597353215,"data":"| sklearn MLPClassifier (TF-IDF) | scikit-learn | - | 0.9124 | 0.9122 | 0.2750 | 0.1383 | 0.0178 | 0.0183 | 0.0232 | 27.24 | - |\n"}
+,{"stream_name":"stdout","time":3303.597358474,"data":"| Bi-RNN | Deep learning (syllabus) | III | 0.9150 | 0.9149 | 0.2634 | 0.1333 | 0.0187 | 0.0178 | 0.0209 | 3.39 | 3.91M |\n"}
+,{"stream_name":"stdout","time":3303.59736389,"data":"| TextCNN | Deep learning (syllabus) | I-II | 0.9171 | 0.9169 | 0.2580 | 0.1284 | 0.0192 | 0.0171 | 0.0210 | 1.11 | 4.04M |\n"}
+,{"stream_name":"stdout","time":3303.597369144,"data":"| Stacking LogReg (Laya emb + experts) | Ensemble | I-III | 0.9204 | 0.9203 | 0.2323 | 0.1203 | 0.0091 | 0.0188 | 0.0154 | 489.21 | - |\n"}
+,{"stream_name":"stdout","time":3303.59737463,"data":"| Bi-LSTM | Deep learning (syllabus) | III | 0.9230 | 0.9228 | 0.2324 | 0.1211 | 0.0140 | 0.0159 | 0.0157 | 6.40 | 4.11M |\n"}
+,{"stream_name":"stdout","time":3303.597380402,"data":"| Bi-GRU | Deep learning (syllabus) | III | 0.9241 | 0.9239 | 0.2365 | 0.1218 | 0.0175 | 0.0179 | 0.0164 | 6.16 | 4.04M |\n"}
+,{"stream_name":"stdout","time":3303.597397172,"data":"| Average of syllabus experts | Ensemble | I-III | 0.9247 | 0.9246 | 0.2349 | 0.1200 | 0.0164 | 0.0173 | 0.0166 | 17.06 | 16.09M |\n"}
+,{"stream_name":"stdout","time":3303.597402564,"data":"| Logistic Regression (TF-IDF) | scikit-learn | - | 0.9251 | 0.9250 | 0.2410 | 0.1202 | 0.0149 | 0.0149 | 0.0184 | 2.79 | - |\n"}
+,{"stream_name":"stdout","time":3303.597407148,"data":"| Linear SVM (TF-IDF) | scikit-learn | - | 0.9251 | 0.9250 | 0.2366 | 0.1179 | 0.0076 | 0.0228 | 0.0194 | 2.76 | - |\n"}
+,{"stream_name":"stdout","time":3303.597413218,"data":"| Laya zero-shot (typed choice) | System One | III | 0.9253 | 0.9252 | 0.2366 | 0.1203 | 0.0214 | 0.0641 | 0.0167 | 706.27 | 394.78M |\n"}
+,{"stream_name":"stdout","time":3303.59741731,"data":"| ADAR ablation: laya only | Ablation | - | 0.9182 | 0.9182 | 0.2380 | 0.1255 | 0.0084 | 0.0142 | 0.0158 | 473.92 | 2.33M |\n"}
+,{"stream_name":"stdout","time":3303.59742129,"data":"| ADAR ablation: experts only | Ablation | - | 0.9263 | 0.9262 | 0.2266 | 0.1173 | 0.0119 | 0.0113 | 0.0152 | 19.40 | 2.33M |\n"}
+,{"stream_name":"stdout","time":3303.597425482,"data":"| ADAR ablation: no attention | Ablation | - | 0.9320 | 0.9320 | 0.2020 | 0.1048 | 0.0091 | 0.0100 | 0.0120 | 490.80 | 1.28M |\n"}
+,{"stream_name":"stdout","time":3303.597429147,"data":"| **ADAR (ours, mean of 3 seeds)** | ADAR (ours) | I-IV | 0.9328 ± 0.0016 | 0.9328 ± 0.0016 | 0.1973 ± 0.0030 | 0.1033 ± 0.0018 | 0.0092 ± 0.0008 | 0.0093 | 0.0115 | 491.73 | 2.33M |\n"}
+,{"stream_name":"stdout","time":3303.597435366,"data":"| **ADAR cascade (escalates 36%)** | ADAR (ours) | I-IV | 0.9332 | 0.9332 | 0.2077 | 0.1057 | 0.0111 | 0.0111 | 0.0141 | 189.19 | - |\n"}
+,{"stream_name":"stdout","time":3303.597439593,"data":"\n"}
+,{"stream_name":"stdout","time":3303.597443607,"data":"## QC gates (paired bootstrap, 95% CI)\n"}
+,{"stream_name":"stdout","time":3303.597447714,"data":"\n"}
+,{"stream_name":"stdout","time":3303.597451032,"data":"- PASS — ADAR accuracy \u003e best scikit-learn model (Logistic Regression (TF-IDF)): delta=+0.95pp, 95% CI [+0.47, +1.43]\n"}
+,{"stream_name":"stdout","time":3303.597454895,"data":"- PASS — ADAR accuracy \u003e best syllabus deep model (Bi-GRU): delta=+1.05pp, 95% CI [+0.63, +1.51]\n"}
+,{"stream_name":"stdout","time":3303.597458581,"data":"- PASS — ADAR accuracy \u003e best expert ensemble (Average of syllabus experts): delta=+0.99pp, 95% CI [+0.57, +1.42]\n"}
+,{"stream_name":"stdout","time":3303.597462132,"data":"- PASS — ADAR accuracy \u003e best Laya zero-shot (Laya zero-shot (typed choice)): delta=+0.93pp, 95% CI [+0.42, +1.47]\n"}
+,{"stream_name":"stdout","time":3303.597465766,"data":"- PASS — ADAR accuracy \u003e best Laya linear probe (Laya encoder + Logistic Regression): delta=+2.93pp, 95% CI [+2.43, +3.46]\n"}
+,{"stream_name":"stdout","time":3303.597469508,"data":"- PASS — ADAR accuracy \u003e best stacking baseline (Stacking LogReg (Laya emb + experts)): delta=+1.42pp, 95% CI [+1.00, +1.84]\n"}
+,{"stream_name":"stdout","time":3303.59747331,"data":"- PASS — ADAR NLL lower than every baseline (best: Stacking LogReg (Laya emb + experts)): ADAR 0.1949 vs 0.2323\n"}
+,{"stream_name":"stdout","time":3303.597476828,"data":"- PASS — ADAR BRIER lower than every baseline (best: Linear SVM (TF-IDF)): ADAR 0.1023 vs 0.1179\n"}
+,{"stream_name":"stdout","time":3303.597480566,"data":"- PASS — ADAR ECE (after TS) \u003c= best baseline ECE + 0.005 (best: Linear SVM (TF-IDF)): ADAR 0.0088 vs 0.0076\n"}
+,{"stream_name":"stdout","time":3303.597484415,"data":"- PASS — full ADAR \u003e= ADAR ablation: laya only (accuracy; NLL lower): delta=+1.64pp CI [+1.18, +2.12], NLL 0.1949 vs 0.2380\n"}
+,{"stream_name":"stdout","time":3303.59749075,"data":"- PASS — full ADAR \u003e= ADAR ablation: experts only (accuracy; NLL lower): delta=+0.83pp CI [+0.41, +1.28], NLL 0.1949 vs 0.2266\n"}
+,{"stream_name":"stdout","time":3303.597502228,"data":"- PASS — full ADAR \u003e= ADAR ablation: no attention (accuracy; NLL lower): delta=+0.26pp CI [+0.00, +0.57], NLL 0.1949 vs 0.2020\n"}
+,{"stream_name":"stdout","time":3303.597506281,"data":"- PASS — ADAR stable across seeds (accuracy std \u003c 0.5pp): std=0.16pp over 3 seeds\n"}
+,{"stream_name":"stdout","time":3303.597510441,"data":"- PASS — Cascade keeps accuracy within 0.5pp of always-Laya while skipping Laya calls: acc 0.9332 vs 0.9346; Laya called on 36% of inputs; mean cost 189.2 vs 491.7 ms\n"}
+,{"stream_name":"stdout","time":3303.597515126,"data":"\n"}
+,{"stream_name":"stdout","time":3303.597519121,"data":"## How ADAR routes between the syllabus experts (test set)\n"}
+,{"stream_name":"stdout","time":3303.597523471,"data":"\n"}
+,{"stream_name":"stdout","time":3303.597527052,"data":"| Expert | mean routing weight α | predicted P(correct) | actual accuracy | AUC of P(correct) |\n"}
+,{"stream_name":"stdout","time":3303.597531199,"data":"|---|---|---|---|---|\n"}
+,{"stream_name":"stdout","time":3303.597535145,"data":"| TextCNN | 0.161 | 0.920 | 0.917 | 0.910 |\n"}
+,{"stream_name":"stdout","time":3303.598537506,"data":"18:30:56 INFO [done] report:ag_news (3.0s)\n"}
+,{"stream_name":"stdout","time":3303.619079026,"data":"18:30:56 INFO [run ] report:emotion\n"}
+,{"stream_name":"stdout","time":3305.298142259,"data":"18:30:58 INFO \n"}
+,{"stream_name":"stdout","time":3305.298179783,"data":"# ADAR results — emotion\n"}
+,{"stream_name":"stdout","time":3305.298186469,"data":"\n"}
+,{"stream_name":"stdout","time":3305.298190602,"data":"emotion: train=16000 val=2000 test=2000 classes=6 folds=3\n"}
+,{"stream_name":"stdout","time":3305.298194924,"data":"\n"}
+,{"stream_name":"stdout","time":3305.298198828,"data":"All probabilistic models are temperature-scaled on the validation split (ECE raw = before). CPU latency = median batch-1 time on the run's CPU. Test rows are identical for every model.\n"}
+,{"stream_name":"stdout","time":3305.298203237,"data":"\n"}
+,{"stream_name":"stdout","time":3305.298206343,"data":"| Model | Family | Syllabus unit | Accuracy | Macro-F1 | NLL | Brier | ECE (TS) | ECE (raw) | AURC | CPU ms/sample | Params |\n"}
+,{"stream_name":"stdout","time":3305.298210141,"data":"|---|---|---|---|---|---|---|---|---|---|---|---|\n"}
+,{"stream_name":"stdout","time":3305.298213708,"data":"| Laya zero-shot (typed choice) | System One | III | 0.5805 | 0.4704 | 1.2109 | 0.5898 | 0.0877 | 0.2397 | 0.3082 | 653.23 | 394.78M |\n"}
+,{"stream_name":"stdout","time":3305.298217676,"data":"| Laya encoder + Logistic Regression | System One + sklearn | III | 0.5915 | 0.5056 | 1.0845 | 0.5437 | 0.0321 | 0.2638 | 0.2514 | 375.44 | 394.78M |\n"}
+,{"stream_name":"stdout","time":3305.298221433,"data":"| Naive Bayes (TF-IDF) | scikit-learn | - | 0.7605 | 0.6301 | 0.6771 | 0.3366 | 0.0251 | 0.0880 | 0.0828 | 1.27 | - |\n"}
+,{"stream_name":"stdout","time":3305.298225185,"data":"| sklearn MLPClassifier (TF-IDF) | scikit-learn | - | 0.8460 | 0.7750 | 0.4251 | 0.2219 | 0.0268 | 0.0345 | 0.0411 | 5.45 | - |\n"}
+,{"stream_name":"stdout","time":3305.298228966,"data":"| Random Forest (TF-IDF) | scikit-learn | - | 0.8650 | 0.8000 | 0.3596 | 0.1934 | 0.0136 | 0.2037 | 0.0346 | 56.97 | - |\n"}
+,{"stream_name":"stdout","time":3305.298233873,"data":"| Logistic Regression (TF-IDF) | scikit-learn | - | 0.8675 | 0.8039 | 0.3562 | 0.1951 | 0.0307 | 0.0899 | 0.0304 | 1.81 | - |\n"}
+,{"stream_name":"stdout","time":3305.298238172,"data":"| Stacking LogReg (Laya emb + experts) | Ensemble | I-III | 0.8795 | 0.8155 | 0.3430 | 0.1789 | 0.0177 | 0.0740 | 0.0294 | 384.63 | - |\n"}
+,{"stream_name":"stdout","time":3305.298254619,"data":"| Linear SVM (TF-IDF) | scikit-learn | - | 0.8815 | 0.8222 | 0.2878 | 0.1611 | 0.0230 | 0.0523 | 0.0204 | 3.58 | - |\n"}
+,{"stream_name":"stdout","time":3305.298258849,"data":"| TextCNN | Deep learning (syllabus) | I-II | 0.9055 | 0.8567 | 0.2149 | 0.1231 | 0.0153 | 0.0154 | 0.0122 | 1.06 | 1.15M |\n"}
+,{"stream_name":"stdout","time":3305.298262774,"data":"| Bi-RNN | Deep learning (syllabus) | III | 0.9080 | 0.8619 | 0.2122 | 0.1194 | 0.0187 | 0.0302 | 0.0112 | 1.82 | 1.02M |\n"}
+,{"stream_name":"stdout","time":3305.298266622,"data":"| Bi-GRU | Deep learning (syllabus) | III | 0.9220 | 0.8823 | 0.1740 | 0.1028 | 0.0184 | 0.0184 | 0.0081 | 3.02 | 1.15M |\n"}
+,{"stream_name":"stdout","time":3305.298270573,"data":"| Average of syllabus experts | Ensemble | I-III | 0.9220 | 0.8810 | 0.1777 | 0.1052 | 0.0162 | 0.0200 | 0.0084 | 9.18 | 4.53M |\n"}
+,{"stream_name":"stdout","time":3305.298276933,"data":"| Bi-LSTM | Deep learning (syllabus) | III | 0.9225 | 0.8816 | 0.1919 | 0.1100 | 0.0163 | 0.0168 | 0.0092 | 3.28 | 1.21M |\n"}
+,{"stream_name":"stdout","time":3305.298280657,"data":"| ADAR ablation: laya only | Ablation | - | 0.6495 | 0.4771 | 0.9751 | 0.4860 | 0.0271 | 0.0197 | 0.1940 | 377.32 | 2.33M |\n"}
+,{"stream_name":"stdout","time":3305.29828471,"data":"| **ADAR (ours, mean of 3 seeds)** | ADAR (ours) | I-IV | 0.9200 ± 0.0019 | 0.8790 ± 0.0054 | 0.1704 ± 0.0005 | 0.1014 ± 0.0005 | 0.0150 ± 0.0007 | 0.0181 | 0.0080 | 387.64 | 2.33M |\n"}
+,{"stream_name":"stdout","time":3305.298289398,"data":"| ADAR ablation: experts only | Ablation | - | 0.9200 | 0.8802 | 0.1647 | 0.0970 | 0.0097 | 0.0124 | 0.0076 | 11.75 | 2.33M |\n"}
+,{"stream_name":"stdout","time":3305.298293155,"data":"| ADAR ablation: no attention | Ablation | - | 0.9205 | 0.8732 | 0.1708 | 0.1004 | 0.0112 | 0.0139 | 0.0082 | 386.23 | 1.28M |\n"}
+,{"stream_name":"stdout","time":3305.298296838,"data":"| **ADAR cascade (escalates 0%)** | ADAR (ours) | I-IV | 0.9220 | 0.8809 | 0.1777 | 0.1054 | 0.0162 | 0.0162 | 0.0084 | 9.56 | - |\n"}
+,{"stream_name":"stdout","time":3305.298300755,"data":"\n"}
+,{"stream_name":"stdout","time":3305.298304271,"data":"## QC gates (paired bootstrap, 95% CI)\n"}
+,{"stream_name":"stdout","time":3305.298307765,"data":"\n"}
+,{"stream_name":"stdout","time":3305.298311144,"data":"- PASS — ADAR accuracy \u003e best scikit-learn model (Linear SVM (TF-IDF)): delta=+4.10pp, 95% CI [+2.90, +5.40]\n"}
+,{"stream_name":"stdout","time":3305.298315903,"data":"- FAIL — ADAR accuracy \u003e best syllabus deep model (Bi-LSTM): delta=+0.00pp, 95% CI [-0.75, +0.75]\n"}
+,{"stream_name":"stdout","time":3305.298320025,"data":"- FAIL — ADAR accuracy \u003e best expert ensemble (Average of syllabus experts): delta=+0.05pp, 95% CI [-0.75, +0.85]\n"}
+,{"stream_name":"stdout","time":3305.298323836,"data":"- PASS — ADAR accuracy \u003e best Laya zero-shot (Laya zero-shot (typed choice)): delta=+34.20pp, 95% CI [+31.80, +36.65]\n"}
+,{"stream_name":"stdout","time":3305.298327602,"data":"- PASS — ADAR accuracy \u003e best Laya linear probe (Laya encoder + Logistic Regression): delta=+33.10pp, 95% CI [+30.80, +35.35]\n"}
+,{"stream_name":"stdout","time":3305.298331449,"data":"- PASS — ADAR accuracy \u003e best stacking baseline (Stacking LogReg (Laya emb + experts)): delta=+4.30pp, 95% CI [+2.90, +5.65]\n"}
+,{"stream_name":"stdout","time":3305.298335436,"data":"- PASS — ADAR NLL lower than every baseline (best: Bi-GRU): ADAR 0.1711 vs 0.1740\n"}
+,{"stream_name":"stdout","time":3305.298340055,"data":"- PASS — ADAR BRIER lower than every baseline (best: Bi-GRU): ADAR 0.1018 vs 0.1028\n"}
+,{"stream_name":"stdout","time":3305.298344019,"data":"- PASS — ADAR ECE (after TS) \u003c= best baseline ECE + 0.005 (best: Random Forest (TF-IDF)): ADAR 0.0150 vs 0.0136\n"}
+,{"stream_name":"stdout","time":3305.298353126,"data":"- PASS — full ADAR \u003e= ADAR ablation: laya only (accuracy; NLL lower): delta=+27.30pp CI [+25.10, +29.60], NLL 0.1711 vs 0.9751\n"}
+,{"stream_name":"stdout","time":3305.298358092,"data":"- FAIL — full ADAR \u003e= ADAR ablation: experts only (accuracy; NLL lower): delta=+0.25pp CI [-0.65, +1.20], NLL 0.1711 vs 0.1647\n"}
+,{"stream_name":"stdout","time":3305.298362704,"data":"- FAIL — full ADAR \u003e= ADAR ablation: no attention (accuracy; NLL lower): delta=+0.20pp CI [-0.80, +1.20], NLL 0.1711 vs 0.1708\n"}
+,{"stream_name":"stdout","time":3305.298366795,"data":"- PASS — ADAR stable across seeds (accuracy std \u003c 0.5pp): std=0.19pp over 3 seeds\n"}
+,{"stream_name":"stdout","time":3305.298371306,"data":"- PASS — Cascade keeps accuracy within 0.5pp of always-Laya while skipping Laya calls: acc 0.9220 vs 0.9225; Laya called on 0% of inputs; mean cost 9.6 vs 387.6 ms\n"}
+,{"stream_name":"stdout","time":3305.298375459,"data":"\n"}
+,{"stream_name":"stdout","time":3305.298378825,"data":"## How ADAR routes between the syllabus experts (test set)\n"}
+,{"stream_name":"stdout","time":3305.298382497,"data":"\n"}
+,{"stream_name":"stdout","time":3305.298385962,"data":"| Expert | mean routing weight α | predicted P(correct) | actual accuracy | AUC of P(correct) |\n"}
+,{"stream_name":"stdout","time":3305.298389921,"data":"|---|---|---|---|---|\n"}
+,{"stream_name":"stdout","time":3305.298393954,"data":"| TextCNN | 0.395 | 0.866 | 0.905 | 0.920 |\n"}
+,{"stream_name":"stdout","time":3305.299269697,"data":"18:30:58 INFO [done] report:emotion (1.7s)\n"}
+,{"stream_name":"stdout","time":3305.412571184,"data":"18:30:58 INFO [run ] typed_decisions:convaiinnovations/laya-typed-decisions\n"}
+,{"stream_name":"stderr","time":3308.981109414,"data":"/usr/local/lib/python3.13/dist-packages/laya/agent.py:2157: RuntimeWarning: laya: this checkpoint ships invalid temperatures or values outside [0.5, 5]; using choice:11+=0.10058280825614929 -\u003e 0.5. Treat confidence from the affected entries as uncalibrated.\n"}
+,{"stream_name":"stderr","time":3308.981150038,"data":"  return Agent(model_id_or_path, device=device, token=token, subfolder=subfolder, fast=fast,\n"}
+,{"stream_name":"stderr","time":3308.98115402,"data":"\n"}
+,{"stream_name":"stderr","time":3308.981156541,"data":"/usr/local/lib/python3.13/dist-packages/laya/agent.py:2157: RuntimeWarning: laya: this checkpoint ships invalid temperatures or values outside [0.5, 5]; using choice:11+=0.10058280825614929 -\u003e 0.5. Treat confidence from the affected entries as uncalibrated.\n"}
+,{"stream_name":"stderr","time":3308.981160665,"data":"  return Agent(model_id_or_path, device=device, token=token, subfolder=subfolder, fast=fast,\n"}
+,{"stream_name":"stdout","time":3321.827312736,"data":"18:31:14 INFO   typed-decisions train 100/1200 (8s)\n"}
+,{"stream_name":"stdout","time":3330.529331049,"data":"18:31:23 INFO   typed-decisions train 200/1200 (17s)\n"}
+,{"stream_name":"stdout","time":3339.740021172,"data":"18:31:32 INFO   typed-decisions train 300/1200 (26s)\n"}
+,{"stream_name":"stdout","time":3357.61873037,"data":"18:31:50 INFO   typed-decisions train 400/1200 (44s)\n"}
+,{"stream_name":"stdout","time":3374.19173215,"data":"18:32:07 INFO   typed-decisions train 500/1200 (61s)\n"}
+,{"stream_name":"stdout","time":3391.391527767,"data":"18:32:24 INFO   typed-decisions train 600/1200 (78s)\n"}
+,{"stream_name":"stdout","time":3407.640895015,"data":"18:32:40 INFO   typed-decisions train 700/1200 (94s)\n"}
+,{"stream_name":"stdout","time":3424.460685292,"data":"18:32:57 INFO   typed-decisions train 800/1200 (111s)\n"}
+,{"stream_name":"stdout","time":3441.494261223,"data":"18:33:14 INFO   typed-decisions train 900/1200 (128s)\n"}
+,{"stream_name":"stdout","time":3456.078329787,"data":"18:33:29 INFO   typed-decisions train 1000/1200 (143s)\n"}
+,{"stream_name":"stdout","time":3470.50103371,"data":"18:33:43 INFO   typed-decisions train 1100/1200 (157s)\n"}
+,{"stream_name":"stdout","time":3484.715018548,"data":"18:33:57 INFO   typed-decisions train 1200/1200 (171s)\n"}
+,{"stream_name":"stdout","time":3493.748363024,"data":"18:34:06 INFO   typed-decisions test 100/400 (9s)\n"}
+,{"stream_name":"stdout","time":3510.688523231,"data":"18:34:23 INFO   typed-decisions test 200/400 (26s)\n"}
+,{"stream_name":"stdout","time":3527.32721158,"data":"18:34:40 INFO   typed-decisions test 300/400 (42s)\n"}
+,{"stream_name":"stdout","time":3541.809318413,"data":"18:34:54 INFO   typed-decisions test 400/400 (57s)\n"}
+,{"stream_name":"stdout","time":3550.562318026,"data":"18:35:03 INFO typed-decisions convaiinnovations/laya-typed-decisions shipped test: {'decisions': 2000, 'accuracy': 0.7665, 'brier_soft': 0.061465647879173455, 'brier_onehot': 0.4009051452924595, 'ece': 0.21373871909500325, 'kl': 0.11703209456558442}\n"}
+,{"stream_name":"stdout","time":3550.563211557,"data":"18:35:03 INFO typed-decisions convaiinnovations/laya-typed-decisions ADAR-Cal(hard) test: {'decisions': 2000, 'accuracy': 0.7665, 'brier_soft': 0.1475596614608763, 'brier_onehot': 0.3276439425222756, 'ece': 0.06258043730569984, 'kl': 0.5263828732863857}\n"}
+,{"stream_name":"stdout","time":3550.688112587,"data":"18:35:03 INFO [done] typed_decisions:convaiinnovations/laya-typed-decisions (245.3s)\n"}
+,{"stream_name":"stdout","time":3550.689138805,"data":"convaiinnovations/laya-typed-decisions {'shipped_test': {'decisions': 2000, 'accuracy': 0.7665, 'brier_soft': 0.061465647879173455, 'brier_onehot': 0.4009051452924595, 'ece': 0.21373871909500325, 'kl': 0.11703209456558442}, 'adar_cal_test': {'decisions': 2000, 'accuracy': 0.7665, 'brier_soft': 0.1475596614608763, 'brier_onehot': 0.3276439425222756, 'ece': 0.06258043730569984, 'kl': 0.5263828732863857}}\n"}
+,{"stream_name":"stdout","time":3550.689159131,"data":"18:35:03 INFO [run ] typed_decisions:convaiinnovations/laya\n"}
+,{"stream_name":"stdout","time":3560.605252593,"data":"18:35:13 INFO   typed-decisions train 100/1200 (8s)\n"}
+,{"stream_name":"stdout","time":3569.32194081,"data":"18:35:22 INFO   typed-decisions train 200/1200 (17s)\n"}
+,{"stream_name":"stdout","time":3578.471803394,"data":"18:35:31 INFO   typed-decisions train 300/1200 (26s)\n"}
+,{"stream_name":"stdout","time":3595.649937354,"data":"18:35:48 INFO   typed-decisions train 400/1200 (44s)\n"}
+,{"stream_name":"stdout","time":3611.980300698,"data":"18:36:04 INFO   typed-decisions train 500/1200 (60s)\n"}
+,{"stream_name":"stdout","time":3629.080373931,"data":"18:36:22 INFO   typed-decisions train 600/1200 (77s)\n"}
+,{"stream_name":"stdout","time":3645.4500191,"data":"18:36:38 INFO   typed-decisions train 700/1200 (93s)\n"}
+,{"stream_name":"stdout","time":3662.247768257,"data":"18:36:55 INFO   typed-decisions train 800/1200 (110s)\n"}
+,{"stream_name":"stdout","time":3679.061442587,"data":"18:37:12 INFO   typed-decisions train 900/1200 (127s)\n"}
+,{"stream_name":"stdout","time":3693.641897455,"data":"18:37:26 INFO   typed-decisions train 1000/1200 (141s)\n"}
+,{"stream_name":"stdout","time":3708.099965929,"data":"18:37:41 INFO   typed-decisions train 1100/1200 (156s)\n"}
+,{"stream_name":"stdout","time":3722.355729964,"data":"18:37:55 INFO   typed-decisions train 1200/1200 (170s)\n"}
+,{"stream_name":"stdout","time":3731.490548272,"data":"18:38:04 INFO   typed-decisions test 100/400 (9s)\n"}
+,{"stream_name":"stdout","time":3748.110543875,"data":"18:38:21 INFO   typed-decisions test 200/400 (25s)\n"}
+,{"stream_name":"stdout","time":3764.811939537,"data":"18:38:37 INFO   typed-decisions test 300/400 (42s)\n"}
+,{"stream_name":"stdout","time":3779.332719902,"data":"18:38:52 INFO   typed-decisions test 400/400 (57s)\n"}
+,{"stream_name":"stdout","time":3790.629130559,"data":"18:39:03 INFO typed-decisions convaiinnovations/laya shipped test: {'decisions': 2000, 'accuracy': 0.363, 'brier_soft': 0.315443289981106, 'brier_onehot': 0.7509415466493138, 'ece': 0.17310380979496323, 'kl': 0.5686516766209087}\n"}
+,{"stream_name":"stdout","time":3790.632943222,"data":"18:39:03 INFO typed-decisions convaiinnovations/laya ADAR-Cal(soft) test: {'decisions': 2000, 'accuracy': 0.363, 'brier_soft': 0.23648588983009347, 'brier_onehot': 0.6782588795545635, 'ece': 0.021371298445262987, 'kl': 0.4325095485555131}\n"}
+,{"stream_name":"stdout","time":3790.753739365,"data":"18:39:03 INFO [done] typed_decisions:convaiinnovations/laya (240.1s)\n"}
+,{"stream_name":"stdout","time":3790.754861052,"data":"convaiinnovations/laya {'shipped_test': {'decisions': 2000, 'accuracy': 0.363, 'brier_soft': 0.315443289981106, 'brier_onehot': 0.7509415466493138, 'ece': 0.17310380979496323, 'kl': 0.5686516766209087}, 'adar_cal_test': {'decisions': 2000, 'accuracy': 0.363, 'brier_soft': 0.23648588983009347, 'brier_onehot': 0.6782588795545635, 'ece': 0.021371298445262987, 'kl': 0.4325095485555131}}\n"}
+,{"stream_name":"stdout","time":3790.857811565,"data":"18:39:03 INFO [run ] bundle\n"}
+,{"stream_name":"stdout","time":3803.988735621,"data":"18:39:17 INFO bundle written: /kaggle/working/adar_outputs.zip (252.0 MB); proof bundle: /kaggle/working/adar_results_small.zip (0.9 MB)\n"}
+,{"stream_name":"stdout","time":3803.990727707,"data":"18:39:17 INFO [done] bundle (13.1s)\n"}
+,{"stream_name":"stdout","time":3803.991833177,"data":"{'zip': '/kaggle/working/adar_outputs.zip', 'proof_zip': '/kaggle/working/adar_results_small.zip', 'pushed': []}\n"}
+,{"stream_name":"stdout","time":3803.991852266,"data":"       done  experts:ag_news  631.4\n"}
+,{"stream_name":"stdout","time":3803.991858288,"data":"       done  sklearn:ag_news  573.0\n"}
+,{"stream_name":"stdout","time":3803.991862862,"data":"       done  experts:emotion  95.3\n"}
+,{"stream_name":"stdout","time":3803.99186728,"data":"       done  sklearn:emotion  331.3\n"}
+,{"stream_name":"stdout","time":3803.991885041,"data":"       done  embed:ag_news  394.6\n"}
+,{"stream_name":"stdout","time":3803.991890307,"data":"       done  probe:ag_news  323.5\n"}
+,{"stream_name":"stdout","time":3803.991895188,"data":"       done  zeroshot:ag_news  163.1\n"}
+,{"stream_name":"stdout","time":3803.991900005,"data":"       done  embed:emotion  44.6\n"}
+,{"stream_name":"stdout","time":3803.991922506,"data":"       done  probe:emotion  144.3\n"}
+,{"stream_name":"stdout","time":3803.991928903,"data":"       done  zeroshot:emotion  39.6\n"}
+,{"stream_name":"stdout","time":3803.991933408,"data":"       done  head:ag_news  488.0\n"}
+,{"stream_name":"stdout","time":3803.991937804,"data":"       done  router:ag_news  4.0\n"}
+,{"stream_name":"stdout","time":3803.991942595,"data":"       done  head:emotion  38.5\n"}
+,{"stream_name":"stdout","time":3803.991947772,"data":"       done  router:emotion  3.4\n"}
+,{"stream_name":"stdout","time":3803.991953033,"data":"       done  report:ag_news  3.0\n"}
+,{"stream_name":"stdout","time":3803.991957522,"data":"       done  report:emotion  1.7\n"}
+,{"stream_name":"stdout","time":3803.991962073,"data":"       done  typed_decisions:convaiinnovations/laya-typed-decisions  245.3\n"}
+,{"stream_name":"stdout","time":3803.991966872,"data":"       done  typed_decisions:convaiinnovations/laya  240.1\n"}
+,{"stream_name":"stdout","time":3803.991971315,"data":"       done  bundle  13.1\n"}
+,{"stream_name":"stdout","time":3805.623219828,"data":"{'label': 'sci_tech', 'probabilities': {'world': 0.0726, 'sports': 0.0001, 'business': 0.0006, 'sci_tech': 0.9267}, 'p_head_correct': 0.9664, 'escalate': False, 'p_expert_correct': {'textcnn': 0.9652, 'rnn': 0.9711, 'lstm': 0.9716, 'gru': 0.9696}, 'routing_weights': {'textcnn': 0.0455, 'rnn': 0.0352, 'lstm': 0.053, 'gru': 0.0693}}\n"}
+,{"stream_name":"stdout","time":3805.623274988,"data":"{'label': 'sports', 'probabilities': {'world': 0.0103, 'sports': 0.9897, 'business': 0.0, 'sci_tech': 0.0}, 'p_head_correct': 0.9975, 'escalate': False, 'p_expert_correct': {'textcnn': 0.9982, 'rnn': 0.9983, 'lstm': 0.9984, 'gru': 0.9984}, 'routing_weights': {'textcnn': 0.1008, 'rnn': 0.0335, 'lstm': 0.1398, 'gru': 0.1452}}\n"}
+,{"stream_name":"stderr","time":3812.062486011,"data":"/usr/local/lib/python3.13/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\\|'\n"}
+,{"stream_name":"stderr","time":3812.06252462,"data":"  cells[i][c] = re.sub('\\\\\\\\\\|', '|', cell)\n"}
+,{"stream_name":"stderr","time":3812.237386206,"data":"/usr/local/lib/python3.13/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\\_'\n"}
+,{"stream_name":"stderr","time":3812.237418205,"data":"  text = re.sub(r'_', '\\_', text) # Escape underscores in display text\n"}
+,{"stream_name":"stderr","time":3813.050786909,"data":"[NbConvertApp] Converting notebook __notebook__.ipynb to notebook\n"}
+,{"stream_name":"stderr","time":3813.278239719,"data":"[NbConvertApp] Writing 1482322 bytes to __notebook__.ipynb\n"}
+,{"stream_name":"stderr","time":3815.855406143,"data":"[NbConvertApp] Converting notebook __notebook__.ipynb to html\n"}
+,{"stream_name":"stderr","time":3816.962429273,"data":"[NbConvertApp] Support files will be in __results___files/\n"}
+,{"stream_name":"stderr","time":3816.962481246,"data":"[NbConvertApp] Making directory __results___files\n"}
+,{"stream_name":"stderr","time":3816.962823705,"data":"[NbConvertApp] Making directory __results___files\n"}
+,{"stream_name":"stderr","time":3816.963098495,"data":"[NbConvertApp] Making directory __results___files\n"}
+,{"stream_name":"stderr","time":3816.963276424,"data":"[NbConvertApp] Making directory __results___files\n"}
+,{"stream_name":"stderr","time":3816.963501771,"data":"[NbConvertApp] Making directory __results___files\n"}
+,{"stream_name":"stderr","time":3816.963710666,"data":"[NbConvertApp] Making directory __results___files\n"}
+,{"stream_name":"stderr","time":3816.964003123,"data":"[NbConvertApp] Writing 1563466 bytes to __results__.html\n"}
+]

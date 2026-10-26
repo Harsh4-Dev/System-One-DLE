@@ -1,0 +1,26 @@
+{
+  "textcnn": {
+    "mean_alpha": 0.1614532470703125,
+    "predicted_p_correct": 0.9201152324676514,
+    "actual_accuracy": 0.9171052631578948,
+    "noul_auc": 0.9101566805584023
+  },
+  "rnn": {
+    "mean_alpha": 0.06680091470479965,
+    "predicted_p_correct": 0.9187081456184387,
+    "actual_accuracy": 0.915,
+    "noul_auc": 0.9127360380599266
+  },
+  "lstm": {
+    "mean_alpha": 0.15035036206245422,
+    "predicted_p_correct": 0.9245136380195618,
+    "actual_accuracy": 0.9230263157894737,
+    "noul_auc": 0.899946512662122
+  },
+  "gru": {
+    "mean_alpha": 0.15979504585266113,
+    "predicted_p_correct": 0.925272524356842,
+    "actual_accuracy": 0.924078947368421,
+    "noul_auc": 0.8985768720798782
+  }
+}
