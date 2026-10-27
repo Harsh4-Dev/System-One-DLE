@@ -1,0 +1,13 @@
+<section id="limits" data-transition="fade" style="background:#F7F3EA;color:#1F2233;font-family:'DM Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;justify-content:space-between;gap:32px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;letter-spacing:3px;text-transform:uppercase;color:#A8432F;font-weight:700">Wrap-up</p>
+<h2 style="font-family:'Bricolage Grotesque', Arial, sans-serif;font-size:72px;font-weight:700;line-height:1.1;letter-spacing:-1px">Limits and Next Steps</h2>
+</div>
+<div style="display:flex;gap:32px"><div style="flex:1;display:flex;flex-direction:column;gap:12px;background:#FCFAF5;border:1px solid #DDD3C0;border-radius:16px;padding:32px;">
+<p style="font-family:'Bricolage Grotesque', Arial, sans-serif;font-size:40px;font-weight:800">Limits</p><ul style="font-size:26px;line-height:1.5;color:#1F2233"><li>Text classification only so far</li><li>Laya stays frozen; only the 2.3M-parameter head trains</li><li>On Emotion, ADAR does not beat the best syllabus network (Bi-LSTM) significantly</li><li>Attention’s accuracy gain is not significant</li><li>ADAR-Cal fixes calibration, not accuracy</li><li>One train/val/test protocol per dataset</li></ul>
+</div><div style="flex:1;display:flex;flex-direction:column;gap:12px;background:#FCFAF5;border:1px solid #C0503A;border-radius:16px;padding:32px;">
+<p style="font-family:'Bricolage Grotesque', Arial, sans-serif;font-size:40px;font-weight:800">Next steps</p><ul style="font-size:26px;line-height:1.5;color:#1F2233"><li>RouterArena: route between LLMs instead of small networks</li><li>An image task (CIFAR-10) with CNN experts</li><li>An echo-state network as a fifth expert</li><li>A short arXiv write-up</li></ul>
+</div></div>
+<p style="font-size:28px;line-height:1.4;color:#3F4250;border-top:1px solid #DDD3C0;padding:20px 0 0 0"><b style="color:#1F2233">What this shows:</b> the gains are real but bounded; the clearest next win is the same head routing between large language models.</p>
+<aside>We want to be clear about the limits. Text classification only so far. Laya stays frozen; only the 2.3M-parameter head trains. On Emotion, ADAR does not beat the best syllabus network (Bi-LSTM) significantly. Attention’s accuracy gain is not significant. ADAR-Cal fixes calibration, not accuracy. One train/val/test protocol per dataset. Next: RouterArena: route between LLMs instead of small networks; An image task (CIFAR-10) with CNN experts; An echo-state network as a fifth expert; A short arXiv write-up.</aside>
+</section>

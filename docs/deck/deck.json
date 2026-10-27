@@ -1,0 +1,70 @@
+{
+  "v": 4,
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-10-26T09:00:00Z"
+  },
+  "lists": "css",
+  "title": "ADAR Project Demo",
+  "cover": "cover",
+  "order": [
+    "cover",
+    "keyterms",
+    "problem",
+    "systemone",
+    "idea",
+    "architecture",
+    "head",
+    "training",
+    "router",
+    "setup",
+    "results-ag",
+    "honesty-cost",
+    "results-emotion",
+    "ablation",
+    "leaderboard",
+    "decision",
+    "syllabus",
+    "alignment",
+    "limits",
+    "demo",
+    "closing"
+  ],
+  "sections": {
+    "s1": {
+      "description": "The problem and the key terms",
+      "start": "cover"
+    },
+    "s2": {
+      "description": "How ADAR works",
+      "start": "systemone"
+    },
+    "s3": {
+      "description": "Results from the full Kaggle run",
+      "start": "setup"
+    },
+    "s4": {
+      "description": "Leaderboards",
+      "start": "leaderboard"
+    },
+    "s5": {
+      "description": "Course fit, limits and the live demo",
+      "start": "syllabus"
+    }
+  },
+  "faces": {
+    "bricolage-grotesque": {
+      "family": "Bricolage Grotesque",
+      "href": "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400..800&display=swap"
+    },
+    "dm-sans": {
+      "family": "DM Sans",
+      "href": "https://fonts.googleapis.com/css2?family=DM+Sans:wght@400..700&display=swap"
+    },
+    "jetbrains-mono": {
+      "family": "JetBrains Mono",
+      "href": "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap"
+    }
+  },
+  "designSystems": []
+}

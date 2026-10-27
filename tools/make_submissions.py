@@ -3,7 +3,8 @@
     python tools/make_submissions.py                                  # from results/kaggle_run/summary.json
 
 Writes:
-  submissions/typed_decisions/DISCUSSION.md   the post for the typed-decisions leaderboard (a Discussion)
+  submissions/typed_decisions/DISCUSSION.md   reply for typed-decisions discussion #2 (Laya benchmark results)
+  submissions/typed_decisions/eval_results_pr/ .eval_results YAML + PR text for the laya-typed-decisions model repo
   submissions/typed_decisions/entry.json      the same numbers as JSON
   submissions/huggingface/<repo>/README.md    model cards with a `model-index` results block,
                                               so the Hub shows the evaluation results on the model page
@@ -76,31 +77,63 @@ def typed_decisions_post(summary):
     match_line = ("Our accuracy matches the published 0.766, so the scorer agrees with the card" if entry["matches_published_accuracy"]
                   else f"Our accuracy ({entry['accuracy']}) differs from the published 0.766; please treat these numbers with care")
     lat_s = f"{entry['latency_ms_p50']} ms ({entry['latency_note']})" if lat is not None else "–"
-    post = f"""Title: Full metrics for Laya typed-decisions + a calibration note
+    post = f"""Reply to: https://huggingface.co/datasets/LocalLLaMA/typed-decisions/discussions/2 ("Laya benchmark results")
 
-Hi! The leaderboard lists **Laya typed-decisions** (fitted on `train`) with accuracy only. We scored it on `test` with the full gold distributions (400 cases, 2,000 decisions) and can fill in the other columns:
+@codelion asked for KL and Brier from the full distributions for this row. We re-ran **Laya typed-decisions** independently on `test` (400 cases, 2,000 decisions, each whole case in one request) and scored it against the full gold distributions:
 
 | Model | Mode | Accuracy | KL from gold | Brier | ECE | p50 latency |
 |---|---|---|---|---|---|---|
-| [Laya typed-decisions](https://huggingface.co/convaiinnovations/laya-typed-decisions) | fitted on `train` | {entry['accuracy']} | {entry['kl']} | {entry['brier']} | {entry['ece']} | {lat_s} |
+| [Laya typed-decisions](https://huggingface.co/convaiinnovations/laya-typed-decisions) | fitted on `train` (as published) | {entry['accuracy']} | {entry['kl']} | {entry['brier']} | {entry['ece']} | {lat_s} |
 
-{match_line} (accuracy = argmax vs gold argmax; Brier = sum over the label set against the gold distribution; ECE = top-label confidence, 10 equal-width bins).
+{match_line} (accuracy = argmax vs gold argmax; KL from the gold distribution; Brier = sum over the label set against the gold distribution; ECE = top-label confidence, 10 equal-width bins). So the self-reported 0.766 now has an independent re-run.
 
 **Calibration note.** We also fitted one temperature per (question type, option count) on `train` (selected on `train` only):
 
-| Model | Variant | ECE | Brier | KL |
-|---|---|---|---|---|
-| laya-typed-decisions | as shipped | {s['ece']:.4f} | {s['brier_soft']:.4f} | {s['kl']:.4f} |
-| laya-typed-decisions | + temperatures ({fsel}) | {fcal['ece']:.4f} | {fcal['brier_soft']:.4f} | {fcal['kl']:.4f} |
-| laya (base, zero-shot) | as shipped | {base['shipped']['ece']:.4f} | {base['shipped']['brier_soft']:.4f} | {base['shipped']['kl']:.4f} |
-| laya (base) | + temperatures ({bsel}) | {bcal['ece']:.4f} | {bcal['brier_soft']:.4f} | {bcal['kl']:.4f} |
+| Model | Variant | Accuracy | ECE | Brier | KL |
+|---|---|---|---|---|---|
+| laya-typed-decisions | as shipped | {s['accuracy']:.4f} | {s['ece']:.4f} | {s['brier_soft']:.4f} | {s['kl']:.4f} |
+| laya-typed-decisions | + temperatures ({fsel}) | {fcal['accuracy']:.4f} | {fcal['ece']:.4f} | {fcal['brier_soft']:.4f} | {fcal['kl']:.4f} |
+| laya (base, zero-shot) | as shipped | {base['shipped']['accuracy']:.4f} | {base['shipped']['ece']:.4f} | {base['shipped']['brier_soft']:.4f} | {base['shipped']['kl']:.4f} |
+| laya (base) | + temperatures ({bsel}) | {bcal['accuracy']:.4f} | {bcal['ece']:.4f} | {bcal['brier_soft']:.4f} | {bcal['kl']:.4f} |
 
-Because the gold labels are soft, lowering top-label ECE and lowering Brier/KL can pull in different directions; we found it useful to report both, as the card recommends. Temperatures never change the argmax, so accuracy is unchanged.
+Because the gold labels are soft, lowering top-label ECE and lowering Brier/KL can pull in different directions, so we report both. Temperatures never change the argmax, so accuracy is unchanged. (We are not submitting the calibrated base model as a row; its accuracy is below the prior.)
 
-Code and the full evaluation (part of a student project, ADAR): https://github.com/Harsh4-Dev/System-One-DLE
+We also opened a community PR on the model repo adding `.eval_results/typed-decisions.yaml` with these four values, so the row can show on the Hub leaderboard: <link to the PR>
+
+Code, notebook and the full evaluation (student project, ADAR): https://github.com/Harsh4-Dev/System-One-DLE
 """
     with open(os.path.join(out, "DISCUSSION.md"), "w") as f:
         f.write(post)
+    day = summary.get("collected_at", "")[:10] or None
+    note = ("fitted on train (as published by the model author); independent re-run on the test split, "
+            "full gold distributions, 2000 decisions, one request per case")
+    ev = []
+    for task_id, key in (("accuracy", "accuracy"), ("kl_from_gold", "kl"), ("brier", "brier"), ("ece", "ece")):
+        ev.append(f"""- dataset:
+    id: LocalLLaMA/typed-decisions
+    task_id: {task_id}
+  value: {entry[key]}
+""" + (f'  date: "{day}"\n' if day else "") + f"""  source:
+    url: {entry['link']}
+    name: ADAR reproduction (Kaggle run)
+  notes: "{note}"
+""")
+    os.makedirs(os.path.join(out, "eval_results_pr"), exist_ok=True)
+    with open(os.path.join(out, "eval_results_pr", "typed-decisions.yaml"), "w") as f:
+        f.write("".join(ev))
+    with open(os.path.join(out, "eval_results_pr", "PR_DESCRIPTION.md"), "w") as f:
+        f.write(f"""Title: Add typed-decisions results (independent re-run)
+
+This adds `.eval_results/typed-decisions.yaml` so the model's typed-decisions scores show on its page and on the
+[benchmark leaderboard](https://huggingface.co/datasets/LocalLLaMA/typed-decisions), following the format asked for in
+[discussion #10](https://huggingface.co/datasets/LocalLLaMA/typed-decisions/discussions/10).
+
+Scores from our independent re-run on the `test` split (400 cases, 2,000 decisions, full gold distributions):
+accuracy {entry['accuracy']}, KL from gold {entry['kl']}, Brier {entry['brier']}, ECE {entry['ece']}.
+The accuracy matches the 0.766 you published. Details: [discussion #2](https://huggingface.co/datasets/LocalLLaMA/typed-decisions/discussions/2).
+
+Evaluation code and logs: {entry['link']}
+""")
     return entry
 
 

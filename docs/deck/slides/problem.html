@@ -1,0 +1,19 @@
+<section id="problem" data-transition="fade" style="background:#F7F3EA;color:#1F2233;font-family:'DM Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;justify-content:space-between;gap:32px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;letter-spacing:3px;text-transform:uppercase;color:#A8432F;font-weight:700">Why this project</p>
+<h2 style="font-family:'Bricolage Grotesque', Arial, sans-serif;font-size:72px;font-weight:700;line-height:1.1;letter-spacing:-1px">The Problem</h2>
+</div>
+<div style="display:flex;gap:32px">
+<div style="flex:1;display:flex;flex-direction:column;gap:12px;background:#FCFAF5;border:1px solid #DDD3C0;border-radius:16px;padding:32px;">
+<p style="font-size:22px;letter-spacing:2px;text-transform:uppercase;color:#6B6E78;font-weight:700">The big model is not always right</p><p style="font-family:'Bricolage Grotesque', Arial, sans-serif;font-size:96px;font-weight:800;line-height:1;color:#4A5874">58.1%</p><p style="font-size:26px;line-height:1.4;color:#3F4250;">Laya (395M-parameter encoder) on Emotion tweets, zero-shot. A 1.2M-parameter Bi-LSTM gets 92.2%.</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:12px;background:#FCFAF5;border:1px solid #DDD3C0;border-radius:16px;padding:32px;">
+<p style="font-size:22px;letter-spacing:2px;text-transform:uppercase;color:#6B6E78;font-weight:700">Big models are slow</p><p style="font-family:'Bricolage Grotesque', Arial, sans-serif;font-size:96px;font-weight:800;line-height:1;color:#1F2233">635×</p><p style="font-size:26px;line-height:1.4;color:#3F4250;">slower on a CPU: Laya takes 706 ms per news article, a TextCNN 1.1 ms.</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:12px;background:#FCFAF5;border:1px solid #DDD3C0;border-radius:16px;padding:32px;">
+<p style="font-size:22px;letter-spacing:2px;text-transform:uppercase;color:#6B6E78;font-weight:700">Confidence is not honest</p><p style="font-family:'Bricolage Grotesque', Arial, sans-serif;font-size:96px;font-weight:800;line-height:1;color:#A8432F">0.214</p><p style="font-size:26px;line-height:1.4;color:#3F4250;">calibration error (ECE) of Laya’s fine-tuned checkpoint on the typed-decisions benchmark: its confidence is off by about 21 points.</p>
+</div>
+</div>
+<p style="font-size:28px;line-height:1.4;color:#3F4250;border-top:1px solid #DDD3C0;padding:20px 0 0 0"><b style="color:#1F2233">What this shows:</b> no single model wins on accuracy, cost and honesty at once, so the right choice depends on the input. The course asks us to pick the right architecture for an application; ADAR makes that choice for every input.</p>
+<aside>Three problems, all measured in our own run. First, the biggest model is not always the best: Laya gets only 58.1% on emotion tweets, while a 1.2 million parameter Bi-LSTM from our syllabus gets 92.2%. Second, the big model is expensive: on a CPU it is 635× slower than a TextCNN. Third, confidence is not honest: Laya's fine-tuned checkpoint has a calibration error of 0.214 on the typed-decisions benchmark. Our course objective is to identify the right architecture for an application. We asked whether a model can learn to make that choice per input.</aside>
+</section>

@@ -686,8 +686,8 @@ def s_leaderboard():
 def s_decision():
     base = S["typed_decisions"]["convaiinnovations/laya"]["shipped"]
     hf = S.get("hf_uploads") or []
-    rows_ = [("typed-decisions Discussion", "Fill in the missing Brier, KL and ECE for Laya typed-decisions, plus our calibration study",
-              "Read by the System-One community (Jev, Laya and others on the board); a contribution, not a rank claim", "Submit now"),
+    rows_ = [("typed-decisions (discussion #2 + .eval_results PR)", "Independent re-run of Laya typed-decisions with the Brier, KL and ECE the maintainer asked for, plus our calibration study",
+              "Answers an open request on the System-One benchmark and puts the verified row on its Hub leaderboard; a contribution, not a rank claim", "Submit now"),
              ("Hugging Face model pages", "Both trained heads, with results in a model-index block",
               "Anyone can load and check the heads; results show on the model page", "Publish now"),
              ("RouterArena (ICLR 2026)", "ADAR routing between LLMs instead of small networks",
@@ -702,8 +702,9 @@ def s_decision():
              + para("The 0.470 prior is the board’s own floor (always predicting the label frequencies); the post and procedure are in submissions/.", 22, MUTED) + "\n"
              + takeaway("submit where our result is a real contribution now; RouterArena is where ADAR can earn a rank."))
     notes = ("Where should this go? We chose by asking where our real result adds value. First, the typed-decisions benchmark: "
-             "the board lists Laya's fine-tuned checkpoint with accuracy only, so we post the missing calibration metrics and our "
-             "calibration study as a Discussion, the way entries are added. Second, the two trained heads go on Hugging Face with "
+             "Laya's fine-tuned checkpoint is listed at 0.766 as self-reported, and the maintainer asked for its KL and Brier. Our run "
+             "re-ran it independently, so we reply in that discussion with the missing metrics and open a pull request that puts the "
+             "verified scores on the benchmark's Hub leaderboard. Second, the two trained heads go on Hugging Face with "
              "their results, so anyone can check them. The head-turner is RouterArena, a ranked leaderboard for routers between "
              "large language models, which is exactly ADAR's idea at a larger scale; that is our next phase because it needs other "
              f"training data and an API budget. We deliberately do not add a 'Laya plus ADAR-Cal' row: its accuracy, {base['accuracy']:.3f}, "

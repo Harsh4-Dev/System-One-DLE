@@ -1,0 +1,36 @@
+- dataset:
+    id: LocalLLaMA/typed-decisions
+    task_id: accuracy
+  value: 0.7665
+  date: "2026-10-26"
+  source:
+    url: https://github.com/Harsh4-Dev/System-One-DLE
+    name: ADAR reproduction (Kaggle run)
+  notes: "fitted on train (as published by the model author); independent re-run on the test split, full gold distributions, 2000 decisions, one request per case"
+- dataset:
+    id: LocalLLaMA/typed-decisions
+    task_id: kl_from_gold
+  value: 0.117
+  date: "2026-10-26"
+  source:
+    url: https://github.com/Harsh4-Dev/System-One-DLE
+    name: ADAR reproduction (Kaggle run)
+  notes: "fitted on train (as published by the model author); independent re-run on the test split, full gold distributions, 2000 decisions, one request per case"
+- dataset:
+    id: LocalLLaMA/typed-decisions
+    task_id: brier
+  value: 0.0615
+  date: "2026-10-26"
+  source:
+    url: https://github.com/Harsh4-Dev/System-One-DLE
+    name: ADAR reproduction (Kaggle run)
+  notes: "fitted on train (as published by the model author); independent re-run on the test split, full gold distributions, 2000 decisions, one request per case"
+- dataset:
+    id: LocalLLaMA/typed-decisions
+    task_id: ece
+  value: 0.2137
+  date: "2026-10-26"
+  source:
+    url: https://github.com/Harsh4-Dev/System-One-DLE
+    name: ADAR reproduction (Kaggle run)
+  notes: "fitted on train (as published by the model author); independent re-run on the test split, full gold distributions, 2000 decisions, one request per case"

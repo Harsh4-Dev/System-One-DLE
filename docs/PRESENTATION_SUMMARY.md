@@ -79,7 +79,7 @@ ADAR makes that choice **per input** instead of once per dataset.
 
 | Target | Decision | Why |
 |---|---|---|
-| typed-decisions Discussion | **Submit now** | Fills in the missing metrics for Laya; read by the System-One community |
+| typed-decisions: reply in discussion #2 + `.eval_results` PR | **Submit now** | Independent re-run of Laya (0.7665 vs the self-reported 0.766) with the KL / Brier / ECE the maintainer asked for; puts the verified row on the Hub leaderboard |
 | Hugging Face model pages | **Publish now** | Both trained heads, with model cards generated from this run |
 | RouterArena (ICLR 2026) | **Next phase** | Ranked leaderboard for exactly what ADAR does; needs LLM experts and an API budget |
 | "Laya + ADAR-Cal" leaderboard row | **Do not submit** | Accuracy 0.363 is below the board's 0.470 baseline (always predicting the label frequencies) |
@@ -116,5 +116,5 @@ clf.predict(["NASA's new telescope captured images of a distant galaxy cluster."
 **Links:**
 - Deck: https://claude.ai/artifact/Apmff51782q7q3aasjaLHJ
 - Explainer: https://claude.ai/artifact/Hjvfc4zov1kefnSsrZggYL
-- Report: `docs/ADAR_Project_Report.docx`
+- Report: `docs/ADAR_Project_Report.docx` · PowerPoint: `docs/ADAR_deck.pptx` · Submission steps: `docs/LEADERBOARD_SUBMISSION.md`
 - Code: github.com/Harsh4-Dev/System-One-DLE
