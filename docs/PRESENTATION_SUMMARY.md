@@ -113,6 +113,8 @@ clf.predict(["NASA's new telescope captured images of a distant galaxy cluster."
 # "Real Madrid beat Barcelona 3-1 ..." -> sports 0.990 · P(answer right) 0.998
 ```
 
+**Running it live:** `python tools/demo.py --head <head folder>` prints the answer, a bar per label, P(answer right), escalation, and each expert's vote, P(right) and routing weight. Step-by-step setup (Kaggle or laptop), what to show and likely questions: `docs/LIVE_DEMO.md`.
+
 **Links:**
 - Deck: https://claude.ai/artifact/Apmff51782q7q3aasjaLHJ
 - Explainer: https://claude.ai/artifact/Hjvfc4zov1kefnSsrZggYL
